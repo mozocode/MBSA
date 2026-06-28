@@ -2,7 +2,10 @@ import { Timestamp } from 'firebase/firestore'
 import type { Tournament } from './types'
 import { combinedSportAgeFields, splitSportAgeFields } from './registrationFields'
 
-const ts = Timestamp.fromDate(new Date('2026-01-01'))
+const ts = (start: string, end: string) => ({
+  dateStart: Timestamp.fromDate(new Date(start)),
+  dateEnd: Timestamp.fromDate(new Date(end)),
+})
 
 export const fallbackTournaments: Tournament[] = [
   {
@@ -10,8 +13,7 @@ export const fallbackTournaments: Tournament[] = [
     name: 'Monroeville Spring Ding',
     shortName: 'Spring Ding',
     slug: 'monroeville-spring-ding',
-    dateStart: ts,
-    dateEnd: ts,
+    ...ts('2026-04-10', '2026-04-12'),
     dateLabel: 'Apr 10–12',
     sport: 'Baseball',
     ages: '7u–10u',
@@ -28,8 +30,7 @@ export const fallbackTournaments: Tournament[] = [
     name: 'Gators Swing into Spring',
     shortName: 'Swing into Spring',
     slug: 'swing-into-spring',
-    dateStart: ts,
-    dateEnd: ts,
+    ...ts('2026-04-24', '2026-04-26'),
     dateLabel: 'Apr 24–26',
     sport: 'Softball & Baseball',
     ages: '7u–10u',
@@ -46,8 +47,7 @@ export const fallbackTournaments: Tournament[] = [
     name: 'Summer in the Swamp',
     shortName: 'Summer in the Swamp',
     slug: 'summer-in-the-swamp',
-    dateStart: ts,
-    dateEnd: ts,
+    ...ts('2026-05-29', '2026-05-31'),
     dateLabel: 'May 29–31',
     sport: 'Softball & Baseball',
     ages: '8u–14u',
@@ -64,8 +64,7 @@ export const fallbackTournaments: Tournament[] = [
     name: 'Monroeville Summer Slam 1.0 July 9-12th',
     shortName: 'Summer Slam 1.0',
     slug: 'summer-slam-1-0',
-    dateStart: ts,
-    dateEnd: ts,
+    ...ts('2026-07-09', '2026-07-12'),
     dateLabel: 'Jul 9–12',
     sport: 'Softball and Baseball',
     ages: '8U, 9U, 10U, 11U, 12U, *14U (softball only)',
@@ -82,8 +81,7 @@ export const fallbackTournaments: Tournament[] = [
     name: 'Monroeville Summer Slam 2.0 July 23rd-26th',
     shortName: 'Summer Slam 2.0',
     slug: 'summer-slam-2-0',
-    dateStart: ts,
-    dateEnd: ts,
+    ...ts('2026-07-23', '2026-07-26'),
     dateLabel: 'Jul 23–26',
     sport: 'Softball and Baseball',
     ages: '8U, 9U, 10U, 11U, 12U, *14U (softball only)',
@@ -100,8 +98,7 @@ export const fallbackTournaments: Tournament[] = [
     name: 'Monroeville Beach Bash July 30th-August 2nd',
     shortName: 'Beach Bash',
     slug: 'monroeville-beach-bash',
-    dateStart: ts,
-    dateEnd: ts,
+    ...ts('2026-07-30', '2026-08-02'),
     dateLabel: 'Jul 30 – Aug 2',
     sport: 'Softball and Baseball',
     ages: '8U, 9U, 10U, 11U, 12U, *14U (softball only)',
@@ -118,8 +115,7 @@ export const fallbackTournaments: Tournament[] = [
     name: 'Monroeville Baseball Pumpkin Smash October 1st-4th',
     shortName: 'Pumpkin Smash',
     slug: 'monroeville-baseball-pumpkin-smash',
-    dateStart: ts,
-    dateEnd: ts,
+    ...ts('2026-10-01', '2026-10-04'),
     dateLabel: 'Oct 1–4',
     sport: 'Softball and Baseball',
     ages: '8U, 9U, 10U, 11U, 12U, *14U (softball only)',

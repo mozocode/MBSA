@@ -1,14 +1,23 @@
 import { motion } from 'framer-motion'
+import { useMemo } from 'react'
 import { fallbackTournaments } from '../../lib/fallbackData'
 import { useTournaments } from '../../lib/hooks/useTournaments'
+import { getClosestUpcomingTournaments } from '../../lib/tournamentUtils'
 import { TournamentCard, TournamentCardSkeleton } from '../ui/TournamentCard'
+
+const UPCOMING_LIMIT = 3
 
 export function TournamentsGrid() {
   const { data: tournaments, loading, error } = useTournaments()
-  const displayTournaments = tournaments.length > 0 ? tournaments : fallbackTournaments
+  const source = tournaments.length > 0 ? tournaments : fallbackTournaments
+
+  const upcomingTournaments = useMemo(
+    () => getClosestUpcomingTournaments(source, UPCOMING_LIMIT),
+    [source],
+  )
 
   return (
-    <section className="py-16 bg-cream" aria-label="Tournaments">
+    <section className="py-16 bg-cream" aria-label="Upcoming tournaments carousel">
       <div className="max-w-7xl mx-auto px-4">
         <motion.h2
           className="font-display font-bold text-3xl md:text-4xl text-navy uppercase mb-8"
@@ -26,16 +35,26 @@ export function TournamentsGrid() {
           </p>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {loading
-            ? Array.from({ length: 4 }).map((_, i) => <TournamentCardSkeleton key={i} />)
-            : displayTournaments.map((tournament, index) => (
-                <TournamentCard key={tournament.id} tournament={tournament} index={index} />
-              ))}
-        </div>
-
-        {!loading && tournaments.length === 0 && !error && (
-          <p className="text-text-muted text-center py-8">No tournaments available at this time.</p>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {Array.from({ length: UPCOMING_LIMIT }).map((_, i) => (
+              <TournamentCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : upcomingTournaments.length === 0 ? (
+          <p className="text-text-muted text-center py-8">No upcoming tournaments at this time.</p>
+        ) : (
+          <div
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            role="list"
+            aria-label="Next three upcoming tournaments"
+          >
+            {upcomingTournaments.map((tournament, index) => (
+              <div key={tournament.id} role="listitem">
+                <TournamentCard tournament={tournament} index={index} />
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </section>
