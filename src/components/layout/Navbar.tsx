@@ -15,7 +15,7 @@ function NavChildLink({
   const location = useLocation()
   const isActive = child.to ? location.pathname === child.to : false
   const classes = `block px-5 py-3 font-display font-bold uppercase text-xs tracking-wide transition-colors focus-ring ${
-    isActive ? 'bg-gold text-navy' : 'text-navy hover:bg-gold/20'
+    isActive ? 'bg-gold text-navy' : 'text-navy hover:bg-gold hover:text-navy'
   }`
 
   if (child.to) {
