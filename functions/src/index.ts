@@ -1,4 +1,4 @@
-import { onCall } from 'firebase-functions/v2/https'
+import { HttpsError, onCall } from 'firebase-functions/v2/https'
 import { initializeApp } from 'firebase-admin/app'
 import { fetchInstagramPosts } from './instagram'
 import { getAuthorizeClientConfig } from './secrets'
@@ -17,6 +17,11 @@ export const processPayment = onCall({ cors: true }, processPaymentHandler)
 export const getInstagramFeed = onCall({ cors: true }, async (request) => {
   const rawLimit = Number(request.data?.limit)
   const limit = Number.isFinite(rawLimit) ? Math.min(Math.max(rawLimit, 1), 12) : 8
-  const posts = await fetchInstagramPosts(limit)
-  return { posts }
+  try {
+    const posts = await fetchInstagramPosts(limit)
+    return { posts }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to load Instagram feed'
+    throw new HttpsError('unavailable', message)
+  }
 })
