@@ -5,11 +5,11 @@ import { GoldButton } from '../components/ui/GoldButton'
 import { PageLayout } from '../components/layout/PageLayout'
 
 const HERO_IMAGE =
-  'https://mbsagators.com/wp-content/uploads/2024/01/In_House_Recreation_Rules-scaled.jpg'
+  '/media/2024/01/In_House_Recreation_Rules-scaled.jpg'
 const DECORATIVE_SHAPE =
-  'https://mbsagators.com/wp-content/uploads/2023/12/shape-elements-about.png'
+  '/media/2023/12/shape-elements-about.png'
 const COACHES_IMAGE =
-  'https://mbsagators.com/wp-content/uploads/2024/01/coaches_corner.jpeg'
+  '/media/2024/01/coaches_corner.jpeg'
 
 const baseballLeagues = [
   { league: 'Instructional League', ages: '5-6' },

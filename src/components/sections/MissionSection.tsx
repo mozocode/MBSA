@@ -3,20 +3,20 @@ import { useHomePage } from '../../lib/hooks/useHomePage'
 import { NavyButton } from '../ui/NavyButton'
 
 const MISSION_IMAGE =
-  'https://mbsagators.com/wp-content/uploads/2024/01/Monroeville-Plays-Ball.jpg'
+  '/media/2024/01/Monroeville-Plays-Ball.jpg'
 
 const PDF_LINKS = [
   {
     label: 'MBSA Code of Conduct',
-    href: 'https://mbsagators.com/wp-content/uploads/2024/01/MBSA-Code-of-Conduct.pdf',
+    href: '/media/2024/01/MBSA-Code-of-Conduct.pdf',
   },
   {
     label: 'MBSA Constitution and Bylaws',
-    href: 'https://mbsagators.com/wp-content/uploads/2024/01/MBSA-Constitution-and-By-Laws.pdf',
+    href: '/media/2024/01/MBSA-Constitution-and-By-Laws.pdf',
   },
   {
     label: 'MBSA Policies',
-    href: 'https://mbsagators.com/wp-content/uploads/2024/01/MBSA-Policies.pdf',
+    href: '/media/2024/01/MBSA-Policies.pdf',
   },
 ]
 

@@ -53,7 +53,7 @@ const tournaments = [
     ages: '7u–10u',
     level: 'C, single community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Spring-Ding.jpg',
+    artworkUrl: '/media/2025/11/Spring-Ding.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-spring-ding-april-10-april-12th/',
     status: 'closed',
@@ -69,7 +69,7 @@ const tournaments = [
     ages: '7u–10u',
     level: 'C, single community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2024/04/Swing-into-Spring.jpg',
+    artworkUrl: '/media/2024/04/Swing-into-Spring.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-gators-swing-into-spring-april-24th-26th/',
     status: 'closed',
@@ -85,7 +85,7 @@ const tournaments = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/04/Summer-in-the-Swamp.jpg',
+    artworkUrl: '/media/2025/04/Summer-in-the-Swamp.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-summer-in-the-swamp-may-29st-31st/',
     status: 'upcoming',
@@ -101,7 +101,7 @@ const tournaments = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Summer-Slam.jpg',
+    artworkUrl: '/media/2025/11/Summer-Slam.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-summer-slam-1-0-july-9-12th/',
     status: 'upcoming',
@@ -117,7 +117,7 @@ const tournaments = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Summer-Slam.jpg',
+    artworkUrl: '/media/2025/11/Summer-Slam.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-summer-slam-2-0-july-23rd-26th/',
     status: 'upcoming',
@@ -133,7 +133,7 @@ const tournaments = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Beach-Bash.jpg',
+    artworkUrl: '/media/2025/11/Beach-Bash.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-beach-bash-july-30th-august-2nd/',
     status: 'open',
@@ -149,7 +149,7 @@ const tournaments = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Pumpkin-Smash.jpg',
+    artworkUrl: '/media/2025/11/Pumpkin-Smash.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-baseball-pumpkin-smash-october-1st-4th/',
     status: 'upcoming',
@@ -169,7 +169,7 @@ const galleryPhotos = [
   'IMG_7340',
   'IMG_7919',
 ].map((name, order) => ({
-  imageUrl: `https://mbsagators.com/wp-content/uploads/2024/02/${name}.jpeg`,
+  imageUrl: `/media/2024/02/${name}.jpeg`,
   caption: 'MBSA Gators in action',
   instagramUrl: 'https://www.instagram.com/mbsagators',
   order,
@@ -195,14 +195,14 @@ async function seed() {
   const sponsors = [
     {
       name: 'Pressing On',
-      logoUrl: 'https://mbsagators.com/wp-content/uploads/2024/01/Pressing-On-Logo.png',
+      logoUrl: '/media/2024/01/Pressing-On-Logo.png',
       websiteUrl: 'https://pressingon.org',
       tier: 'gold',
       order: 1,
     },
     {
       name: 'Union Home Mortgage',
-      logoUrl: 'https://mbsagators.com/wp-content/uploads/2024/01/Union-Home-Mortgage-Logo.png',
+      logoUrl: '/media/2024/01/Union-Home-Mortgage-Logo.png',
       websiteUrl: 'https://www.uhm.com',
       tier: 'gold',
       order: 2,
@@ -210,13 +210,13 @@ async function seed() {
     {
       name: 'All-American Baseball Center',
       logoUrl:
-        'https://mbsagators.com/wp-content/uploads/2024/01/All-American-Baseball-Center-Logo.png',
+        '/media/2024/01/All-American-Baseball-Center-Logo.png',
       tier: 'silver',
       order: 3,
     },
     {
       name: "Dunham's Sports",
-      logoUrl: 'https://mbsagators.com/wp-content/uploads/2024/01/Dunhams-Sports-Logo.png',
+      logoUrl: '/media/2024/01/Dunhams-Sports-Logo.png',
       websiteUrl: 'https://www.dunhamssports.com',
       tier: 'bronze',
       order: 4,

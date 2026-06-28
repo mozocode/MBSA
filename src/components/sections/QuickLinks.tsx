@@ -6,17 +6,17 @@ const cards = [
   {
     title: 'GET STARTED WITH MBSA',
     href: '/get-started',
-    image: 'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0724.jpeg',
+    image: '/media/2024/02/DSC_0724.jpeg',
   },
   {
     title: 'COACHES INFORMATION',
-    href: 'https://mbsagators.com/coaches-information/',
-    image: 'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0728.jpeg',
+    href: '/coaches',
+    image: '/media/2024/02/DSC_0728.jpeg',
   },
   {
     title: 'MBSA FAQ',
-    href: 'https://mbsagators.com/faq/',
-    image: 'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0831.jpeg',
+    href: '/faq',
+    image: '/media/2024/02/DSC_0831.jpeg',
   },
 ]
 

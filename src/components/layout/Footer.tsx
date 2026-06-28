@@ -5,8 +5,8 @@ import { FacebookIcon, InstagramIcon, TwitterIcon } from '../ui/SocialIcons'
 const quickLinks = [
   { label: 'About', href: 'https://mbsagators.com/about-us/' },
   { label: 'Get Involved', href: 'https://mbsagators.com/get-involved/' },
-  { label: 'Sponsor', href: 'https://mbsagators.com/sponsor/' },
-  { label: 'Coaches', href: 'https://mbsagators.com/coaches-information/' },
+  { label: 'Sponsor', to: '/sponsor' },
+  { label: 'Coaches', to: '/coaches' },
   { label: 'Tournaments', href: 'https://mbsagators.com/tournaments/' },
   { label: 'Shop', href: 'https://mbsagators.com/shop/' },
 ]
@@ -14,15 +14,15 @@ const quickLinks = [
 const resources = [
   {
     label: 'Code of Conduct',
-    href: 'https://mbsagators.com/wp-content/uploads/2024/01/MBSA-Code-of-Conduct.pdf',
+    href: '/media/2024/01/MBSA-Code-of-Conduct.pdf',
   },
   {
     label: 'Constitution & Bylaws',
-    href: 'https://mbsagators.com/wp-content/uploads/2024/01/MBSA-Constitution-and-By-Laws.pdf',
+    href: '/media/2024/01/MBSA-Constitution-and-By-Laws.pdf',
   },
   {
     label: 'Policies',
-    href: 'https://mbsagators.com/wp-content/uploads/2024/01/MBSA-Policies.pdf',
+    href: '/media/2024/01/MBSA-Policies.pdf',
   },
   { label: 'FAQ', href: 'https://mbsagators.com/faq/' },
 ]
@@ -72,12 +72,21 @@ export function Footer() {
           <ul className="space-y-2">
             {quickLinks.map((link) => (
               <li key={link.label}>
-                <a
-                  href={link.href}
-                  className="text-white/70 hover:text-gold text-sm transition-colors focus-ring rounded"
-                >
-                  {link.label}
-                </a>
+                {'to' in link && link.to ? (
+                  <Link
+                    to={link.to}
+                    className="text-white/70 hover:text-gold text-sm transition-colors focus-ring rounded"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={link.href}
+                    className="text-white/70 hover:text-gold text-sm transition-colors focus-ring rounded"
+                  >
+                    {link.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>

@@ -6,6 +6,8 @@ interface GoldButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string
   to?: string
   variant?: 'filled' | 'outline'
+  target?: string
+  rel?: string
 }
 
 export function GoldButton({
@@ -14,6 +16,8 @@ export function GoldButton({
   to,
   variant = 'filled',
   className = '',
+  target,
+  rel,
   ...props
 }: GoldButtonProps) {
   const base =
@@ -36,7 +40,7 @@ export function GoldButton({
 
   if (href) {
     return (
-      <a href={href} className={classes} aria-label={label}>
+      <a href={href} className={classes} aria-label={label} target={target} rel={rel}>
         {children}
       </a>
     )

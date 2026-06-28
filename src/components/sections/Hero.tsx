@@ -3,7 +3,7 @@ import { useHomePage } from '../../lib/hooks/useHomePage'
 import { GoldButton } from '../ui/GoldButton'
 
 const HERO_IMAGE =
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0830.jpeg'
+  '/media/2024/02/DSC_0830.jpeg'
 
 export function Hero() {
   const { data: content, loading } = useHomePage()

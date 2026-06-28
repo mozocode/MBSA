@@ -1,3 +1,5 @@
+import { STACK_SPORTS_SIGN_IN_URL } from './portalUrls'
+
 export interface NavLink {
   label: string
   to?: string
@@ -25,13 +27,13 @@ export const navItems: NavItem[] = [
       { label: 'CONTACT', to: '/contact' },
     ],
   },
-  { label: 'GET INVOLVED', href: 'https://mbsagators.com/get-involved/' },
-  { label: 'SPONSOR', href: 'https://mbsagators.com/sponsor/' },
+  { label: 'GET INVOLVED', to: '/get-involved' },
+  { label: 'SPONSOR', to: '/sponsor' },
   {
     label: 'COACHES',
     children: [
-      { label: 'Coaches Information', href: 'https://mbsagators.com/coaches/' },
-      { label: 'Practice Schedule', href: 'https://mbsagators.com/practice-schedule/' },
+      { label: 'Coaches Information', to: '/coaches' },
+      { label: 'Practice Schedule', to: '/practice-schedule' },
     ],
   },
   {
@@ -42,5 +44,5 @@ export const navItems: NavItem[] = [
     ],
   },
   { label: 'SHOP', href: 'https://mbsagators.com/shop/' },
-  { label: 'SIGN IN', href: 'https://mbsagators.com/my-account/' },
+  { label: 'SIGN IN', href: STACK_SPORTS_SIGN_IN_URL },
 ]

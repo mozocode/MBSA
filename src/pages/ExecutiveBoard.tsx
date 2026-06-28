@@ -6,9 +6,9 @@ import { PageHero } from '../components/ui/PageHero'
 import { PageLayout } from '../components/layout/PageLayout'
 
 const HERO_IMAGE =
-  'https://mbsagators.com/wp-content/uploads/2024/01/IMG_2177-scaled.jpeg'
+  '/media/2024/01/IMG_2177-scaled.jpeg'
 const DECORATIVE_SHAPE =
-  'https://mbsagators.com/wp-content/uploads/2023/12/shape-elements-about.png'
+  '/media/2023/12/shape-elements-about.png'
 
 export function ExecutiveBoard() {
   return (

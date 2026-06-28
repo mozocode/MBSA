@@ -12,7 +12,7 @@ import { PageHero } from '../components/ui/PageHero'
 import { PageLayout } from '../components/layout/PageLayout'
 
 const DECORATIVE_SHAPE =
-  'https://mbsagators.com/wp-content/uploads/2023/12/shape-elements-about.png'
+  '/media/2023/12/shape-elements-about.png'
 
 export function Faq() {
   return (

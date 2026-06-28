@@ -5,14 +5,14 @@ import { GoldButton } from '../ui/GoldButton'
 import { FacebookIcon, InstagramIcon, TwitterIcon } from '../ui/SocialIcons'
 
 const fallbackPhotos: GalleryPhoto[] = [
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0724.jpeg',
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0725.jpeg',
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0726.jpeg',
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0727.jpeg',
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0728.jpeg',
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0729.jpeg',
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0830.jpeg',
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0831.jpeg',
+  '/media/2024/02/DSC_0724.jpeg',
+  '/media/2024/02/DSC_0725.jpeg',
+  '/media/2024/02/DSC_0726.jpeg',
+  '/media/2024/02/DSC_0727.jpeg',
+  '/media/2024/02/DSC_0728.jpeg',
+  '/media/2024/02/DSC_0729.jpeg',
+  '/media/2024/02/DSC_0830.jpeg',
+  '/media/2024/02/DSC_0831.jpeg',
 ].map((url, i) => ({
   id: `fallback-${i}`,
   imageUrl: url,

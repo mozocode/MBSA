@@ -1,5 +1,5 @@
 export const CONTACT_HERO =
-  'https://mbsagators.com/wp-content/uploads/2024/01/IMG_5301.jpg'
+  '/media/2024/01/IMG_5301.jpg'
 
 export const CONTACT_EMAIL = 'info@mbsagators.com'
 

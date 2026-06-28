@@ -15,7 +15,7 @@ export const fallbackTournaments: Tournament[] = [
     ages: '7u–10u',
     level: 'C, single community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Spring-Ding.jpg',
+    artworkUrl: '/media/2025/11/Spring-Ding.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-spring-ding-april-10-april-12th/',
     status: 'closed',
@@ -32,7 +32,7 @@ export const fallbackTournaments: Tournament[] = [
     ages: '7u–10u',
     level: 'C, single community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2024/04/Swing-into-Spring.jpg',
+    artworkUrl: '/media/2024/04/Swing-into-Spring.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-gators-swing-into-spring-april-24th-26th/',
     status: 'closed',
@@ -49,7 +49,7 @@ export const fallbackTournaments: Tournament[] = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/04/Summer-in-the-Swamp.jpg',
+    artworkUrl: '/media/2025/04/Summer-in-the-Swamp.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-summer-in-the-swamp-may-29st-31st/',
     status: 'upcoming',
@@ -66,7 +66,7 @@ export const fallbackTournaments: Tournament[] = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Summer-Slam.jpg',
+    artworkUrl: '/media/2025/11/Summer-Slam.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-summer-slam-1-0-july-9-12th/',
     status: 'upcoming',
@@ -83,7 +83,7 @@ export const fallbackTournaments: Tournament[] = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Summer-Slam.jpg',
+    artworkUrl: '/media/2025/11/Summer-Slam.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-summer-slam-2-0-july-23rd-26th/',
     status: 'upcoming',
@@ -100,7 +100,7 @@ export const fallbackTournaments: Tournament[] = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Beach-Bash.jpg',
+    artworkUrl: '/media/2025/11/Beach-Bash.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-beach-bash-july-30th-august-2nd/',
     status: 'open',
@@ -117,7 +117,7 @@ export const fallbackTournaments: Tournament[] = [
     ages: '8u–14u',
     level: 'B, Community',
     price: 450,
-    artworkUrl: 'https://mbsagators.com/wp-content/uploads/2025/11/Pumpkin-Smash.jpg',
+    artworkUrl: '/media/2025/11/Pumpkin-Smash.jpg',
     registrationUrl:
       'https://mbsagators.com/product/monroeville-baseball-pumpkin-smash-october-1st-4th/',
     status: 'upcoming',

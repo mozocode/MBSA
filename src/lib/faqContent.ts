@@ -1,5 +1,5 @@
 export const FAQ_HERO =
-  'https://mbsagators.com/wp-content/uploads/2024/01/IMG_3485-scaled.jpeg'
+  '/media/2024/01/IMG_3485-scaled.jpeg'
 
 export const FAQ_INTRO_HEADING =
   'MBSA offers baseball and softball at the following levels.'
@@ -119,3 +119,15 @@ export const faqRegistrationQuestions: FaqQuestion[] = [
     ],
   },
 ]
+
+export const getInvolvedRegistrationQuestions: FaqQuestion[] = faqRegistrationQuestions.map(
+  (question) =>
+    question.question === 'When does registration close?'
+      ? {
+          ...question,
+          paragraphs: [
+            'We plan on having registration close on TBD, 2024. We are attempting to start the season earlier this year to allow the kids to play more games. For this to happen, having families register by the deadline is extremely important. A late fee of $10.00 will be applied for anyone that registers after this date.',
+          ],
+        }
+      : question,
+)
