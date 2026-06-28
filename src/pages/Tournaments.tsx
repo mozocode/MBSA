@@ -309,11 +309,11 @@ export function Tournaments() {
   )
 
   return (
-    <PageLayout overlayNav>
+    <PageLayout>
       <main>
         {/* Hero */}
         <section
-          className="relative min-h-[70vh] flex items-center -mt-32"
+          className="relative min-h-[50vh] flex items-center"
           style={{ clipPath: 'polygon(0 0, 100% 0, 100% 92%, 0 100%)' }}
           aria-label="Tournaments hero"
         >
@@ -325,7 +325,7 @@ export function Tournaments() {
           />
           <div className="absolute inset-0 bg-[rgba(7,15,24,0.80)]" />
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 py-28 w-full">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-20 w-full">
             <div className="max-w-3xl text-left">
               <motion.span
                 className="inline-flex items-center gap-2 bg-gold/20 text-gold font-display font-bold text-xs uppercase tracking-widest px-4 py-2 mb-6"
@@ -343,7 +343,7 @@ export function Tournaments() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                2025{' '}
+                MBSA{' '}
                 <span className="text-gold">Tournaments</span>
               </motion.h1>
 
@@ -380,7 +380,7 @@ export function Tournaments() {
 
         {/* Sticky filter bar */}
         <div
-          className="sticky top-32 z-30 bg-navy border-b border-white/10"
+          className="sticky top-[4.5rem] md:top-32 z-30 bg-navy border-b border-white/10"
           role="toolbar"
           aria-label="Filter tournaments"
         >

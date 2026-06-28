@@ -57,6 +57,7 @@ function GalleryImage({
         alt={photo.caption ?? 'MBSA Gators on Instagram'}
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         loading="lazy"
+        decoding="async"
         onError={() => {
           if (src !== fallbackUrl) setSrc(fallbackUrl)
         }}
@@ -80,7 +81,7 @@ export function GalleryGrid() {
   const displayPhotos = posts.length > 0 ? posts : fallbackPhotos
 
   return (
-    <section className="py-16 bg-navy" aria-label="Instagram gallery">
+    <section className="py-12 md:py-16 bg-navy content-auto" aria-label="Instagram gallery">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <motion.h2

@@ -24,7 +24,7 @@ export function MissionSection() {
   const { data: content, loading } = useHomePage()
 
   return (
-    <section className="py-16 bg-white" aria-label="Mission">
+    <section className="py-12 md:py-16 bg-white content-auto" aria-label="Mission">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <motion.div

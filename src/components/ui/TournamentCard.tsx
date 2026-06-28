@@ -27,6 +27,7 @@ export function TournamentCard({ tournament, index = 0 }: TournamentCardProps) {
           alt={`${tournament.name} tournament artwork`}
           className="w-full h-full object-contain"
           loading="lazy"
+          decoding="async"
         />
         <span className="absolute top-3 right-3 bg-gold text-navy font-display font-bold text-xs px-3 py-1 uppercase">
           {tournament.dateLabel}

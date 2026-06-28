@@ -138,11 +138,18 @@ export function Navbar({ overlay = false }: NavbarProps) {
   return (
     <header className={`transition-all duration-300 ${headerClass}`}>
       <nav
-        className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4"
+        className="max-w-7xl mx-auto px-4 py-2 md:py-4 flex items-center justify-between gap-4"
         aria-label="Main navigation"
       >
         <Link to="/" className="shrink-0 focus-ring rounded" aria-label="MBSA Gators home">
-          <img src="/MBSA-logo-vector.svg" alt="MBSA Gators logo" className="h-24 w-auto" />
+          <img
+            src="/MBSA-logo-vector.svg"
+            alt="MBSA Gators logo"
+            className="h-14 sm:h-16 md:h-20 xl:h-24 w-auto"
+            width={160}
+            height={96}
+            decoding="async"
+          />
         </Link>
 
         <ul className="hidden xl:flex items-center gap-2">
@@ -189,7 +196,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
       </nav>
 
       {mobileOpen && (
-        <div className="xl:hidden bg-navy-dark border-t border-gold/20 max-h-[calc(100vh-8rem)] overflow-y-auto">
+        <div className="xl:hidden bg-navy-dark border-t border-gold/20 max-h-[calc(100vh-5rem)] overflow-y-auto">
           <ul className="px-4 py-4 space-y-1">
             {navItems.map((item) => (
               <li key={item.label}>

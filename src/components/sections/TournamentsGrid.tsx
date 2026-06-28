@@ -4,6 +4,7 @@ import { fallbackTournaments } from '../../lib/fallbackData'
 import { useTournaments } from '../../lib/hooks/useTournaments'
 import { getClosestUpcomingTournaments } from '../../lib/tournamentUtils'
 import { TournamentCard, TournamentCardSkeleton } from '../ui/TournamentCard'
+import { GoldButton } from '../ui/GoldButton'
 
 const UPCOMING_LIMIT = 3
 
@@ -17,7 +18,7 @@ export function TournamentsGrid() {
   )
 
   return (
-    <section className="py-16 bg-cream" aria-label="Upcoming tournaments carousel">
+    <section className="py-12 md:py-16 bg-cream content-auto" aria-label="Upcoming tournaments carousel">
       <div className="max-w-7xl mx-auto px-4">
         <motion.h2
           className="font-display font-bold text-3xl md:text-4xl text-navy uppercase mb-8"
@@ -44,17 +45,28 @@ export function TournamentsGrid() {
         ) : upcomingTournaments.length === 0 ? (
           <p className="text-text-muted text-center py-8">No upcoming tournaments at this time.</p>
         ) : (
-          <div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            role="list"
-            aria-label="Next three upcoming tournaments"
-          >
-            {upcomingTournaments.map((tournament, index) => (
-              <div key={tournament.id} role="listitem">
-                <TournamentCard tournament={tournament} index={index} />
-              </div>
-            ))}
-          </div>
+          <>
+            <div
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              role="list"
+              aria-label="Next three upcoming tournaments"
+            >
+              {upcomingTournaments.map((tournament, index) => (
+                <div key={tournament.id} role="listitem">
+                  <TournamentCard tournament={tournament} index={index} />
+                </div>
+              ))}
+            </div>
+            <motion.div
+              className="flex justify-center mt-10"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              <GoldButton to="/tournaments">View All Tournaments</GoldButton>
+            </motion.div>
+          </>
         )}
       </div>
     </section>

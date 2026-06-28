@@ -38,7 +38,7 @@ export function SponsorsRow() {
   const displaySponsors = sponsors.length > 0 ? sponsors : fallbackSponsors
 
   return (
-    <section className="py-12 bg-white border-t border-gray-100" aria-label="Sponsors">
+    <section className="py-10 md:py-12 bg-white border-t border-gray-100 content-auto" aria-label="Sponsors">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-center gap-6">
           <motion.h2
