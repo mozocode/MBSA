@@ -1,0 +1,16 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ExecutiveBoard } from './pages/ExecutiveBoard'
+import { GetStarted } from './pages/GetStarted'
+import { Home } from './pages/Home'
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/get-started" element={<GetStarted />} />
+        <Route path="/executive-board" element={<ExecutiveBoard />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
