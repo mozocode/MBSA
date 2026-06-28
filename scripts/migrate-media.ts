@@ -29,7 +29,25 @@ const SOURCE_ALIASES: Record<string, string> = {
     `${PREFIX}2025/11/Summer-in-the-Swamp.jpg`,
   [`${PREFIX}2024/04/Swing-into-Spring.jpg`]:
     `${PREFIX}2025/11/F288A105-A4F1-4F76-8A05-D347E8A10B56.jpg`,
+  [`${PREFIX}2025/11/Swing-into-Spring.jpg`]:
+    `${PREFIX}2025/11/F288A105-A4F1-4F76-8A05-D347E8A10B56.jpg`,
 }
+
+/** Local /media paths mapped to their live source URL on mbsagators.com. */
+const LOCAL_ASSET_SOURCES: Array<{ rel: string; url: string }> = [
+  { rel: '2025/11/Spring-Ding.jpg', url: `${PREFIX}2025/11/Spring-Ding.jpg` },
+  {
+    rel: '2025/11/Swing-into-Spring.jpg',
+    url: `${PREFIX}2025/11/F288A105-A4F1-4F76-8A05-D347E8A10B56.jpg`,
+  },
+  { rel: '2025/11/Summer-in-the-Swamp.jpg', url: `${PREFIX}2025/11/Summer-in-the-Swamp.jpg` },
+  { rel: '2025/11/Summer-Slam.jpg', url: `${PREFIX}2025/11/Summer-Slam.jpg` },
+  { rel: '2025/11/Beach-Bash.jpg', url: `${PREFIX}2025/11/Beach-Bash.jpg` },
+  { rel: '2025/11/Pumpkin-Smash.jpg', url: `${PREFIX}2025/11/Pumpkin-Smash.jpg` },
+  { rel: '2024/02/DSC_0830.jpeg', url: `${PREFIX}2024/02/DSC_0830.jpeg` },
+  { rel: '2024/04/Swing-into-Spring.jpg', url: `${PREFIX}2025/11/F288A105-A4F1-4F76-8A05-D347E8A10B56.jpg` },
+  { rel: '2025/04/Summer-in-the-Swamp.jpg', url: `${PREFIX}2025/11/Summer-in-the-Swamp.jpg` },
+]
 
 const EXTRA_URLS = [
   `${PREFIX}2024/02/IMG_7340.jpeg`,
@@ -79,6 +97,28 @@ function downloadUrl(url: string): string {
   return PREFIX + [...parts, filename].join('/')
 }
 
+async function downloadFromSource(url: string, dest: string): Promise<boolean> {
+  mkdirSync(dirname(dest), { recursive: true })
+  const fetchUrl = downloadUrl(url)
+  try {
+    const res = await fetch(fetchUrl, {
+      headers: { 'User-Agent': 'MBSA-Asset-Migration/1.0' },
+      redirect: 'follow',
+    })
+    if (!res.ok) {
+      console.error(`  FAIL ${res.status} ${fetchUrl}`)
+      return false
+    }
+    const buf = Buffer.from(await res.arrayBuffer())
+    writeFileSync(dest, buf)
+    console.log(`  OK   ${relative(ROOT, dest)}`)
+    return true
+  } catch (err) {
+    console.error(`  ERR  ${fetchUrl}`, err)
+    return false
+  }
+}
+
 async function download(url: string, dest: string): Promise<boolean> {
   mkdirSync(dirname(dest), { recursive: true })
   const fetchUrl = downloadUrl(SOURCE_ALIASES[url] ?? url)
@@ -117,6 +157,20 @@ async function main() {
 
   let ok = 0
   let fail = 0
+
+  console.log('Tournament artwork (local /media paths):\n')
+  for (const { rel, url } of LOCAL_ASSET_SOURCES) {
+    const dest = join(PUBLIC_MEDIA, rel)
+    if (statSync(dest, { throwIfNoEntry: false })?.isFile()) {
+      console.log(`  skip ${relative(ROOT, dest)}`)
+      ok++
+      continue
+    }
+    if (await downloadFromSource(url, dest)) ok++
+    else fail++
+  }
+
+  console.log('\nReferenced remote assets:\n')
   for (const url of urls) {
     const dest = toLocalPath(url)
     if (statSync(dest, { throwIfNoEntry: false })?.isFile()) {

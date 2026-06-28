@@ -15,9 +15,9 @@ import {
 } from '../lib/sponsorContent'
 
 const HERO_BG =
-  'https://mbsagators.com/wp-content/uploads/2025/06/banner-scaled.jpg'
+  '/media/2025/06/banner-scaled.jpg'
 
-const LOGO_BASE = 'https://mbsagators.com/wp-content/uploads/2023/12'
+const LOGO_BASE = '/media/2023/12'
 
 const fallbackSponsorLogos: Array<{ name: string; logo: string }> = [
   { name: 'DC Welding', logo: `${LOGO_BASE}/dc-welding-1.png` },

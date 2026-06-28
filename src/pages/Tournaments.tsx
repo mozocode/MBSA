@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Filter } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { PageLayout } from '../components/layout/PageLayout'
+import { tournamentArtwork, tournamentsHeroImage } from '../lib/tournamentArtwork'
 
 type Status = 'open' | 'closed' | 'upcoming'
 type Sport = 'baseball' | 'softball' | 'both' | 'open'
@@ -22,9 +23,7 @@ interface TournamentListing {
   description: string
 }
 
-const HERO_IMAGE =
-  'https://mbsagators.com/wp-content/uploads/2024/02/DSC_0830.jpeg'
-const BASE_IMG = 'https://mbsagators.com/wp-content/uploads'
+const HERO_IMAGE = tournamentsHeroImage
 
 const tournaments: TournamentListing[] = [
   {
@@ -37,7 +36,7 @@ const tournaments: TournamentListing[] = [
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'OPEN',
     status: 'closed',
-    image: `${BASE_IMG}/2025/11/Spring-Ding.jpg`,
+    image: tournamentArtwork.springDing,
     link: 'https://mbsagators.com/product/monroeville-spring-ding-april-10-april-12th/',
     description:
       'Kick off the spring season with the Gators. A community-level tournament welcoming baseball and softball teams from across Western PA.',
@@ -52,7 +51,7 @@ const tournaments: TournamentListing[] = [
     ages: 'Baseball: 7u, 8u, 9u, 10u · Softball: 8u',
     level: 'C, Single Community',
     status: 'closed',
-    image: `${BASE_IMG}/2025/11/Swing-into-Spring.jpg`,
+    image: tournamentArtwork.swingIntoSpring,
     link: 'https://mbsagators.com/product/monroeville-gators-swing-into-spring-april-24th-26th/',
     description:
       'The second spring showcase from the Gators — competitive play in a fun, family-friendly environment at some of the best fields in Western PA.',
@@ -67,7 +66,7 @@ const tournaments: TournamentListing[] = [
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'OPEN',
     status: 'open',
-    image: `${BASE_IMG}/2025/11/Summer-in-the-Swamp.jpg`,
+    image: tournamentArtwork.summerInTheSwamp,
     link: 'https://mbsagators.com/product/monroeville-summer-in-the-swamp-may-29st-31st/',
     description:
       'An open Memorial Day weekend tournament drawing teams from across the region. All skill levels welcome — come compete in the swamp.',
@@ -82,7 +81,7 @@ const tournaments: TournamentListing[] = [
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'B, Community',
     status: 'open',
-    image: `${BASE_IMG}/2025/11/Summer-Slam-1.jpg`,
+    image: tournamentArtwork.summerSlam,
     link: 'https://mbsagators.com/product/monroeville-summer-slam-1-0-july-9-12th/',
     description:
       'The first of two Summer Slam events — a high-energy mid-summer tournament for baseball and softball teams looking for competitive B-level play.',
@@ -97,7 +96,7 @@ const tournaments: TournamentListing[] = [
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'B, Community',
     status: 'open',
-    image: `${BASE_IMG}/2025/11/Summer-Slam-2.jpg`,
+    image: tournamentArtwork.summerSlam,
     link: 'https://mbsagators.com/product/monroeville-summer-slam-2-0-july-23rd-26th/',
     description:
       "Round two of the Summer Slam series. More teams, more games, more Gator hospitality. Don't miss the biggest summer weekend in Monroeville.",
@@ -112,7 +111,7 @@ const tournaments: TournamentListing[] = [
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'B, Community',
     status: 'open',
-    image: `${BASE_IMG}/2025/11/Beach-Bash.jpg`,
+    image: tournamentArtwork.beachBash,
     link: 'https://mbsagators.com/product/monroeville-beach-bash-july-30th-august-2nd/',
     description:
       "Summer's biggest bash. A beach-themed tournament with great competition and an unforgettable atmosphere for players and families alike.",
@@ -127,7 +126,7 @@ const tournaments: TournamentListing[] = [
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u',
     level: 'B, Community',
     status: 'upcoming',
-    image: `${BASE_IMG}/2025/11/Pumpkin-Smash.jpg`,
+    image: tournamentArtwork.pumpkinSmash,
     link: 'https://mbsagators.com/product/monroeville-baseball-pumpkin-smash-october-1st-4th/',
     description:
       'Close out the season with a fall classic. The Pumpkin Smash is a beloved Gators tradition — baseball at its best as the leaves start to turn.',
