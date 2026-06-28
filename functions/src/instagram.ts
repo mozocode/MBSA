@@ -1,4 +1,6 @@
 import https from 'node:https'
+import { randomUUID } from 'node:crypto'
+import { getStorage } from 'firebase-admin/storage'
 import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 
 const IG_APP_ID = '936619743392459'
@@ -70,6 +72,93 @@ function fetchInstagramProfile(): Promise<unknown> {
   })
 }
 
+function downloadImage(url: string): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const request = https.get(
+      url,
+      {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          Referer: 'https://www.instagram.com/',
+        },
+      },
+      (response) => {
+        if (response.statusCode !== 200) {
+          reject(new Error(`Image download failed (${response.statusCode})`))
+          return
+        }
+        const chunks: Buffer[] = []
+        response.on('data', (chunk) => chunks.push(Buffer.from(chunk)))
+        response.on('end', () => resolve(Buffer.concat(chunks)))
+      },
+    )
+    request.on('error', reject)
+    request.setTimeout(20_000, () => {
+      request.destroy(new Error('Image download timed out'))
+    })
+  })
+}
+
+function isMirroredUrl(url: string): boolean {
+  return url.includes('firebasestorage.googleapis.com')
+}
+
+async function mirrorImageToStorage(postId: string, sourceUrl: string): Promise<string> {
+  const bucket = getStorage().bucket()
+  const objectPath = `instagram/${postId}.jpg`
+  const file = bucket.file(objectPath)
+
+  const [exists] = await file.exists()
+  if (exists) {
+    const [metadata] = await file.getMetadata()
+    const token = metadata.metadata?.firebaseStorageDownloadTokens
+    if (typeof token === 'string' && token) {
+      return buildStorageUrl(bucket.name, objectPath, token)
+    }
+  }
+
+  const buffer = await downloadImage(sourceUrl)
+  const token = randomUUID()
+  await file.save(buffer, {
+    metadata: {
+      contentType: 'image/jpeg',
+      cacheControl: 'public, max-age=31536000',
+      metadata: {
+        firebaseStorageDownloadTokens: token,
+      },
+    },
+    resumable: false,
+  })
+
+  return buildStorageUrl(bucket.name, objectPath, token)
+}
+
+function buildStorageUrl(bucketName: string, objectPath: string, token: string): string {
+  const encoded = encodeURIComponent(objectPath)
+  return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encoded}?alt=media&token=${token}`
+}
+
+async function mirrorPostImages(posts: InstagramPost[]): Promise<InstagramPost[]> {
+  const mirrored: InstagramPost[] = []
+
+  for (const post of posts) {
+    if (isMirroredUrl(post.imageUrl)) {
+      mirrored.push(post)
+      continue
+    }
+
+    try {
+      const imageUrl = await mirrorImageToStorage(post.id, post.imageUrl)
+      mirrored.push({ ...post, imageUrl })
+    } catch {
+      mirrored.push(post)
+    }
+  }
+
+  return mirrored
+}
+
 function parseInstagramPosts(json: unknown): InstagramPost[] {
   const edges =
     (json as {
@@ -121,7 +210,8 @@ async function writeFirestoreCache(posts: InstagramPost[]): Promise<void> {
 
 async function fetchLiveInstagramPosts(): Promise<InstagramPost[]> {
   const json = await fetchInstagramProfile()
-  return parseInstagramPosts(json)
+  const posts = parseInstagramPosts(json)
+  return mirrorPostImages(posts)
 }
 
 export async function fetchInstagramPosts(limit = 8): Promise<InstagramPost[]> {
@@ -139,15 +229,19 @@ export async function fetchInstagramPosts(limit = 8): Promise<InstagramPost[]> {
   } catch {
     const cached = (await readFirestoreCache()) ?? memoryCache
     if (cached?.length) {
-      memoryCache = cached
+      const needsMirror = cached.some((post) => !isMirroredUrl(post.imageUrl))
+      const posts = needsMirror ? await mirrorPostImages(cached) : cached
+      if (needsMirror) {
+        await writeFirestoreCache(posts).catch(() => undefined)
+      }
+      memoryCache = posts
       memoryCachedAt = now
-      return cached.slice(0, limit)
+      return posts.slice(0, limit)
     }
     throw new Error('Instagram feed unavailable')
   }
 }
 
-/** Used by sync script via dynamic import path duplication. */
 export async function syncInstagramFeedToFirestore(): Promise<InstagramPost[]> {
   const posts = await fetchLiveInstagramPosts()
   await writeFirestoreCache(posts)

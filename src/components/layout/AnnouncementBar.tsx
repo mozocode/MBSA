@@ -1,31 +1,32 @@
 import { ChevronRight, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { announcementMatchesPage } from '../../lib/announcementPages'
 import { useAnnouncements } from '../../lib/hooks/useAnnouncements'
-import type { Announcement } from '../../lib/types'
 
 const DISMISS_KEY = 'mbsa-announcement-dismissed'
 
 export function AnnouncementBar() {
+  const { pathname } = useLocation()
   const { data: announcements, loading } = useAnnouncements()
   const [dismissed, setDismissed] = useState(false)
   const [index, setIndex] = useState(0)
+
+  const items = useMemo(
+    () =>
+      announcements.filter(
+        (item) => item.active && announcementMatchesPage(item.pages, pathname),
+      ),
+    [announcements, pathname],
+  )
 
   useEffect(() => {
     setDismissed(sessionStorage.getItem(DISMISS_KEY) === 'true')
   }, [])
 
-  const items: Announcement[] =
-    announcements.length > 0
-      ? announcements
-      : [
-          {
-            id: 'fallback',
-            text: '2026 Spring Registration is CLOSED',
-            link: 'https://mbsagators.com/register/',
-            active: true,
-            createdAt: { seconds: 0, nanoseconds: 0 } as Announcement['createdAt'],
-          },
-        ]
+  useEffect(() => {
+    setIndex(0)
+  }, [pathname, items.length])
 
   useEffect(() => {
     if (items.length <= 1) return
@@ -35,8 +36,7 @@ export function AnnouncementBar() {
     return () => window.clearInterval(timer)
   }, [items.length])
 
-  if (loading) return null
-  if (dismissed) return null
+  if (loading || dismissed || items.length === 0) return null
 
   const current = items[index % items.length]
 

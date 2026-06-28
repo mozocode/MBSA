@@ -1,15 +1,21 @@
 import { motion } from 'framer-motion'
-import { Check, Megaphone, Star, Trophy, Users } from 'lucide-react'
+import { Check, Download, Megaphone, Star, Trophy, Users } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { PageLayout } from '../components/layout/PageLayout'
 import { useSponsors } from '../lib/hooks/useSponsors'
+import {
+  SPONSORSHIP_EMAIL,
+  SPONSORSHIP_FORM_URL,
+  SPONSORSHIP_MAIL_ADDRESS,
+  SPONSORSHIP_PHONE,
+  SPONSOR_CONTACT_NAME,
+  sponsorTiers,
+  type SponsorTier,
+  type SponsorTierId,
+} from '../lib/sponsorContent'
 
 const HERO_BG =
   'https://mbsagators.com/wp-content/uploads/2025/06/banner-scaled.jpg'
-
-const SPONSORSHIP_FORM_URL = 'https://mbsagators.com/sponsor-form/'
-const SPONSORSHIP_EMAIL = 'sponsorship@mbsagators.com'
-const CONTACT_NAME = 'Mehdi Hedjazi'
 
 const LOGO_BASE = 'https://mbsagators.com/wp-content/uploads/2023/12'
 
@@ -71,91 +77,41 @@ const whyStats = [
   },
 ] as const
 
-type TierId = 'white' | 'black' | 'gold' | 'gator' | 'mvp'
-
-interface TierSpec {
-  id: TierId
+type TierStyle = {
   icon: string
-  name: string
   badge?: string
   bg: string
   text: string
   border: string
   ring?: boolean
-  benefits: string[]
 }
 
-const tiers: TierSpec[] = [
-  {
-    id: 'white',
-    icon: '⚾',
-    name: 'White Sponsor',
-    bg: '#FFFFFF',
-    text: '#000000',
-    border: '#E5E7EB',
-    benefits: [
-      'Name on League Sponsor Banner',
-      'LED Board Recognition',
-      'Social Media Recognition',
-      'Website Recognition',
-    ],
-  },
-  {
-    id: 'black',
-    icon: '🦎',
-    name: 'Black Sponsor',
-    bg: '#1A1A2E',
-    text: '#FFFFFF',
-    border: '#374151',
-    benefits: [
-      'Small-Sized Decal – League Sponsor Banner',
-      'Concession Stand Recognition',
-      'First Pitch of a Regular Season Game',
-    ],
-  },
-  {
-    id: 'gold',
+const tierStyles: Record<SponsorTierId, TierStyle> = {
+  white: { icon: '⚾', bg: '#FFFFFF', text: '#000000', border: '#E5E7EB' },
+  black: { icon: '🦎', bg: '#1A1A2E', text: '#FFFFFF', border: '#374151' },
+  gold: {
     icon: '🏆',
-    name: 'Gold Sponsor',
     badge: 'Most Popular',
     bg: '#F4C430',
     text: '#000000',
     border: '#F4C430',
     ring: true,
-    benefits: [
-      'Medium Sized Decal – League Sponsor Banner',
-      'Thank You Plaque for Sponsored Team',
-      'Team Sponsor Banner',
-    ],
   },
-  {
-    id: 'gator',
-    icon: '🐊',
-    name: 'Gator Sponsor',
-    bg: '#000000',
-    text: '#F4C430',
-    border: '#F4C430',
-    benefits: [
-      'Large Sized Decal – League Sponsor Banner',
-      '10 Second Video Capable Time-Slot on LED Boards',
-      'Runs M–F, 2× per day',
-    ],
-  },
-  {
-    id: 'mvp',
+  gator: { icon: '🐊', bg: '#000000', text: '#F4C430', border: '#F4C430' },
+  mvp: {
     icon: '🌟',
-    name: 'MVP Event Sponsor',
     badge: 'Premium',
     bg: '#000000',
     text: '#FFFFFF',
     border: '#F4C430',
-    benefits: [
-      'XL Sized Decal – League Sponsor Banner',
-      'Featured Event Sponsor',
-      'Tournaments & All-star day',
-    ],
   },
-]
+}
+
+interface TierCardProps {
+  tier: SponsorTier
+  style: TierStyle
+  index: number
+}
 
 function GoldFilledButton({
   href,
@@ -213,8 +169,8 @@ function SponsorLogoCell({ name, logo }: { name: string; logo: string }) {
   )
 }
 
-function TierCard({ tier, index }: { tier: TierSpec; index: number }) {
-  const isDarkText = tier.text === '#000000'
+function TierCard({ tier, style, index }: TierCardProps) {
+  const isDarkText = style.text === '#000000'
 
   return (
     <motion.div
@@ -223,10 +179,10 @@ function TierCard({ tier, index }: { tier: TierSpec; index: number }) {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className={`relative flex flex-col border hover:-translate-y-1 transition-transform duration-200 ${tier.ring ? 'ring-2 ring-gold' : ''}`}
-      style={{ backgroundColor: tier.bg, color: tier.text, borderColor: tier.border }}
+      className={`relative flex flex-col border hover:-translate-y-1 transition-transform duration-200 ${style.ring ? 'ring-2 ring-gold' : ''}`}
+      style={{ backgroundColor: style.bg, color: style.text, borderColor: style.border }}
     >
-      {tier.badge && (
+      {style.badge && (
         <div
           className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 text-xs font-display font-bold uppercase tracking-wide whitespace-nowrap"
           style={{
@@ -234,14 +190,20 @@ function TierCard({ tier, index }: { tier: TierSpec; index: number }) {
             color: tier.id === 'gold' ? '#F4C430' : '#000000',
           }}
         >
-          {tier.badge}
+          {style.badge}
         </div>
       )}
 
       <div className="p-5 pt-7 flex flex-col flex-1">
         <span className="text-3xl mb-3" aria-hidden>
-          {tier.icon}
+          {style.icon}
         </span>
+        <p
+          className="font-display font-bold text-2xl mb-1"
+          style={{ color: isDarkText ? '#C49A0A' : '#F4C430' }}
+        >
+          ${tier.price.toLocaleString()}
+        </p>
         <h3 className="font-display font-bold uppercase text-lg mb-4 leading-tight">{tier.name}</h3>
         <ul className="space-y-2 flex-1 mb-6 text-sm leading-snug">
           {tier.benefits.map((benefit) => (
@@ -410,16 +372,27 @@ export function Sponsor() {
                 SPONSORSHIP <span className="text-gold">TIERS</span>
               </h2>
               <p className="mt-4 text-white/75 leading-relaxed">
-                Choose the level that fits your business. Every tier includes recognition across our
-                league, social media, and website.
+                Choose the level that fits your business. Each tier includes all benefits from
+                preceding levels.
               </p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 pt-4">
-              {tiers.map((tier, index) => (
-                <TierCard key={tier.id} tier={tier} index={index} />
+              {sponsorTiers.map((tier, index) => (
+                <TierCard key={tier.id} tier={tier} style={tierStyles[tier.id]} index={index} />
               ))}
             </div>
+
+            <motion.p
+              className="mt-10 text-center text-white/70 text-sm max-w-2xl mx-auto leading-relaxed"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              MBSA is a 501(c)(3) organization — your sponsorship assists with ongoing costs
+              including uniforms, equipment, umpires, and player development.
+            </motion.p>
           </div>
         </section>
 
@@ -466,6 +439,89 @@ export function Sponsor() {
           </div>
         </section>
 
+        {/* ── Sponsorship Form ── */}
+        <section className="bg-cream py-16 md:py-24" aria-label="Sponsorship form">
+          <div className="max-w-4xl mx-auto px-4">
+            <motion.div
+              className="text-center max-w-2xl mx-auto mb-10"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <h2 className="font-display font-bold text-3xl md:text-4xl text-navy uppercase">
+                SPONSORSHIP <span className="text-gold">FORM</span>
+              </h2>
+              <p className="mt-4 text-navy/80 leading-relaxed">
+                Download and complete the form below, then return it by mail or email. Please
+                contact us for any additional sponsorship opportunities — all offers will be
+                considered.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="bg-white border border-gray-200 shadow-md overflow-hidden mb-8"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <iframe
+                src={SPONSORSHIP_FORM_URL}
+                title="MBSA Sponsorship Form"
+                className="w-full min-h-[720px] border-0"
+              />
+            </motion.div>
+
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <a
+                href={SPONSORSHIP_FORM_URL}
+                download="MBSA-Sponsorship-Form.pdf"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-navy font-display font-bold uppercase tracking-wide text-sm hover:bg-gold-light transition-all active:scale-[0.97] focus-ring"
+              >
+                <Download className="w-4 h-4" aria-hidden />
+                Download PDF
+              </a>
+              <GoldFilledButton href={SPONSORSHIP_FORM_URL}>
+                OPEN FORM IN NEW TAB →
+              </GoldFilledButton>
+            </motion.div>
+
+            <motion.div
+              className="grid sm:grid-cols-2 gap-6 text-sm text-navy/85"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <div className="bg-white border border-gray-200 p-5">
+                <h3 className="font-display font-bold uppercase text-navy mb-3">Contact</h3>
+                <p>
+                  <a href={`mailto:${SPONSORSHIP_EMAIL}`} className="text-gold hover:underline">
+                    {SPONSORSHIP_EMAIL}
+                  </a>
+                </p>
+                <p className="mt-2">
+                  <a href={`tel:${SPONSORSHIP_PHONE.replace(/\D/g, '')}`} className="hover:text-gold">
+                    {SPONSORSHIP_PHONE}
+                  </a>
+                </p>
+              </div>
+              <div className="bg-white border border-gray-200 p-5">
+                <h3 className="font-display font-bold uppercase text-navy mb-3">Pay by Check</h3>
+                <p>Mail completed forms and payment to:</p>
+                <p className="mt-2 font-semibold text-navy">{SPONSORSHIP_MAIL_ADDRESS}</p>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* ── Contact CTA ── */}
         <section className="bg-navy py-16 md:py-24" aria-label="Contact">
           <div className="max-w-3xl mx-auto px-4 text-center">
@@ -480,8 +536,8 @@ export function Sponsor() {
                 READY TO <span className="text-gold">PARTNER WITH US?</span>
               </h2>
               <p className="mt-4 text-white/80 leading-relaxed">
-                Contact {CONTACT_NAME} to discuss sponsorship opportunities and find the right tier
-                for your business.
+                Contact {SPONSOR_CONTACT_NAME} to discuss sponsorship opportunities and find the
+                right tier for your business.
               </p>
               <a
                 href={`mailto:${SPONSORSHIP_EMAIL}`}
@@ -489,6 +545,11 @@ export function Sponsor() {
               >
                 {SPONSORSHIP_EMAIL}
               </a>
+              <p className="mt-2 text-white/70">
+                <a href={`tel:${SPONSORSHIP_PHONE.replace(/\D/g, '')}`} className="hover:text-gold">
+                  {SPONSORSHIP_PHONE}
+                </a>
+              </p>
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <GoldFilledButton href={SPONSORSHIP_FORM_URL}>
                   CLICK FOR SPONSORSHIP FORM →

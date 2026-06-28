@@ -11,6 +11,9 @@ export const SPONSORSHIP_FORM_URL =
   '/media/2026/02/Sponsorship-form.pdf'
 
 export const SPONSORSHIP_EMAIL = 'sponsorship@mbsagators.com'
+export const SPONSORSHIP_PHONE = '412-818-6147'
+export const SPONSORSHIP_MAIL_ADDRESS = '903 Macbeth Drive, Monroeville, PA 15146'
+export const SPONSORSHIP_WEBSITE = 'https://www.mbsagators.com'
 
 export const SPONSOR_INTRO_HEADING =
   'Interested in becoming a sponsor or partnering with Monroeville Baseball & Softball Association?'
@@ -22,6 +25,7 @@ export type SponsorTierId = 'white' | 'black' | 'gold' | 'gator' | 'mvp'
 export interface SponsorTier {
   id: SponsorTierId
   name: string
+  price: number
   benefits: string[]
 }
 
@@ -29,6 +33,7 @@ export const sponsorTiers: SponsorTier[] = [
   {
     id: 'white',
     name: 'White Sponsor',
+    price: 100,
     benefits: [
       'Name on League Sponsor Banner',
       'LED Board Recognition',
@@ -39,8 +44,9 @@ export const sponsorTiers: SponsorTier[] = [
   {
     id: 'black',
     name: 'Black Sponsor',
+    price: 250,
     benefits: [
-      'Small-Sized Decal \u2013 League Sponsor Banner',
+      'Small-Sized Decal – League Sponsor Banner',
       'Concession Stand Recognition',
       'First Pitch of a Regular Season Game',
     ],
@@ -48,8 +54,9 @@ export const sponsorTiers: SponsorTier[] = [
   {
     id: 'gold',
     name: 'Gold Sponsor',
+    price: 500,
     benefits: [
-      'Medium Sized Decal \u2013 League Sponsor Banner',
+      'Medium Sized Decal – League Sponsor Banner',
       'Thank You Plaque for Sponsored Team',
       'Team Sponsor Banner',
     ],
@@ -57,19 +64,21 @@ export const sponsorTiers: SponsorTier[] = [
   {
     id: 'gator',
     name: 'Gator Sponsor',
+    price: 750,
     benefits: [
-      'Large Sized Decal \u2013 League Sponsor Banner',
-      '10 Second Video Capable Time-Slot on LED boards',
-      'To run M-F 2x per day',
+      'Large Sized Decal – League Sponsor Banner',
+      '10 Second Video Capable Time-Slot featured on LED boards',
+      'To run M–F 2× per day',
     ],
   },
   {
     id: 'mvp',
     name: 'MVP Event Sponsor',
+    price: 1500,
     benefits: [
-      'XL Sized Decal- League Sponsor Banner',
+      'XL Sized Decal – League Sponsor Banner',
       'Featured Event Sponsor',
-      'Tournaments/All-star day',
+      'Tournaments / All-star day',
     ],
   },
 ]

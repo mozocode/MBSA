@@ -10,7 +10,7 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebase'
-import type { Announcement } from '../types'
+import type { Announcement, AnnouncementPageScope } from '../types'
 
 const COLLECTION = 'announcements'
 
@@ -25,9 +25,11 @@ export async function createAnnouncement(input: {
   text: string
   link?: string
   active: boolean
+  pages?: AnnouncementPageScope
 }): Promise<string> {
   const ref = await addDoc(collection(db, COLLECTION), {
     ...input,
+    pages: input.pages ?? 'all',
     createdAt: Timestamp.now(),
   })
   return ref.id
@@ -35,7 +37,12 @@ export async function createAnnouncement(input: {
 
 export async function updateAnnouncement(
   id: string,
-  input: Partial<{ text: string; link?: string; active: boolean }>,
+  input: Partial<{
+    text: string
+    link?: string
+    active: boolean
+    pages: AnnouncementPageScope
+  }>,
 ): Promise<void> {
   await updateDoc(doc(db, COLLECTION, id), input)
 }

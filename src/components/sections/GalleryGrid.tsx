@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import { useInstagramFeed } from '../../lib/hooks/useInstagramFeed'
 import { GoldButton } from '../ui/GoldButton'
 import { FacebookIcon, InstagramIcon, TwitterIcon } from '../ui/SocialIcons'
@@ -26,6 +27,47 @@ const fallbackPhotos: DisplayPhoto[] = [
   imageUrl: url,
   permalink: INSTAGRAM_PROFILE,
 }))
+
+function GalleryImage({
+  photo,
+  index,
+  fallbackUrl,
+}: {
+  photo: DisplayPhoto
+  index: number
+  fallbackUrl: string
+}) {
+  const [src, setSrc] = useState(photo.imageUrl)
+
+  return (
+    <motion.a
+      key={photo.id}
+      href={photo.permalink}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      className="group relative aspect-square overflow-hidden rounded-sm focus-ring bg-navy-light/40"
+      aria-label={photo.caption ?? 'View on Instagram'}
+    >
+      <img
+        src={src}
+        alt={photo.caption ?? 'MBSA Gators on Instagram'}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        loading="lazy"
+        onError={() => {
+          if (src !== fallbackUrl) setSrc(fallbackUrl)
+        }}
+      />
+      <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/70 transition-colors flex flex-col items-center justify-center opacity-0 group-hover:opacity-100">
+        <InstagramIcon className="w-8 h-8 text-gold mb-2" aria-hidden="true" />
+        <span className="text-white font-semibold text-sm">@mbsagators</span>
+      </div>
+    </motion.a>
+  )
+}
 
 function GallerySkeleton() {
   return (
@@ -91,30 +133,12 @@ export function GalleryGrid() {
           {loading
             ? Array.from({ length: 8 }).map((_, i) => <GallerySkeleton key={i} />)
             : displayPhotos.slice(0, 8).map((photo, index) => (
-                <motion.a
+                <GalleryImage
                   key={photo.id}
-                  href={photo.permalink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-20px' }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="group relative aspect-square overflow-hidden rounded-sm focus-ring"
-                  aria-label={photo.caption ?? 'View on Instagram'}
-                >
-                  <img
-                    src={photo.imageUrl}
-                    alt={photo.caption ?? 'MBSA Gators on Instagram'}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/70 transition-colors flex flex-col items-center justify-center opacity-0 group-hover:opacity-100">
-                    <InstagramIcon className="w-8 h-8 text-gold mb-2" aria-hidden="true" />
-                    <span className="text-white font-semibold text-sm">@mbsagators</span>
-                  </div>
-                </motion.a>
+                  photo={photo}
+                  index={index}
+                  fallbackUrl={fallbackPhotos[index % fallbackPhotos.length].imageUrl}
+                />
               ))}
         </div>
 

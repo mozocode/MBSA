@@ -1,6 +1,5 @@
 import {
   collection,
-  limit,
   onSnapshot,
   orderBy,
   query,
@@ -22,7 +21,6 @@ export function useAnnouncements(): FirestoreHookState<Announcement[]> {
       collection(db, 'announcements'),
       where('active', '==', true),
       orderBy('createdAt', 'desc'),
-      limit(3),
     )
     const unsubscribe = onSnapshot(
       q,

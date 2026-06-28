@@ -64,11 +64,17 @@ export interface OrderRecord {
   createdAt: Timestamp
 }
 
+import type { AnnouncementPageScope } from './announcementPages'
+
+export type { AnnouncementPageScope } from './announcementPages'
+
 export interface Announcement {
   id: string
   text: string
   link?: string
   active: boolean
+  /** `'all'` or a list of public route paths (see announcementPages.ts). */
+  pages?: AnnouncementPageScope
   createdAt: Timestamp
 }
 

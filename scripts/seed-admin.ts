@@ -142,6 +142,7 @@ async function seed() {
     text: '2026 Spring Registration is CLOSED',
     link: 'https://mbsagators.com/register/',
     active: true,
+    pages: 'all',
     createdAt: Timestamp.now(),
   })
   console.log('  + announcement')

@@ -7,6 +7,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "sync:instagram": "npm run build && node lib/run-sync-instagram.js",
     "serve": "npm run build && firebase emulators:start --only functions",
     "deploy": "firebase deploy --only functions"
   },
