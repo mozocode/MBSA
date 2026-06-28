@@ -1,9 +1,21 @@
 import type { Timestamp } from 'firebase/firestore'
 
+export type RegistrationFieldType = 'text' | 'textarea' | 'select' | 'phone' | 'email'
+
+export interface RegistrationField {
+  id: string
+  label: string
+  type: RegistrationFieldType
+  required: boolean
+  options?: string[]
+  order: number
+}
+
 export interface Tournament {
   id: string
   name: string
   shortName: string
+  slug: string
   dateStart: Timestamp
   dateEnd: Timestamp
   dateLabel: string
@@ -12,9 +24,44 @@ export interface Tournament {
   level: string
   price: number
   artworkUrl: string
-  registrationUrl: string
+  /** @deprecated Use slug + /register/:slug */
+  registrationUrl?: string
+  registrationFields: RegistrationField[]
+  paymentRequired: boolean
   status: 'open' | 'closed' | 'upcoming'
   order: number
+}
+
+export type ProductType = 'tournament' | 'donation' | 'registration' | 'other'
+
+export interface Product {
+  id: string
+  slug: string
+  name: string
+  description?: string
+  price: number
+  /** When true, buyer enters custom amount (donations) */
+  allowCustomAmount?: boolean
+  type: ProductType
+  registrationFields: RegistrationField[]
+  active: boolean
+  artworkUrl?: string
+  order: number
+}
+
+export interface OrderRecord {
+  id: string
+  productType: ProductType
+  productId: string
+  productSlug: string
+  productName: string
+  amount: number
+  fieldResponses: Record<string, string>
+  payerEmail?: string
+  payerName?: string
+  transactionId?: string
+  status: 'pending' | 'paid' | 'failed'
+  createdAt: Timestamp
 }
 
 export interface Announcement {

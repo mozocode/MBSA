@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import type { Tournament } from '../../lib/types'
+import { tournamentRegisterPath } from '../../lib/productUtils'
 
 interface TournamentCardProps {
   tournament: Tournament
@@ -42,15 +44,25 @@ export function TournamentCard({ tournament, index = 0 }: TournamentCardProps) {
         <p className="text-sm text-text-muted">{tournament.level}</p>
         <p className="font-bold text-navy mt-auto">${tournament.price}</p>
         {!isClosed ? (
-          <a
-            href={tournament.registrationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-gold-dark font-semibold text-sm hover:text-gold focus-ring rounded"
-            aria-label={`Register for ${tournament.name}`}
-          >
-            Register <ArrowRight className="w-4 h-4" aria-hidden="true" />
-          </a>
+          tournament.slug ? (
+            <Link
+              to={tournamentRegisterPath(tournament)}
+              className="inline-flex items-center gap-1 text-gold-dark font-semibold text-sm hover:text-gold focus-ring rounded"
+              aria-label={`Register for ${tournament.name}`}
+            >
+              Register <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+          ) : (
+            <a
+              href={tournamentRegisterPath(tournament)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-gold-dark font-semibold text-sm hover:text-gold focus-ring rounded"
+              aria-label={`Register for ${tournament.name}`}
+            >
+              Register <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </a>
+          )
         ) : (
           <span className="text-sm text-text-muted">Registration closed</span>
         )}

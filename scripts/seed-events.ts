@@ -23,8 +23,7 @@ const events = [
     endDate: new Date('2026-06-15T09:00:00'),
     allDay: true,
     description: 'Registration opens for Summer Slam 2.0 (Jul 23–26)',
-    registrationUrl:
-      'https://mbsagators.com/product/monroeville-summer-slam-2-0-july-23rd-26th/',
+    registrationUrl: '/register/summer-slam-2-0',
     color: '#22C55E',
     active: true,
   },
@@ -36,8 +35,7 @@ const events = [
     allDay: false,
     location: 'Monroeville, PA',
     description: 'Softball & Baseball · Ages 8u–14u · Level B, Community · $450',
-    registrationUrl:
-      'https://mbsagators.com/product/monroeville-beach-bash-july-30th-august-2nd/',
+    registrationUrl: '/register/monroeville-beach-bash',
     color: '#F4C430',
     active: true,
   },
@@ -72,8 +70,7 @@ const events = [
     allDay: false,
     location: 'Monroeville, PA',
     description: 'Baseball · Ages 8u–14u · Level B, Community · $450',
-    registrationUrl:
-      'https://mbsagators.com/product/monroeville-baseball-pumpkin-smash-october-1st-4th/',
+    registrationUrl: '/register/monroeville-baseball-pumpkin-smash',
     color: '#F4C430',
     active: true,
   },

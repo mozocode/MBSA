@@ -60,7 +60,12 @@ export function EventPopover({ event, onClose }: EventPopoverProps) {
 
         <div className="flex flex-col sm:flex-row gap-3 mt-6">
           {event.registrationUrl && (
-            <GoldButton href={event.registrationUrl} className="flex-1 text-center">
+            <GoldButton
+              {...(event.registrationUrl.startsWith('/')
+                ? { to: event.registrationUrl }
+                : { href: event.registrationUrl })}
+              className="flex-1 text-center"
+            >
               Register
             </GoldButton>
           )}

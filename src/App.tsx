@@ -21,6 +21,9 @@ import { EventsAdmin } from './pages/admin/EventsAdmin'
 import { GalleryAdmin } from './pages/admin/GalleryAdmin'
 import { SponsorsAdmin } from './pages/admin/SponsorsAdmin'
 import { TournamentsAdmin } from './pages/admin/TournamentsAdmin'
+import { ProductsAdmin } from './pages/admin/ProductsAdmin'
+import { Donate } from './pages/Donate'
+import { ProductRegister } from './pages/ProductRegister'
 
 export default function App() {
   return (
@@ -39,6 +42,8 @@ export default function App() {
         <Route path="/practice-schedule" element={<PracticeSchedule />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/sponsor" element={<Sponsor />} />
+        <Route path="/donate" element={<Donate />} />
+        <Route path="/register/:slug" element={<ProductRegister />} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route
@@ -53,6 +58,7 @@ export default function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="announcements" element={<AnnouncementsAdmin />} />
           <Route path="tournaments" element={<TournamentsAdmin />} />
+          <Route path="products" element={<ProductsAdmin />} />
           <Route path="gallery" element={<GalleryAdmin />} />
           <Route path="sponsors" element={<SponsorsAdmin />} />
           <Route path="events" element={<EventsAdmin />} />

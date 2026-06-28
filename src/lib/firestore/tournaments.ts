@@ -4,9 +4,11 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  limit,
   orderBy,
   query,
   updateDoc,
+  where,
   writeBatch,
 } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -16,7 +18,24 @@ const COLLECTION = 'tournaments'
 
 export async function listTournaments(): Promise<Tournament[]> {
   const snap = await getDocs(query(collection(db, COLLECTION), orderBy('order')))
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as Tournament)
+  return snap.docs.map((d) => normalizeTournament(d.id, d.data()))
+}
+
+export async function getTournamentBySlug(slug: string): Promise<Tournament | null> {
+  const snap = await getDocs(
+    query(collection(db, COLLECTION), where('slug', '==', slug), limit(1)),
+  )
+  if (snap.empty) return null
+  const d = snap.docs[0]
+  return normalizeTournament(d.id, d.data())
+}
+
+function normalizeTournament(id: string, data: Record<string, unknown>): Tournament {
+  const t = { id, ...data } as Tournament
+  t.registrationFields = t.registrationFields ?? []
+  t.paymentRequired = t.paymentRequired ?? t.price > 0
+  t.slug = t.slug ?? ''
+  return t
 }
 
 export async function createTournament(
