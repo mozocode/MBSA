@@ -12,6 +12,7 @@ import {
   writeBatch,
 } from 'firebase/firestore'
 import { db } from '../firebase'
+import { resolveTournamentSlug } from '../productUtils'
 import type { Tournament } from '../types'
 
 const COLLECTION = 'tournaments'
@@ -34,7 +35,7 @@ function normalizeTournament(id: string, data: Record<string, unknown>): Tournam
   const t = { id, ...data } as Tournament
   t.registrationFields = t.registrationFields ?? []
   t.paymentRequired = t.paymentRequired ?? t.price > 0
-  t.slug = t.slug ?? ''
+  t.slug = resolveTournamentSlug(t)
   return t
 }
 

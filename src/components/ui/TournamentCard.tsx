@@ -11,6 +11,7 @@ interface TournamentCardProps {
 
 export function TournamentCard({ tournament, index = 0 }: TournamentCardProps) {
   const isClosed = tournament.status === 'closed'
+  const registerPath = tournamentRegisterPath(tournament)
 
   return (
     <motion.article
@@ -44,25 +45,13 @@ export function TournamentCard({ tournament, index = 0 }: TournamentCardProps) {
         <p className="text-sm text-text-muted">{tournament.level}</p>
         <p className="font-bold text-navy mt-auto">${tournament.price}</p>
         {!isClosed ? (
-          tournament.slug ? (
-            <Link
-              to={tournamentRegisterPath(tournament)}
-              className="inline-flex items-center gap-1 text-gold-dark font-semibold text-sm hover:text-gold focus-ring rounded"
-              aria-label={`Register for ${tournament.name}`}
-            >
-              Register <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </Link>
-          ) : (
-            <a
-              href={tournamentRegisterPath(tournament)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-gold-dark font-semibold text-sm hover:text-gold focus-ring rounded"
-              aria-label={`Register for ${tournament.name}`}
-            >
-              Register <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </a>
-          )
+          <Link
+            to={registerPath}
+            className="inline-flex items-center gap-1 text-gold-dark font-semibold text-sm hover:text-gold focus-ring rounded"
+            aria-label={`Register for ${tournament.name}`}
+          >
+            Register <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          </Link>
         ) : (
           <span className="text-sm text-text-muted">Registration closed</span>
         )}
