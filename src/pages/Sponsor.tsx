@@ -91,7 +91,7 @@ const tiers: TierSpec[] = [
     icon: '⚾',
     name: 'White Sponsor',
     bg: '#FFFFFF',
-    text: '#0D1B2A',
+    text: '#000000',
     border: '#E5E7EB',
     benefits: [
       'Name on League Sponsor Banner',
@@ -119,7 +119,7 @@ const tiers: TierSpec[] = [
     name: 'Gold Sponsor',
     badge: 'Most Popular',
     bg: '#F4C430',
-    text: '#0D1B2A',
+    text: '#000000',
     border: '#F4C430',
     ring: true,
     benefits: [
@@ -132,7 +132,7 @@ const tiers: TierSpec[] = [
     id: 'gator',
     icon: '🐊',
     name: 'Gator Sponsor',
-    bg: '#0D1B2A',
+    bg: '#000000',
     text: '#F4C430',
     border: '#F4C430',
     benefits: [
@@ -146,7 +146,7 @@ const tiers: TierSpec[] = [
     icon: '🌟',
     name: 'MVP Event Sponsor',
     badge: 'Premium',
-    bg: '#0D1B2A',
+    bg: '#000000',
     text: '#FFFFFF',
     border: '#F4C430',
     benefits: [
@@ -214,7 +214,7 @@ function SponsorLogoCell({ name, logo }: { name: string; logo: string }) {
 }
 
 function TierCard({ tier, index }: { tier: TierSpec; index: number }) {
-  const isDarkText = tier.text === '#0D1B2A'
+  const isDarkText = tier.text === '#000000'
 
   return (
     <motion.div
@@ -230,8 +230,8 @@ function TierCard({ tier, index }: { tier: TierSpec; index: number }) {
         <div
           className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 text-xs font-display font-bold uppercase tracking-wide whitespace-nowrap"
           style={{
-            backgroundColor: tier.id === 'gold' ? '#0D1B2A' : '#F4C430',
-            color: tier.id === 'gold' ? '#F4C430' : '#0D1B2A',
+            backgroundColor: tier.id === 'gold' ? '#000000' : '#F4C430',
+            color: tier.id === 'gold' ? '#F4C430' : '#000000',
           }}
         >
           {tier.badge}
@@ -261,8 +261,8 @@ function TierCard({ tier, index }: { tier: TierSpec; index: number }) {
           rel="noopener noreferrer"
           className="block text-center py-2.5 font-display font-bold uppercase text-sm transition-all active:scale-[0.97]"
           style={{
-            backgroundColor: isDarkText ? '#0D1B2A' : '#F4C430',
-            color: isDarkText ? '#FFFFFF' : '#0D1B2A',
+            backgroundColor: isDarkText ? '#000000' : '#F4C430',
+            color: isDarkText ? '#FFFFFF' : '#000000',
           }}
         >
           Get Started
@@ -295,7 +295,7 @@ export function Sponsor() {
             role="img"
             aria-label="MBSA sponsor hero background"
           />
-          <div className="absolute inset-0 bg-[rgba(7,15,24,0.75)]" />
+          <div className="absolute inset-0 bg-[rgba(0,0,0,0.75)]" />
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 py-24 w-full">
             <div className="max-w-2xl text-left">

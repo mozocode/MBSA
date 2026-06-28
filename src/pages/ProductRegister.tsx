@@ -360,50 +360,49 @@ export function ProductRegister() {
   return (
     <PageLayout overlayNav>
       <main className="bg-cream min-h-screen py-8 md:py-12">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-6">
           <p className="text-gold-dark font-display font-bold uppercase tracking-wide text-sm mb-6">
             MBSA Product
           </p>
 
-          <div className="bg-white shadow-md overflow-hidden">
-            <div className="grid md:grid-cols-2 md:items-start">
-              {/* Artwork — sticky on desktop while the form scrolls */}
-              <div className="bg-navy md:sticky md:top-20 md:self-start md:h-[calc(100vh-5rem)] flex items-center justify-center p-6 md:p-10 min-h-[280px]">
-                {item.artworkUrl ? (
-                  <div className="bg-white w-full max-w-sm aspect-square flex items-center justify-center p-6 md:p-8">
-                    <img
-                      src={item.artworkUrl}
-                      alt={`${item.name} artwork`}
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  </div>
-                ) : (
-                  <div className="text-white/40 font-display text-lg uppercase">MBSA</div>
-                )}
-              </div>
+          <div className="flex flex-col md:flex-row md:gap-12 items-start">
+            {/* Artwork — sticky on desktop while the form scrolls */}
+            <div className="w-full md:w-[45%] shrink-0 md:sticky md:top-24 md:self-start bg-navy flex items-center justify-center p-6 md:p-10 min-h-[280px]">
+              {item.artworkUrl ? (
+                <div className="bg-white w-full aspect-square flex items-center justify-center p-6 md:p-8">
+                  <img
+                    src={item.artworkUrl}
+                    alt={`${item.name} artwork`}
+                    className="w-full max-h-full object-contain"
+                  />
+                </div>
+              ) : (
+                <div className="text-white/40 font-display text-lg uppercase">MBSA</div>
+              )}
+            </div>
 
-              {/* Product details + registration form */}
-              <div className="p-6 md:p-10">
-                <h1 className="font-display font-bold text-xl md:text-2xl text-navy uppercase leading-tight mb-3">
+            {/* Product details + registration form */}
+            <div className="flex-1 min-w-0 bg-white shadow-md p-6 md:p-10 md:shadow-none">
+              <h1 className="font-display font-bold text-xl md:text-2xl text-navy uppercase leading-tight mb-3">
                   {item.name}
-                </h1>
+              </h1>
 
-                <p className="text-2xl font-bold text-navy mb-4">
+              <p className="text-2xl font-bold text-navy mb-4">
                   {item.allowCustomAmount ? 'Choose amount' : formatPrice(item.price)}
-                </p>
+              </p>
 
-                <div className="space-y-1 text-navy mb-6 pb-6 border-b border-gray-200">
+              <div className="space-y-1 text-navy mb-6 pb-6 border-b border-gray-200">
                   {item.dateLabel && <p>{item.dateLabel}</p>}
                   {item.sport && <p>{item.sport}</p>}
                   {item.ages && <p>Ages {item.ages}</p>}
                   {item.level && <p>Level: {item.level}</p>}
                   {item.description && <p className="text-gray-600 pt-2">{item.description}</p>}
-                </div>
+              </div>
 
-                {isClosed ? (
-                  <p className="text-red-600 font-semibold">Registration is closed for this event.</p>
-                ) : (
-                  <form onSubmit={handleRegister} className="space-y-4" noValidate>
+              {isClosed ? (
+                <p className="text-red-600 font-semibold">Registration is closed for this event.</p>
+              ) : (
+                <form onSubmit={handleRegister} className="space-y-4" noValidate>
                     {item.allowCustomAmount && (
                       <div>
                         <label className="block text-sm font-semibold text-navy mb-1">
@@ -453,8 +452,7 @@ export function ProductRegister() {
                       {submitting ? 'Processing…' : submitLabel}
                     </button>
                   </form>
-                )}
-              </div>
+              )}
             </div>
           </div>
 

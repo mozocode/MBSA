@@ -16,7 +16,7 @@ export function PageHero({ title, titleAccent, backgroundImage, decorativeImage 
         role="img"
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-[rgba(7,15,24,0.55)]" />
+      <div className="absolute inset-0 bg-[rgba(0,0,0,0.55)]" />
 
       {decorativeImage && (
         <img

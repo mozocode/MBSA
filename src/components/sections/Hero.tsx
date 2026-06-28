@@ -20,7 +20,7 @@ export function Hero() {
         role="img"
         aria-label="MBSA Gators youth baseball action photo"
       />
-      <div className="absolute inset-0 bg-[rgba(7,15,24,0.65)]" />
+      <div className="absolute inset-0 bg-[rgba(0,0,0,0.65)]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 py-20 w-full">
         {loading ? (

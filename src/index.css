@@ -5,9 +5,9 @@
 @tailwind utilities;
 
 :root {
-  --navy: #0d1b2a;
-  --navy-dark: #070f18;
-  --navy-light: #1a2e45;
+  --navy: #000000;
+  --navy-dark: #000000;
+  --navy-light: #1a1a2e;
   --gold: #f4c430;
   --gold-dark: #c49a0a;
   --gold-light: #fae07a;
@@ -35,7 +35,7 @@ body {
 
 /* FullCalendar — MBSA gold/navy theme */
 .fc-mbsa {
-  --fc-border-color: rgba(13, 27, 42, 0.12);
+  --fc-border-color: rgba(0, 0, 0, 0.12);
   --fc-button-bg-color: var(--navy);
   --fc-button-border-color: var(--navy);
   --fc-button-hover-bg-color: var(--navy-light);
