@@ -1,7 +1,9 @@
 import https from 'node:https'
+import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 
 const IG_APP_ID = '936619743392459'
 const IG_USERNAME = 'mbsagators'
+const CACHE_DOC = 'settings/instagramFeed'
 const CACHE_TTL_MS = 60 * 60 * 1000
 
 export interface InstagramPost {
@@ -21,8 +23,13 @@ interface InstagramNode {
   }
 }
 
-let cachedPosts: InstagramPost[] | null = null
-let cachedAt = 0
+interface CacheDoc {
+  posts: InstagramPost[]
+  updatedAt: FirebaseFirestore.Timestamp
+}
+
+let memoryCache: InstagramPost[] | null = null
+let memoryCachedAt = 0
 
 function fetchInstagramProfile(): Promise<unknown> {
   return new Promise((resolve, reject) => {
@@ -63,23 +70,12 @@ function fetchInstagramProfile(): Promise<unknown> {
   })
 }
 
-export async function fetchInstagramPosts(limit = 8): Promise<InstagramPost[]> {
-  const now = Date.now()
-  if (cachedPosts && now - cachedAt < CACHE_TTL_MS) {
-    return cachedPosts.slice(0, limit)
-  }
+function parseInstagramPosts(json: unknown): InstagramPost[] {
+  const edges =
+    (json as {
+      data?: { user?: { edge_owner_to_timeline_media?: { edges?: Array<{ node?: InstagramNode }> } } }
+    }).data?.user?.edge_owner_to_timeline_media?.edges ?? []
 
-  const json = (await fetchInstagramProfile()) as {
-    data?: {
-      user?: {
-        edge_owner_to_timeline_media?: {
-          edges?: Array<{ node?: InstagramNode }>
-        }
-      }
-    }
-  }
-
-  const edges = json.data?.user?.edge_owner_to_timeline_media?.edges ?? []
   const posts: InstagramPost[] = []
   for (const edge of edges) {
     const node = edge.node
@@ -98,7 +94,64 @@ export async function fetchInstagramPosts(limit = 8): Promise<InstagramPost[]> {
     throw new Error('No Instagram posts returned')
   }
 
-  cachedPosts = posts
-  cachedAt = now
-  return posts.slice(0, limit)
+  return posts
+}
+
+async function readFirestoreCache(): Promise<InstagramPost[] | null> {
+  const snap = await getFirestore().doc(CACHE_DOC).get()
+  if (!snap.exists) return null
+  const data = snap.data() as CacheDoc | undefined
+  if (!data?.posts?.length) return null
+  return data.posts
+}
+
+async function writeFirestoreCache(posts: InstagramPost[]): Promise<void> {
+  const sanitized = posts.map(({ id, imageUrl, permalink, caption }) => {
+    const post: InstagramPost = { id, imageUrl, permalink }
+    if (caption) post.caption = caption
+    return post
+  })
+  await getFirestore()
+    .doc(CACHE_DOC)
+    .set({
+      posts: sanitized,
+      updatedAt: Timestamp.now(),
+    })
+}
+
+async function fetchLiveInstagramPosts(): Promise<InstagramPost[]> {
+  const json = await fetchInstagramProfile()
+  return parseInstagramPosts(json)
+}
+
+export async function fetchInstagramPosts(limit = 8): Promise<InstagramPost[]> {
+  const now = Date.now()
+  if (memoryCache && now - memoryCachedAt < CACHE_TTL_MS) {
+    return memoryCache.slice(0, limit)
+  }
+
+  try {
+    const posts = await fetchLiveInstagramPosts()
+    memoryCache = posts
+    memoryCachedAt = now
+    await writeFirestoreCache(posts).catch(() => undefined)
+    return posts.slice(0, limit)
+  } catch {
+    const cached = (await readFirestoreCache()) ?? memoryCache
+    if (cached?.length) {
+      memoryCache = cached
+      memoryCachedAt = now
+      return cached.slice(0, limit)
+    }
+    throw new Error('Instagram feed unavailable')
+  }
+}
+
+/** Used by sync script via dynamic import path duplication. */
+export async function syncInstagramFeedToFirestore(): Promise<InstagramPost[]> {
+  const posts = await fetchLiveInstagramPosts()
+  await writeFirestoreCache(posts)
+  memoryCache = posts
+  memoryCachedAt = Date.now()
+  return posts
 }

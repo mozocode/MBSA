@@ -12,6 +12,7 @@
     "seed:admin": "tsx scripts/seed-admin.ts",
     "seed:events": "tsx scripts/seed-events.ts",
     "seed:products": "tsx scripts/seed-tournament-products.ts",
+    "sync:instagram": "tsx scripts/sync-instagram-feed.ts",
     "secrets": "tsx scripts/secrets.ts",
     "set-admin": "tsx scripts/set-admin-claim.ts",
     "migrate:media": "tsx scripts/migrate-media.ts"
