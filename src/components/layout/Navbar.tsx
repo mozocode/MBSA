@@ -110,6 +110,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const isHome = pathname === '/'
+  const overlayStickyInFlow = overlay && (isHome || pathname === '/tournaments')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -128,7 +129,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
   const headerClass = overlay
     ? scrolled || mobileOpen
       ? 'sticky top-0 z-40 bg-navy shadow-lg'
-      : isHome
+      : overlayStickyInFlow
         ? 'sticky top-0 z-40 bg-transparent'
         : 'absolute top-0 left-0 right-0 z-40 bg-transparent'
     : scrolled

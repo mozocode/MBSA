@@ -309,21 +309,25 @@ export function Tournaments() {
   )
 
   return (
-    <PageLayout>
+    <PageLayout overlayNav>
       <main>
         {/* Hero */}
         <section
           className="relative min-h-[50vh] flex items-center"
-          style={{ clipPath: 'polygon(0 0, 100% 0, 100% 92%, 0 100%)' }}
           aria-label="Tournaments hero"
         >
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${HERO_IMAGE})` }}
-            role="img"
-            aria-label="MBSA Gators tournament action photo"
-          />
-          <div className="absolute inset-0 bg-[rgba(7,15,24,0.80)]" />
+            className="absolute inset-x-0 bottom-0 -top-[4.5rem] md:-top-32"
+            style={{ clipPath: 'polygon(0 0, 100% 0, 100% 92%, 0 100%)' }}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${HERO_IMAGE})` }}
+              role="img"
+              aria-label="MBSA Gators tournament action photo"
+            />
+            <div className="absolute inset-0 bg-[rgba(7,15,24,0.80)]" />
+          </div>
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-20 w-full">
             <div className="max-w-3xl text-left">
