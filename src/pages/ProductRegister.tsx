@@ -366,15 +366,17 @@ export function ProductRegister() {
           </p>
 
           <div className="bg-white shadow-md overflow-hidden">
-            <div className="grid md:grid-cols-2">
-              {/* Tournament artwork — matches original product page */}
-              <div className="bg-navy flex items-center justify-center p-8 md:p-12 min-h-[280px] md:min-h-[480px]">
+            <div className="grid md:grid-cols-2 md:items-start">
+              {/* Artwork — sticky on desktop while the form scrolls */}
+              <div className="bg-navy md:sticky md:top-20 md:self-start md:h-[calc(100vh-5rem)] flex items-center justify-center p-6 md:p-10 min-h-[280px]">
                 {item.artworkUrl ? (
-                  <img
-                    src={item.artworkUrl}
-                    alt={`${item.name} artwork`}
-                    className="max-h-64 md:max-h-80 w-full object-contain"
-                  />
+                  <div className="bg-white w-full max-w-sm aspect-square flex items-center justify-center p-6 md:p-8">
+                    <img
+                      src={item.artworkUrl}
+                      alt={`${item.name} artwork`}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  </div>
                 ) : (
                   <div className="text-white/40 font-display text-lg uppercase">MBSA</div>
                 )}
