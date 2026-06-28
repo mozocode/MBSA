@@ -26,26 +26,29 @@ export async function processPaymentHandler(request: CallableRequest<ProcessPaym
     throw new HttpsError('invalid-argument', 'Invalid amount')
   }
 
-  if (amount > 0 && !data.opaqueData) {
+  const { apiLoginId, transactionKey } = getAuthorizeServerConfig()
+  const paymentsConfigured = Boolean(apiLoginId && transactionKey)
+
+  if (amount > 0 && !data.opaqueData && paymentsConfigured) {
     throw new HttpsError('invalid-argument', 'Payment token required')
   }
 
   let transactionId = amount === 0 ? 'FREE' : ''
+  let orderStatus: 'paid' | 'pending' = amount === 0 ? 'paid' : 'pending'
 
-  if (amount > 0) {
-    const { apiLoginId, transactionKey } = getAuthorizeServerConfig()
-    if (!apiLoginId || !transactionKey) {
-      throw new HttpsError('failed-precondition', 'Payment processing is not configured')
-    }
-
+  if (amount > 0 && data.opaqueData && paymentsConfigured) {
     transactionId = await chargeAuthorizeNet({
       amount,
-      opaqueData: data.opaqueData!,
+      opaqueData: data.opaqueData,
       description: data.productName,
       loginId: apiLoginId,
       transactionKey,
       sandbox: isAuthorizeSandbox(),
     })
+    orderStatus = 'paid'
+  } else if (amount > 0 && !paymentsConfigured) {
+    transactionId = 'PENDING'
+    orderStatus = 'pending'
   }
 
   const db = getFirestore()
@@ -59,7 +62,7 @@ export async function processPaymentHandler(request: CallableRequest<ProcessPaym
     payerEmail: data.payerEmail ?? null,
     payerName: data.payerName ?? null,
     transactionId,
-    status: 'paid',
+    status: orderStatus,
     createdAt: FieldValue.serverTimestamp(),
   })
 
