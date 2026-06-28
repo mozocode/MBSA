@@ -2,6 +2,7 @@ import { ChevronDown, Menu, ShoppingCart, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { navItems, type NavItem, type NavLink } from '../../lib/navigation'
+import { STACK_SPORTS_SIGN_IN_URL } from '../../lib/portalUrls'
 import { GoldButton } from '../ui/GoldButton'
 
 function NavChildLink({
@@ -53,7 +54,7 @@ function NavDropdown({ item }: { item: NavItem }) {
     >
       <button
         type="button"
-        className={`flex items-center gap-1 text-xs font-semibold tracking-wide uppercase transition-colors focus-ring rounded px-2 py-1 ${
+        className={`flex items-center gap-1.5 text-sm font-display font-bold tracking-wide uppercase transition-colors focus-ring rounded px-2 py-1 ${
           isAboutActive ? 'text-gold' : 'text-white/90 hover:text-gold'
         }`}
         aria-expanded={open}
@@ -61,7 +62,7 @@ function NavDropdown({ item }: { item: NavItem }) {
         onClick={() => setOpen((v) => !v)}
       >
         {item.label}
-        <ChevronDown className="w-3 h-3" aria-hidden="true" />
+        <ChevronDown className="w-4 h-4" aria-hidden="true" />
       </button>
       {open && item.children && (
         <ul className="absolute top-full left-0 mt-0 min-w-[220px] bg-white shadow-xl py-1 z-50" role="menu">
@@ -78,7 +79,7 @@ function NavDropdown({ item }: { item: NavItem }) {
 
 function NavTopLink({ item, onNavigate }: { item: NavItem; onNavigate?: () => void }) {
   const classes =
-    'text-white/90 hover:text-gold text-xs font-semibold tracking-wide uppercase transition-colors focus-ring rounded px-2 py-1'
+    'text-white/90 hover:text-gold text-sm font-display font-bold tracking-wide uppercase transition-colors focus-ring rounded px-2 py-1'
 
   if (item.to) {
     return (
@@ -144,7 +145,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
           <img src="/MBSA-logo-vector.svg" alt="MBSA Gators logo" className="h-24 w-auto" />
         </Link>
 
-        <ul className="hidden xl:flex items-center gap-1">
+        <ul className="hidden xl:flex items-center gap-2">
           {navItems.map((item) => (
             <li key={item.label}>
               {item.children ? (
@@ -168,11 +169,11 @@ export function Navbar({ overlay = false }: NavbarProps) {
             </span>
           </a>
           <GoldButton
-            href="https://mbsagators.com/register/"
+            href={STACK_SPORTS_SIGN_IN_URL}
             variant="outline"
             className="!py-2 !px-4 !text-xs !text-white !border-white hover:!bg-white hover:!text-navy"
           >
-            Register
+            Sign In
           </GoldButton>
         </div>
 
@@ -194,7 +195,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
               <li key={item.label}>
                 {item.children ? (
                   <details className="group">
-                    <summary className="flex items-center justify-between py-3 text-white font-semibold text-sm uppercase cursor-pointer list-none focus-ring rounded px-2">
+                    <summary className="flex items-center justify-between py-3 text-white font-display font-bold text-sm uppercase cursor-pointer list-none focus-ring rounded px-2">
                       {item.label}
                       <ChevronDown className="w-4 h-4 group-open:rotate-180 transition-transform" />
                     </summary>
@@ -215,8 +216,8 @@ export function Navbar({ overlay = false }: NavbarProps) {
             ))}
           </ul>
           <div className="px-4 pb-6 flex flex-col gap-3">
-            <GoldButton href="https://mbsagators.com/register/" variant="outline" className="w-full">
-              Register
+            <GoldButton href={STACK_SPORTS_SIGN_IN_URL} variant="outline" className="w-full">
+              Sign In
             </GoldButton>
           </div>
         </div>
