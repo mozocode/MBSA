@@ -1,5 +1,3 @@
-import { STACK_SPORTS_SIGN_IN_URL } from './portalUrls'
-
 export interface NavLink {
   label: string
   to?: string
@@ -45,5 +43,4 @@ export const navItems: NavItem[] = [
   },
   { label: 'CALENDAR', to: '/calendar' },
   { label: 'SHOP', href: 'https://mbsagators.com/shop/' },
-  { label: 'SIGN IN', href: STACK_SPORTS_SIGN_IN_URL },
 ]
