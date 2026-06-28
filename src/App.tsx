@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ReactNode } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ProtectedRoute } from './components/admin/ProtectedRoute'
+import { ScrollToTop } from './components/layout/ScrollToTop'
 import { RouteFallback } from './components/ui/RouteFallback'
 import { Home } from './pages/Home'
 
@@ -53,6 +54,7 @@ function LazyPage({ children }: { children: ReactNode }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
