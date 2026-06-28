@@ -1,5 +1,5 @@
 import { CreditCard, Lock } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { isAuthorizeNetConfigured } from '../../lib/authorizeNet'
 
 export interface CardFormValues {
@@ -34,8 +34,11 @@ export function AuthorizeNetCardForm({
   })
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [configured, setConfigured] = useState<boolean | null>(null)
 
-  const configured = isAuthorizeNetConfigured()
+  useEffect(() => {
+    isAuthorizeNetConfigured().then(setConfigured)
+  }, [])
 
   const set = (key: keyof CardFormValues, value: string) => {
     setValues((v) => ({ ...v, [key]: value }))
@@ -52,6 +55,14 @@ export function AuthorizeNetCardForm({
     } finally {
       setSubmitting(false)
     }
+  }
+
+  if (configured === null) {
+    return (
+      <div className="border-t border-gray-200 pt-6 text-sm text-gray-500">
+        Loading payment options…
+      </div>
+    )
   }
 
   if (!configured) {

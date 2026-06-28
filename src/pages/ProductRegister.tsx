@@ -15,6 +15,7 @@ import { getProductBySlug } from '../lib/firestore/products'
 import { getTournamentBySlug } from '../lib/firestore/tournaments'
 import { fallbackTournaments } from '../lib/fallbackData'
 import { processPayment } from '../lib/payments'
+import { getPlatformConfig } from '../lib/platformConfig'
 import { formatPrice } from '../lib/productUtils'
 import type { Product, ProductType, RegistrationField, Tournament } from '../lib/types'
 
@@ -124,6 +125,10 @@ export function ProductRegister() {
   const [complete, setComplete] = useState<{ orderId: string; transactionId: string } | null>(
     null,
   )
+
+  useEffect(() => {
+    getPlatformConfig().catch(() => {})
+  }, [])
 
   useEffect(() => {
     let cancelled = false

@@ -1,13 +1,11 @@
+import { getPaymentConfig, getPlatformConfigCached } from './platformConfig'
+
 const SANDBOX_SCRIPT = 'https://jstest.authorize.net/v1/Accept.js'
 const PRODUCTION_SCRIPT = 'https://js.authorize.net/v1/Accept.js'
 
 export interface AcceptOpaqueData {
   dataDescriptor: string
   dataValue: string
-}
-
-export interface AcceptJsResponse {
-  opaqueData: AcceptOpaqueData
 }
 
 interface AcceptDispatchPayload {
@@ -41,23 +39,31 @@ declare global {
 
 let scriptPromise: Promise<void> | null = null
 
-export function isAuthorizeNetConfigured(): boolean {
+function envFallbackConfigured(): boolean {
   return Boolean(
     import.meta.env.VITE_AUTHORIZE_API_LOGIN_ID && import.meta.env.VITE_AUTHORIZE_CLIENT_KEY,
   )
 }
 
-export function isAuthorizeNetSandbox(): boolean {
-  return import.meta.env.VITE_AUTHORIZE_SANDBOX !== 'false'
+export async function isAuthorizeNetConfigured(): Promise<boolean> {
+  const cfg = await getPaymentConfig()
+  return cfg.enabled
 }
 
-function loadAcceptJs(): Promise<void> {
-  if (window.Accept) return Promise.resolve()
+/** Sync check using cached config or local env fallback. */
+export function isAuthorizeNetConfiguredSync(): boolean {
+  const cached = getPlatformConfigCached()
+  if (cached) return cached.payments.enabled
+  return envFallbackConfigured()
+}
+
+async function loadAcceptJs(sandbox: boolean): Promise<void> {
+  if (window.Accept) return
   if (scriptPromise) return scriptPromise
 
   scriptPromise = new Promise((resolve, reject) => {
     const script = document.createElement('script')
-    script.src = isAuthorizeNetSandbox() ? SANDBOX_SCRIPT : PRODUCTION_SCRIPT
+    script.src = sandbox ? SANDBOX_SCRIPT : PRODUCTION_SCRIPT
     script.async = true
     script.onload = () => resolve()
     script.onerror = () => reject(new Error('Failed to load Authorize.net Accept.js'))
@@ -75,19 +81,20 @@ export async function tokenizeCard(input: {
   zip?: string
   fullName?: string
 }): Promise<AcceptOpaqueData> {
-  if (!isAuthorizeNetConfigured()) {
+  const payment = await getPaymentConfig()
+  if (!payment.enabled) {
     throw new Error('Payment processing is not configured. Contact MBSA.')
   }
 
-  await loadAcceptJs()
-
-  const apiLoginID = import.meta.env.VITE_AUTHORIZE_API_LOGIN_ID as string
-  const clientKey = import.meta.env.VITE_AUTHORIZE_CLIENT_KEY as string
+  await loadAcceptJs(payment.sandbox)
 
   return new Promise((resolve, reject) => {
     window.Accept?.dispatchData(
       {
-        authData: { clientKey, apiLoginID },
+        authData: {
+          clientKey: payment.clientKey,
+          apiLoginID: payment.apiLoginId,
+        },
         cardData: {
           cardNumber: input.cardNumber.replace(/\s/g, ''),
           month: input.expMonth.padStart(2, '0'),
