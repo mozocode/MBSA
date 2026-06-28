@@ -39,7 +39,7 @@ export const navItems: NavItem[] = [
   {
     label: 'TOURNAMENTS',
     children: [
-      { label: 'All Tournaments', href: 'https://mbsagators.com/tournaments/' },
+      { label: 'All Tournaments', to: '/tournaments' },
       { label: 'Register', href: 'https://mbsagators.com/shop/' },
     ],
   },

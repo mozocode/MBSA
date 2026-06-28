@@ -24,6 +24,7 @@ import { TournamentsAdmin } from './pages/admin/TournamentsAdmin'
 import { ProductsAdmin } from './pages/admin/ProductsAdmin'
 import { Donate } from './pages/Donate'
 import { ProductRegister } from './pages/ProductRegister'
+import { Tournaments } from './pages/Tournaments'
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/sponsor" element={<Sponsor />} />
         <Route path="/donate" element={<Donate />} />
+        <Route path="/tournaments" element={<Tournaments />} />
         <Route path="/register/:slug" element={<ProductRegister />} />
 
         <Route path="/admin/login" element={<AdminLogin />} />

@@ -7,7 +7,7 @@ const quickLinks = [
   { label: 'Get Involved', href: 'https://mbsagators.com/get-involved/' },
   { label: 'Sponsor', to: '/sponsor' },
   { label: 'Coaches', to: '/coaches' },
-  { label: 'Tournaments', href: 'https://mbsagators.com/tournaments/' },
+  { label: 'Tournaments', to: '/tournaments' },
   { label: 'Shop', href: 'https://mbsagators.com/shop/' },
 ]
 
