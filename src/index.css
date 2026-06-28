@@ -32,3 +32,42 @@ body {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy;
   }
 }
+
+/* FullCalendar — MBSA gold/navy theme */
+.fc-mbsa {
+  --fc-border-color: rgba(13, 27, 42, 0.12);
+  --fc-button-bg-color: var(--navy);
+  --fc-button-border-color: var(--navy);
+  --fc-button-hover-bg-color: var(--navy-light);
+  --fc-button-hover-border-color: var(--navy-light);
+  --fc-button-active-bg-color: var(--gold);
+  --fc-button-active-border-color: var(--gold);
+  --fc-today-bg-color: rgba(244, 196, 48, 0.12);
+  --fc-event-border-color: transparent;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.fc-mbsa .fc-toolbar-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--navy);
+}
+
+.fc-mbsa .fc-button {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.fc-mbsa .fc-button-primary:not(:disabled).fc-button-active,
+.fc-mbsa .fc-button-primary:not(:disabled):active {
+  color: var(--navy);
+}
+
+.fc-mbsa .fc-daygrid-event {
+  border-radius: 2px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}

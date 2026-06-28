@@ -60,3 +60,29 @@ export interface FirestoreHookState<T> {
   loading: boolean
   error: string | null
 }
+
+export type EventType =
+  | 'tournament'
+  | 'registration'
+  | 'tryout'
+  | 'meeting'
+  | 'practice'
+  | 'other'
+
+export interface SiteEvent {
+  id: string
+  title: string
+  type: EventType
+  startDate: Timestamp
+  endDate: Timestamp
+  allDay: boolean
+  location?: string
+  description?: string
+  registrationUrl?: string
+  color: string
+  active: boolean
+  createdAt: Timestamp
+  updatedAt: Timestamp
+}
+
+export type SiteEventInput = Omit<SiteEvent, 'id' | 'createdAt' | 'updatedAt'>

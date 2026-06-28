@@ -43,6 +43,7 @@ export const navItems: NavItem[] = [
       { label: 'Register', href: 'https://mbsagators.com/shop/' },
     ],
   },
+  { label: 'CALENDAR', to: '/calendar' },
   { label: 'SHOP', href: 'https://mbsagators.com/shop/' },
   { label: 'SIGN IN', href: STACK_SPORTS_SIGN_IN_URL },
 ]
