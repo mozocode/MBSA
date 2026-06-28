@@ -8,7 +8,7 @@ import { PageLayout } from '../components/layout/PageLayout'
 
 export function Home() {
   return (
-    <PageLayout>
+    <PageLayout overlayNav>
       <main>
         <Hero />
         <QuickLinks />

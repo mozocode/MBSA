@@ -105,11 +105,14 @@ interface NavbarProps {
 }
 
 export function Navbar({ overlay = false }: NavbarProps) {
+  const { pathname } = useLocation()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const isHome = pathname === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -122,11 +125,13 @@ export function Navbar({ overlay = false }: NavbarProps) {
   }, [mobileOpen])
 
   const headerClass = overlay
-    ? scrolled
-      ? 'sticky top-0 z-40 backdrop-blur-sm bg-navy/95 shadow-lg'
-      : 'absolute top-0 left-0 right-0 z-40 bg-navy/30 backdrop-blur-sm'
+    ? scrolled || mobileOpen
+      ? 'sticky top-0 z-40 bg-navy shadow-lg'
+      : isHome
+        ? 'sticky top-0 z-40 bg-transparent'
+        : 'absolute top-0 left-0 right-0 z-40 bg-transparent'
     : scrolled
-      ? 'sticky top-0 z-40 backdrop-blur-sm bg-navy/95 shadow-lg'
+      ? 'sticky top-0 z-40 bg-navy shadow-lg'
       : 'sticky top-0 z-40 bg-navy'
 
   return (
