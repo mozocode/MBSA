@@ -1,6 +1,7 @@
 import { HttpsError, onCall } from 'firebase-functions/v2/https'
 import { initializeApp } from 'firebase-admin/app'
 import { fetchInstagramPosts } from './instagram'
+import { proxyInstagramImage } from './instagramProxy'
 import { getAuthorizeClientConfig } from './secrets'
 import { processPaymentHandler } from './payments'
 
@@ -25,3 +26,5 @@ export const getInstagramFeed = onCall({ cors: true }, async (request) => {
     throw new HttpsError('unavailable', message)
   }
 })
+
+export { proxyInstagramImage }

@@ -1,12 +1,12 @@
 import https from 'node:https'
-import { randomUUID } from 'node:crypto'
-import { getStorage } from 'firebase-admin/storage'
 import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 
 const IG_APP_ID = '936619743392459'
 const IG_USERNAME = 'mbsagators'
 const CACHE_DOC = 'settings/instagramFeed'
 const CACHE_TTL_MS = 60 * 60 * 1000
+const IMAGE_PROXY_BASE =
+  'https://us-central1-mbsa-cbbf8.cloudfunctions.net/proxyInstagramImage'
 
 export interface InstagramPost {
   id: string
@@ -72,91 +72,24 @@ function fetchInstagramProfile(): Promise<unknown> {
   })
 }
 
-function downloadImage(url: string): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const request = https.get(
-      url,
-      {
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          Referer: 'https://www.instagram.com/',
-        },
-      },
-      (response) => {
-        if (response.statusCode !== 200) {
-          reject(new Error(`Image download failed (${response.statusCode})`))
-          return
-        }
-        const chunks: Buffer[] = []
-        response.on('data', (chunk) => chunks.push(Buffer.from(chunk)))
-        response.on('end', () => resolve(Buffer.concat(chunks)))
-      },
-    )
-    request.on('error', reject)
-    request.setTimeout(20_000, () => {
-      request.destroy(new Error('Image download timed out'))
-    })
-  })
+function isInstagramCdnUrl(url: string): boolean {
+  return url.includes('cdninstagram.com') || url.includes('fbcdn.net')
 }
 
-function isMirroredUrl(url: string): boolean {
-  return url.includes('firebasestorage.googleapis.com')
+function isProxiedUrl(url: string): boolean {
+  return url.includes('proxyInstagramImage')
 }
 
-async function mirrorImageToStorage(postId: string, sourceUrl: string): Promise<string> {
-  const bucket = getStorage().bucket()
-  const objectPath = `instagram/${postId}.jpg`
-  const file = bucket.file(objectPath)
-
-  const [exists] = await file.exists()
-  if (exists) {
-    const [metadata] = await file.getMetadata()
-    const token = metadata.metadata?.firebaseStorageDownloadTokens
-    if (typeof token === 'string' && token) {
-      return buildStorageUrl(bucket.name, objectPath, token)
-    }
-  }
-
-  const buffer = await downloadImage(sourceUrl)
-  const token = randomUUID()
-  await file.save(buffer, {
-    metadata: {
-      contentType: 'image/jpeg',
-      cacheControl: 'public, max-age=31536000',
-      metadata: {
-        firebaseStorageDownloadTokens: token,
-      },
-    },
-    resumable: false,
-  })
-
-  return buildStorageUrl(bucket.name, objectPath, token)
+export function proxiedImageUrl(sourceUrl: string): string {
+  if (isProxiedUrl(sourceUrl)) return sourceUrl
+  return `${IMAGE_PROXY_BASE}?url=${encodeURIComponent(sourceUrl)}`
 }
 
-function buildStorageUrl(bucketName: string, objectPath: string, token: string): string {
-  const encoded = encodeURIComponent(objectPath)
-  return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encoded}?alt=media&token=${token}`
-}
-
-async function mirrorPostImages(posts: InstagramPost[]): Promise<InstagramPost[]> {
-  const mirrored: InstagramPost[] = []
-
-  for (const post of posts) {
-    if (isMirroredUrl(post.imageUrl)) {
-      mirrored.push(post)
-      continue
-    }
-
-    try {
-      const imageUrl = await mirrorImageToStorage(post.id, post.imageUrl)
-      mirrored.push({ ...post, imageUrl })
-    } catch {
-      mirrored.push(post)
-    }
-  }
-
-  return mirrored
+function withProxiedImages(posts: InstagramPost[]): InstagramPost[] {
+  return posts.map((post) => ({
+    ...post,
+    imageUrl: isInstagramCdnUrl(post.imageUrl) ? proxiedImageUrl(post.imageUrl) : post.imageUrl,
+  }))
 }
 
 function parseInstagramPosts(json: unknown): InstagramPost[] {
@@ -210,14 +143,13 @@ async function writeFirestoreCache(posts: InstagramPost[]): Promise<void> {
 
 async function fetchLiveInstagramPosts(): Promise<InstagramPost[]> {
   const json = await fetchInstagramProfile()
-  const posts = parseInstagramPosts(json)
-  return mirrorPostImages(posts)
+  return parseInstagramPosts(json)
 }
 
 export async function fetchInstagramPosts(limit = 8): Promise<InstagramPost[]> {
   const now = Date.now()
   if (memoryCache && now - memoryCachedAt < CACHE_TTL_MS) {
-    return memoryCache.slice(0, limit)
+    return withProxiedImages(memoryCache).slice(0, limit)
   }
 
   try {
@@ -225,18 +157,13 @@ export async function fetchInstagramPosts(limit = 8): Promise<InstagramPost[]> {
     memoryCache = posts
     memoryCachedAt = now
     await writeFirestoreCache(posts).catch(() => undefined)
-    return posts.slice(0, limit)
+    return withProxiedImages(posts).slice(0, limit)
   } catch {
     const cached = (await readFirestoreCache()) ?? memoryCache
     if (cached?.length) {
-      const needsMirror = cached.some((post) => !isMirroredUrl(post.imageUrl))
-      const posts = needsMirror ? await mirrorPostImages(cached) : cached
-      if (needsMirror) {
-        await writeFirestoreCache(posts).catch(() => undefined)
-      }
-      memoryCache = posts
+      memoryCache = cached
       memoryCachedAt = now
-      return posts.slice(0, limit)
+      return withProxiedImages(cached).slice(0, limit)
     }
     throw new Error('Instagram feed unavailable')
   }
@@ -247,5 +174,46 @@ export async function syncInstagramFeedToFirestore(): Promise<InstagramPost[]> {
   await writeFirestoreCache(posts)
   memoryCache = posts
   memoryCachedAt = Date.now()
-  return posts
+  return withProxiedImages(posts)
+}
+
+export function downloadInstagramImage(sourceUrl: string): Promise<{
+  body: Buffer
+  contentType: string
+}> {
+  return new Promise((resolve, reject) => {
+    if (!isInstagramCdnUrl(sourceUrl)) {
+      reject(new Error('Invalid image URL'))
+      return
+    }
+
+    const request = https.get(
+      sourceUrl,
+      {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          Referer: 'https://www.instagram.com/',
+        },
+      },
+      (response) => {
+        if (response.statusCode !== 200) {
+          reject(new Error(`Image download failed (${response.statusCode})`))
+          return
+        }
+        const chunks: Buffer[] = []
+        response.on('data', (chunk) => chunks.push(Buffer.from(chunk)))
+        response.on('end', () =>
+          resolve({
+            body: Buffer.concat(chunks),
+            contentType: response.headers['content-type'] || 'image/jpeg',
+          }),
+        )
+      },
+    )
+    request.on('error', reject)
+    request.setTimeout(20_000, () => {
+      request.destroy(new Error('Image download timed out'))
+    })
+  })
 }
