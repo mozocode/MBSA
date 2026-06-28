@@ -137,7 +137,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
   return (
     <header className={`transition-all duration-300 ${headerClass}`}>
       <nav
-        className="max-w-7xl mx-auto px-4 h-24 flex items-center justify-between gap-4"
+        className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4"
         aria-label="Main navigation"
       >
         <Link to="/" className="shrink-0 focus-ring rounded" aria-label="MBSA Gators home">
@@ -188,7 +188,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
       </nav>
 
       {mobileOpen && (
-        <div className="xl:hidden bg-navy-dark border-t border-gold/20 max-h-[calc(100vh-6rem)] overflow-y-auto">
+        <div className="xl:hidden bg-navy-dark border-t border-gold/20 max-h-[calc(100vh-8rem)] overflow-y-auto">
           <ul className="px-4 py-4 space-y-1">
             {navItems.map((item) => (
               <li key={item.label}>

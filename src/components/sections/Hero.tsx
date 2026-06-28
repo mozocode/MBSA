@@ -10,7 +10,7 @@ export function Hero() {
 
   return (
     <section
-      className="relative min-h-[85vh] flex items-center -mt-24"
+      className="relative min-h-[85vh] flex items-center -mt-32"
       style={{ clipPath: 'polygon(0 0, 100% 0, 100% 92%, 0 100%)' }}
       aria-label="Hero"
     >

@@ -367,7 +367,7 @@ export function ProductRegister() {
 
           <div className="flex flex-col md:flex-row md:gap-12 items-start">
             {/* Artwork — sticky on desktop while the form scrolls */}
-            <div className="w-full md:w-[45%] shrink-0 md:sticky md:top-24 md:self-start bg-navy flex items-center justify-center p-6 md:p-10 min-h-[280px]">
+            <div className="w-full md:w-[45%] shrink-0 md:sticky md:top-32 md:self-start bg-navy flex items-center justify-center p-6 md:p-10 min-h-[280px]">
               {item.artworkUrl ? (
                 <div className="bg-white w-full aspect-square flex items-center justify-center p-6 md:p-8">
                   <img
