@@ -66,6 +66,27 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  .animate-sponsor-marquee {
+    animation: none !important;
+  }
+}
+
+@keyframes sponsor-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-sponsor-marquee {
+  animation: sponsor-marquee 45s linear infinite;
+}
+
+.animate-sponsor-marquee:hover {
+  animation-play-state: paused;
 }
 
 /* FullCalendar — MBSA gold/navy theme */

@@ -1,48 +1,54 @@
 import { motion } from 'framer-motion'
-import { useSponsors } from '../../lib/hooks/useSponsors'
-import { SponsorLogo, SponsorLogoSkeleton } from '../ui/SponsorLogo'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { SPONSOR_RECORDS } from '../../lib/sponsorLogos'
+import { SponsorLogo } from '../ui/SponsorLogo'
 
-const fallbackSponsors = [
-  {
-    id: 'pressing-on',
-    name: 'Pressing On',
-    logoUrl: '/media/2024/01/Pressing-On-Logo.png',
-    tier: 'gold' as const,
-    order: 1,
-  },
-  {
-    id: 'union-home',
-    name: 'Union Home Mortgage',
-    logoUrl: '/media/2024/01/Union-Home-Mortgage-Logo.png',
-    tier: 'gold' as const,
-    order: 2,
-  },
-  {
-    id: 'all-american',
-    name: 'All-American Baseball Center',
-    logoUrl: '/media/2024/01/All-American-Baseball-Center-Logo.png',
-    tier: 'silver' as const,
-    order: 3,
-  },
-  {
-    id: 'dunhams',
-    name: "Dunham's Sports",
-    logoUrl: '/media/2024/01/Dunhams-Sports-Logo.png',
-    tier: 'bronze' as const,
-    order: 4,
-  },
-]
+function SponsorMarquee() {
+  const [reduceMotion, setReduceMotion] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const update = () => setReduceMotion(media.matches)
+    update()
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
+
+  const logos = reduceMotion ? SPONSOR_RECORDS : [...SPONSOR_RECORDS, ...SPONSOR_RECORDS]
+
+  return (
+    <div className="relative w-full overflow-hidden">
+      {!reduceMotion && (
+        <>
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-white to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-white to-transparent" />
+        </>
+      )}
+      <div
+        className={
+          reduceMotion
+            ? 'flex flex-wrap items-center justify-center gap-6 md:gap-8 py-2'
+            : 'flex w-max animate-sponsor-marquee items-center gap-10 md:gap-14 py-2'
+        }
+      >
+        {logos.map((sponsor, index) => (
+          <div key={`${sponsor.id}-${index}`} className="shrink-0">
+            <SponsorLogo sponsor={sponsor} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 export function SponsorsRow() {
-  const { data: sponsors, loading, error } = useSponsors()
-  const displaySponsors = sponsors.length > 0 ? sponsors : fallbackSponsors
-
   return (
     <section className="py-10 md:py-12 bg-white border-t border-gray-100 content-auto" aria-label="Sponsors">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col items-center md:flex-row md:items-center gap-6 text-center md:text-left">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 text-center sm:text-left">
           <motion.h2
-            className="font-display font-bold text-2xl text-navy uppercase shrink-0"
+            className="font-display font-bold text-2xl text-navy uppercase"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -50,31 +56,22 @@ export function SponsorsRow() {
           >
             Sponsors
           </motion.h2>
-
-          {error && (
-            <p className="text-sm text-text-muted" role="alert">
-              Showing sponsor logos from cache.
-            </p>
-          )}
-
-          <div className="w-full md:flex-1 overflow-x-auto md:overflow-visible [-webkit-overflow-scrolling:touch]">
-            <div className="flex md:flex-wrap items-center justify-center md:justify-start gap-4 md:gap-8 min-w-max md:min-w-0 px-2 md:px-0">
-              {loading
-                ? Array.from({ length: 4 }).map((_, i) => <SponsorLogoSkeleton key={i} />)
-                : displaySponsors.map((sponsor, index) => (
-                    <motion.div
-                      key={sponsor.id}
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: index * 0.08 }}
-                    >
-                      <SponsorLogo sponsor={sponsor} />
-                    </motion.div>
-                  ))}
-            </div>
-          </div>
+          <Link
+            to="/sponsor"
+            className="font-display font-bold text-xs uppercase tracking-wide text-gold hover:text-gold-dark transition-colors focus-ring rounded"
+          >
+            Become a Sponsor →
+          </Link>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <SponsorMarquee />
+        </motion.div>
       </div>
     </section>
   )

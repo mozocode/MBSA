@@ -9,7 +9,7 @@ export function SponsorLogo({ sponsor }: SponsorLogoProps) {
     <img
       src={sponsor.logoUrl}
       alt={`${sponsor.name} logo`}
-      className="h-12 md:h-16 w-auto max-w-[140px] object-contain grayscale hover:grayscale-0 transition-all duration-300"
+      className="h-12 md:h-16 w-auto max-w-[200px] object-contain grayscale hover:grayscale-0 transition-all duration-300"
       loading="lazy"
     />
   )

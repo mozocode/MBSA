@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { Check, Download, Megaphone, Star, Trophy, Users } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { PageLayout } from '../components/layout/PageLayout'
-import { useSponsors } from '../lib/hooks/useSponsors'
+import { toSponsorLogoDisplay, SPONSOR_LOGOS } from '../lib/sponsorLogos'
 import {
   SPONSORSHIP_EMAIL,
   SPONSORSHIP_FORM_URL,
@@ -17,32 +17,7 @@ import {
 const HERO_BG =
   '/media/2025/06/banner-scaled.jpg'
 
-const LOGO_BASE = '/media/2023/12'
-
-const fallbackSponsorLogos: Array<{ name: string; logo: string }> = [
-  { name: 'DC Welding', logo: `${LOGO_BASE}/dc-welding-1.png` },
-  { name: 'Caliente', logo: `${LOGO_BASE}/caliente-1.png` },
-  { name: 'GAMA', logo: `${LOGO_BASE}/gama-1.png` },
-  { name: "Dick's Sporting Goods", logo: `${LOGO_BASE}/dicks-sporting-goods-1.png` },
-  { name: 'All-American Baseball', logo: `${LOGO_BASE}/all_american_baseball_2023.png` },
-  { name: 'Pressing On', logo: `${LOGO_BASE}/pressing-on.png` },
-  { name: 'Rosato', logo: `${LOGO_BASE}/rosato.png` },
-  { name: 'Woodring', logo: `${LOGO_BASE}/woodring.png` },
-  { name: 'Heartland', logo: `${LOGO_BASE}/heartland-logo_dark_33390.png` },
-  { name: 'Monroeville Animal Shelter', logo: `${LOGO_BASE}/monroeville-animal-shelter.png` },
-  { name: 'Comfort Keepers', logo: `${LOGO_BASE}/comfort-keepers.png` },
-  { name: 'Fazio Heating & Cooling', logo: `${LOGO_BASE}/fazio-heating-and-cooling.png` },
-  { name: 'Artex Designs', logo: `${LOGO_BASE}/artex-designs.png` },
-  { name: 'Dale Shirley', logo: `${LOGO_BASE}/dale-shirley.png` },
-  { name: 'Affinity Counseling', logo: `${LOGO_BASE}/affinity-counseling.png` },
-  { name: 'Supanic', logo: `${LOGO_BASE}/supanic.png` },
-  { name: 'James Street Tavern', logo: `${LOGO_BASE}/james-street-tavern.png` },
-  { name: "Dunham's Sports", logo: `${LOGO_BASE}/dunhams.png` },
-  { name: 'Doyle Bros', logo: `${LOGO_BASE}/doyle-bros_.png` },
-  { name: 'First National Bank', logo: `${LOGO_BASE}/first-national-bank-logo.png` },
-  { name: 'Kafe Ayiti', logo: `${LOGO_BASE}/kafeayiti.png` },
-  { name: "Mathey's", logo: `${LOGO_BASE}/matheys.png` },
-]
+const sponsorLogos = toSponsorLogoDisplay(SPONSOR_LOGOS)
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -235,13 +210,6 @@ function TierCard({ tier, style, index }: TierCardProps) {
 }
 
 export function Sponsor() {
-  const { data: firestoreSponsors, loading } = useSponsors()
-
-  const sponsorLogos: Array<{ name: string; logo: string }> =
-    firestoreSponsors.length > 0
-      ? firestoreSponsors.map((s) => ({ name: s.name, logo: s.logoUrl }))
-      : fallbackSponsorLogos
-
   return (
     <PageLayout overlayNav>
       <main>
@@ -414,28 +382,20 @@ export function Sponsor() {
               </p>
             </motion.div>
 
-            {loading ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <div key={i} className="aspect-square bg-white border border-gray-200 animate-pulse" />
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                {sponsorLogos.map((sponsor, index) => (
-                  <motion.div
-                    key={`${sponsor.name}-${index}`}
-                    custom={index}
-                    variants={fadeUp}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    <SponsorLogoCell name={sponsor.name} logo={sponsor.logo} />
-                  </motion.div>
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+              {sponsorLogos.map((sponsor, index) => (
+                <motion.div
+                  key={`${sponsor.name}-${index}`}
+                  custom={index}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
+                  <SponsorLogoCell name={sponsor.name} logo={sponsor.logo} />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
