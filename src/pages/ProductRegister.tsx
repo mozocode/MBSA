@@ -22,7 +22,7 @@ import { getProductBySlug } from '../lib/firestore/products'
 import { getTournamentBySlug } from '../lib/firestore/tournaments'
 import { processPayment } from '../lib/payments'
 import { getPlatformConfig } from '../lib/platformConfig'
-import { formatPrice, tournamentRegisterPath } from '../lib/productUtils'
+import { formatPrice, resolveTournamentArtwork, tournamentRegisterPath } from '../lib/productUtils'
 import type { Product, ProductType, RegistrationField, Tournament } from '../lib/types'
 
 type Registerable = {
@@ -48,7 +48,7 @@ function enrichRegisterable(item: Registerable, slug: string): Registerable {
   if (!fb) return item
   return {
     ...item,
-    artworkUrl: item.artworkUrl || fb.artworkUrl,
+    artworkUrl: resolveTournamentArtwork(slug, item.artworkUrl) || fb.artworkUrl,
     registrationFields: item.registrationFields.length ? item.registrationFields : fb.registrationFields,
     dateLabel: item.dateLabel || fb.dateLabel,
     sport: item.sport || fb.sport,
@@ -163,6 +163,44 @@ function fieldValueByLabel(fields: RegistrationField[], values: Record<string, s
   return field ? values[field.id]?.trim() : undefined
 }
 
+function ProductArtwork({
+  slug,
+  name,
+  artworkUrl,
+}: {
+  slug: string
+  name: string
+  artworkUrl?: string
+}) {
+  const fallbackSrc = fallbackTournaments.find((t) => t.slug === slug)?.artworkUrl
+  const initialSrc = resolveTournamentArtwork(slug, artworkUrl)
+  const [src, setSrc] = useState(initialSrc)
+
+  useEffect(() => {
+    setSrc(resolveTournamentArtwork(slug, artworkUrl))
+  }, [slug, artworkUrl])
+
+  return (
+    <div className="w-full md:w-[45%] shrink-0 md:sticky md:top-[calc(var(--nav-height)+1.5rem)] md:self-start aspect-square overflow-hidden bg-cream">
+      {src ? (
+        <img
+          src={src}
+          alt={`${name} artwork`}
+          className="w-full h-full object-contain"
+          decoding="async"
+          onError={() => {
+            if (fallbackSrc && src !== fallbackSrc) setSrc(fallbackSrc)
+          }}
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-navy/30 font-display text-lg uppercase">
+          MBSA
+        </div>
+      )}
+    </div>
+  )
+}
+
 function RelatedProducts({ currentSlug }: { currentSlug: string }) {
   const related = fallbackTournaments.filter((t) => t.slug !== currentSlug).slice(0, 4)
   if (related.length === 0) return null
@@ -177,11 +215,12 @@ function RelatedProducts({ currentSlug }: { currentSlug: string }) {
             to={tournamentRegisterPath(t)}
             className="bg-white border border-gray-200 hover:border-gold transition-colors overflow-hidden group"
           >
-            <div className="aspect-square bg-navy p-3 flex items-center justify-center">
+            <div className="aspect-square overflow-hidden bg-cream">
               <img
-                src={t.artworkUrl}
+                src={resolveTournamentArtwork(t.slug, t.artworkUrl)}
                 alt=""
-                className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                loading="lazy"
               />
             </div>
             <p className="p-3 text-sm font-semibold text-navy leading-snug">{t.shortName}</p>
@@ -332,7 +371,7 @@ export function ProductRegister() {
 
   if (loading) {
     return (
-      <PageLayout overlayNav>
+      <PageLayout>
         <main className="py-24 text-center text-navy bg-cream min-h-screen">Loading…</main>
       </PageLayout>
     )
@@ -340,7 +379,7 @@ export function ProductRegister() {
 
   if (!item) {
     return (
-      <PageLayout overlayNav>
+      <PageLayout>
         <main className="py-24 text-center bg-cream min-h-screen">
           <h1 className="font-display text-2xl text-navy mb-4">Product not found</h1>
           <Link to="/" className="text-gold font-semibold hover:underline">
@@ -354,7 +393,7 @@ export function ProductRegister() {
   if (complete) {
     const isPending = complete.transactionId === 'PENDING'
     return (
-      <PageLayout overlayNav>
+      <PageLayout>
         <main className="py-24 bg-cream min-h-screen">
           <div className="max-w-lg mx-auto px-4 text-center">
             <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
@@ -377,7 +416,7 @@ export function ProductRegister() {
   }
 
   return (
-    <PageLayout overlayNav>
+    <PageLayout>
       <main className="bg-cream min-h-screen py-8 md:py-12">
         <div className="max-w-6xl mx-auto px-6">
           <p className="text-gold-dark font-display font-bold uppercase tracking-wide text-sm mb-6">
@@ -385,20 +424,7 @@ export function ProductRegister() {
           </p>
 
           <div className="flex flex-col md:flex-row md:gap-12 items-start">
-            {/* Artwork — sticky on desktop while the form scrolls */}
-            <div className="w-full md:w-[45%] shrink-0 md:sticky md:top-32 md:self-start bg-navy flex items-center justify-center p-6 md:p-10 min-h-[280px]">
-              {item.artworkUrl ? (
-                <div className="bg-white w-full aspect-square flex items-center justify-center p-6 md:p-8">
-                  <img
-                    src={item.artworkUrl}
-                    alt={`${item.name} artwork`}
-                    className="w-full max-h-full object-contain"
-                  />
-                </div>
-              ) : (
-                <div className="text-white/40 font-display text-lg uppercase">MBSA</div>
-              )}
-            </div>
+            <ProductArtwork slug={item.slug} name={item.name} artworkUrl={item.artworkUrl} />
 
             {/* Product details + registration form */}
             <div className="flex-1 min-w-0 bg-white shadow-md p-6 md:p-10 md:shadow-none">

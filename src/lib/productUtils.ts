@@ -39,3 +39,11 @@ export function productRegisterPath(product: { slug: string }): string {
 export function formatPrice(amount: number): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
 }
+
+/** Prefer local mirrored artwork over legacy Firestore/external WordPress URLs. */
+export function resolveTournamentArtwork(slug: string, artworkUrl?: string): string | undefined {
+  const fallback = fallbackTournaments.find((t) => t.slug === slug)?.artworkUrl
+  if (!artworkUrl) return fallback
+  if (artworkUrl.startsWith('/media/')) return artworkUrl
+  return fallback ?? artworkUrl
+}
