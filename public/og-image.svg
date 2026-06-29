@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="MBSA Gators - Monroeville Baseball and Softball Association">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="goldBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C49A0A"/>
+      <stop offset="50%" stop-color="#F4C430"/>
+      <stop offset="100%" stop-color="#C49A0A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <g opacity="0.08" stroke="#F4C430" stroke-width="2" fill="none">
+    <path d="M0 520 Q600 380 1200 520"/>
+    <path d="M120 630 L600 260 L1080 630"/>
+  </g>
+
+  <rect x="0" y="0" width="12" height="630" fill="url(#goldBar)"/>
+  <rect x="0" y="618" width="1200" height="12" fill="url(#goldBar)"/>
+
+  <image href="MBSA-logo-vector.svg" x="80" y="115" width="400" height="400" preserveAspectRatio="xMidYMid meet"/>
+
+  <g font-family="Arial Black, Arial, sans-serif" fill="#FFFFFF">
+    <text x="520" y="250" font-size="92" font-weight="700" letter-spacing="4">MBSA GATORS</text>
+    <text x="520" y="330" font-size="42" font-weight="700" fill="#F4C430" letter-spacing="2">MONROEVILLE BASEBALL</text>
+    <text x="520" y="385" font-size="42" font-weight="700" fill="#F4C430" letter-spacing="2">&amp; SOFTBALL ASSOCIATION</text>
+  </g>
+
+  <g font-family="Arial, sans-serif" fill="#F5F0E8" opacity="0.9">
+    <text x="520" y="455" font-size="28" font-weight="600">Youth Baseball &amp; Softball in Monroeville, PA</text>
+    <text x="520" y="500" font-size="24" font-weight="400" opacity="0.85">Tournaments | Leagues | Community</text>
+  </g>
+
+  <rect x="520" y="530" width="420" height="48" fill="#F4C430"/>
+  <text x="540" y="562" font-family="Arial Black, Arial, sans-serif" font-size="22" font-weight="700" fill="#000000" letter-spacing="2">MBSAGATORS.COM</text>
+</svg>

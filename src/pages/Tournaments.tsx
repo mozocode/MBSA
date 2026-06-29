@@ -381,45 +381,6 @@ export function Tournaments() {
           </div>
         </section>
 
-        {/* Sticky filter bar */}
-        <div
-          className="sticky top-[4.5rem] md:top-32 z-30 bg-navy border-b border-white/10"
-          role="toolbar"
-          aria-label="Filter tournaments"
-        >
-          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 text-white/70 font-display font-bold text-xs uppercase tracking-wide">
-                <Filter className="w-4 h-4 text-gold" aria-hidden="true" />
-                Filter
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {FILTERS.map((filter) => {
-                  const isActive = activeFilter === filter.id
-                  return (
-                    <button
-                      key={filter.id}
-                      type="button"
-                      onClick={() => setActiveFilter(filter.id)}
-                      className={`font-display font-bold text-xs uppercase tracking-wide px-4 py-2 transition-colors focus-ring ${
-                        isActive
-                          ? 'bg-gold text-navy'
-                          : 'border border-white/20 text-white/70 hover:border-gold hover:text-gold'
-                      }`}
-                      aria-pressed={isActive}
-                    >
-                      {filter.label}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-            <p className="font-display font-bold text-sm text-gold uppercase tracking-wide">
-              {filteredTournaments.length} event{filteredTournaments.length !== 1 ? 's' : ''}
-            </p>
-          </div>
-        </div>
-
         {/* Venue info */}
         <section className="bg-white border-b border-[#E5E7EB] py-16" aria-label="Venue information">
           <div className="max-w-7xl mx-auto px-4">
@@ -479,6 +440,45 @@ export function Tournaments() {
             </div>
           </div>
         </section>
+
+        {/* Sticky filter bar — sits directly above the event grid */}
+        <div
+          className="sticky top-[4.5rem] md:top-32 z-30 bg-navy border-b border-white/10"
+          role="toolbar"
+          aria-label="Filter tournaments"
+        >
+          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center gap-2 text-white/70 font-display font-bold text-xs uppercase tracking-wide">
+                <Filter className="w-4 h-4 text-gold" aria-hidden="true" />
+                Filter
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {FILTERS.map((filter) => {
+                  const isActive = activeFilter === filter.id
+                  return (
+                    <button
+                      key={filter.id}
+                      type="button"
+                      onClick={() => setActiveFilter(filter.id)}
+                      className={`font-display font-bold text-xs uppercase tracking-wide px-4 py-2 transition-colors focus-ring ${
+                        isActive
+                          ? 'bg-gold text-navy'
+                          : 'border border-white/20 text-white/70 hover:border-gold hover:text-gold'
+                      }`}
+                      aria-pressed={isActive}
+                    >
+                      {filter.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+            <p className="font-display font-bold text-sm text-gold uppercase tracking-wide">
+              {filteredTournaments.length} event{filteredTournaments.length !== 1 ? 's' : ''}
+            </p>
+          </div>
+        </div>
 
         {/* Tournament grid */}
         <section className="py-16 bg-cream" aria-label="Tournament listings">
