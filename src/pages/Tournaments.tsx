@@ -541,14 +541,6 @@ export function Tournaments() {
               >
                 Email Tournaments Director
               </a>
-              <a
-                href="https://mbsagators.com/tournaments/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-block border-2 border-gold text-gold font-display font-bold uppercase text-sm tracking-wide px-8 py-3 hover:bg-gold hover:text-navy transition-colors focus-ring"
-              >
-                View on MBSA Site
-              </a>
             </motion.div>
           </div>
         </section>

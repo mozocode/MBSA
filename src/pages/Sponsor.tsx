@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Check, Download, Megaphone, Star, Trophy, Users } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { PageLayout } from '../components/layout/PageLayout'
 import { toSponsorLogoDisplay, SPONSOR_LOGOS } from '../lib/sponsorLogos'
 import {
@@ -9,6 +10,7 @@ import {
   SPONSORSHIP_MAIL_ADDRESS,
   SPONSORSHIP_PHONE,
   SPONSOR_CONTACT_NAME,
+  sponsorRegisterPath,
   sponsorTiers,
   type SponsorTier,
   type SponsorTierId,
@@ -192,10 +194,8 @@ function TierCard({ tier, style, index }: TierCardProps) {
             </li>
           ))}
         </ul>
-        <a
-          href={SPONSORSHIP_FORM_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          to={sponsorRegisterPath(tier)}
           className="block text-center py-2.5 font-display font-bold uppercase text-sm transition-all active:scale-[0.97]"
           style={{
             backgroundColor: isDarkText ? '#000000' : '#F4C430',
@@ -203,7 +203,7 @@ function TierCard({ tier, style, index }: TierCardProps) {
           }}
         >
           Get Started
-        </a>
+        </Link>
       </div>
     </motion.div>
   )

@@ -1,3 +1,5 @@
+import type { RegistrationField } from './types'
+
 export const SPONSOR_HERO =
   '/media/2023/12/Banner-BG-image.webp'
 
@@ -24,14 +26,30 @@ export type SponsorTierId = 'white' | 'black' | 'gold' | 'gator' | 'mvp'
 
 export interface SponsorTier {
   id: SponsorTierId
+  slug: string
   name: string
   price: number
   benefits: string[]
 }
 
+export const SPONSOR_REGISTRATION_FIELDS: RegistrationField[] = [
+  { id: 'business-name', label: 'Business / Organization Name', type: 'text', required: true, order: 0 },
+  { id: 'contact-name', label: 'Contact Name', type: 'text', required: true, order: 1 },
+  { id: 'contact-email', label: 'Email', type: 'email', required: true, order: 2 },
+  { id: 'contact-phone', label: 'Phone', type: 'phone', required: true, order: 3 },
+  {
+    id: 'notes',
+    label: 'Notes (optional)',
+    type: 'textarea',
+    required: false,
+    order: 4,
+  },
+]
+
 export const sponsorTiers: SponsorTier[] = [
   {
     id: 'white',
+    slug: 'white-sponsor',
     name: 'White Sponsor',
     price: 100,
     benefits: [
@@ -43,6 +61,7 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     id: 'black',
+    slug: 'black-sponsor',
     name: 'Black Sponsor',
     price: 250,
     benefits: [
@@ -53,6 +72,7 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     id: 'gold',
+    slug: 'gold-sponsor',
     name: 'Gold Sponsor',
     price: 500,
     benefits: [
@@ -63,6 +83,7 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     id: 'gator',
+    slug: 'gator-sponsor',
     name: 'Gator Sponsor',
     price: 750,
     benefits: [
@@ -73,6 +94,7 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     id: 'mvp',
+    slug: 'mvp-event-sponsor',
     name: 'MVP Event Sponsor',
     price: 1500,
     benefits: [
@@ -82,6 +104,15 @@ export const sponsorTiers: SponsorTier[] = [
     ],
   },
 ]
+
+export function sponsorRegisterPath(tier: Pick<SponsorTier, 'slug'> | SponsorTierId): string {
+  const slug = typeof tier === 'string' ? sponsorTiers.find((t) => t.id === tier)?.slug : tier.slug
+  return slug ? `/register/${slug}` : '/sponsor'
+}
+
+export function getSponsorTierBySlug(slug: string): SponsorTier | undefined {
+  return sponsorTiers.find((tier) => tier.slug === slug)
+}
 
 export interface PartnerLogo {
   id: string

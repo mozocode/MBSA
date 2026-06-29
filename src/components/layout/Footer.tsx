@@ -8,7 +8,6 @@ const quickLinks = [
   { label: 'Sponsor', to: '/sponsor' },
   { label: 'Coaches', to: '/coaches' },
   { label: 'Tournaments', to: '/tournaments' },
-  { label: 'Shop', href: 'https://mbsagators.com/shop/' },
 ]
 
 const resources = [

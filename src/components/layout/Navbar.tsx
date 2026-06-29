@@ -1,4 +1,4 @@
-import { ChevronDown, Menu, ShoppingCart, X } from 'lucide-react'
+import { ChevronDown, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { navItems, type NavItem, type NavLink } from '../../lib/navigation'
@@ -166,16 +166,6 @@ export function Navbar({ overlay = false }: NavbarProps) {
         </ul>
 
         <div className="hidden xl:flex items-center gap-3">
-          <a
-            href="https://mbsagators.com/cart/"
-            className="relative text-gold hover:text-gold-light transition-colors focus-ring rounded p-1 border border-gold/50 px-2"
-            aria-label="Shopping cart"
-          >
-            <ShoppingCart className="w-5 h-5" aria-hidden="true" />
-            <span className="absolute -top-1 -right-1 bg-gold text-navy text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-              0
-            </span>
-          </a>
           <GoldButton
             href={STACK_SPORTS_SIGN_IN_URL}
             variant="outline"

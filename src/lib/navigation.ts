@@ -38,9 +38,8 @@ export const navItems: NavItem[] = [
     label: 'TOURNAMENTS',
     children: [
       { label: 'All Tournaments', to: '/tournaments' },
-      { label: 'Register', href: 'https://mbsagators.com/shop/' },
+      { label: 'Register', to: '/tournaments' },
     ],
   },
   { label: 'CALENDAR', to: '/calendar' },
-  { label: 'SHOP', href: 'https://mbsagators.com/shop/' },
 ]

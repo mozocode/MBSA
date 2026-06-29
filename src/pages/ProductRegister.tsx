@@ -13,6 +13,11 @@ import {
 } from '../components/ui/DynamicRegistrationForm'
 import { isAuthorizeNetConfigured, tokenizeCard, type AcceptOpaqueData } from '../lib/authorizeNet'
 import { fallbackTournaments } from '../lib/fallbackData'
+import {
+  getSponsorTierBySlug,
+  SPONSOR_LOGO_WHITE,
+  SPONSOR_REGISTRATION_FIELDS,
+} from '../lib/sponsorContent'
 import { getProductBySlug } from '../lib/firestore/products'
 import { getTournamentBySlug } from '../lib/firestore/tournaments'
 import { processPayment } from '../lib/payments'
@@ -79,6 +84,20 @@ function fallbackBySlug(slug: string): Registerable | null {
             order: 2,
           },
         ],
+      }
+    }
+    const sponsorTier = getSponsorTierBySlug(slug)
+    if (sponsorTier) {
+      return {
+        id: sponsorTier.id,
+        slug: sponsorTier.slug,
+        name: sponsorTier.name,
+        price: sponsorTier.price,
+        paymentRequired: true,
+        productType: 'other',
+        artworkUrl: SPONSOR_LOGO_WHITE,
+        description: sponsorTier.benefits.join(' · '),
+        registrationFields: SPONSOR_REGISTRATION_FIELDS,
       }
     }
     return null
@@ -309,7 +328,7 @@ export function ProductRegister() {
       ? 'Donate'
       : showPaymentFields
         ? `Pay ${formatPrice(amount)} & Register`
-        : 'Add to cart'
+        : 'Complete Registration'
 
   if (loading) {
     return (
