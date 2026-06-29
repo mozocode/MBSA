@@ -28,13 +28,13 @@ function SponsorMarquee() {
       <div
         className={
           reduceMotion
-            ? 'flex flex-wrap items-center justify-center gap-6 md:gap-8 py-2'
-            : 'flex w-max animate-sponsor-marquee items-center gap-10 md:gap-14 py-2'
+            ? 'flex flex-wrap items-center justify-center gap-8 md:gap-10 py-4'
+            : 'flex w-max animate-sponsor-marquee items-center gap-12 md:gap-16 lg:gap-20 py-4 md:py-6'
         }
       >
         {logos.map((sponsor, index) => (
           <div key={`${sponsor.id}-${index}`} className="shrink-0">
-            <SponsorLogo sponsor={sponsor} />
+            <SponsorLogo sponsor={sponsor} variant="marquee" />
           </div>
         ))}
       </div>

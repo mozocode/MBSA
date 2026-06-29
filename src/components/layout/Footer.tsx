@@ -137,10 +137,15 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/50">
           <p>&copy; {new Date().getFullYear()} Monroeville Baseball & Softball Association. All rights reserved.</p>
           <p>
-            Powered by{' '}
-            <Link to="/" className="text-gold hover:text-gold-light focus-ring rounded">
-              MBSA
-            </Link>
+            built by{' '}
+            <a
+              href="https://mozomarketing.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gold hover:text-gold-light focus-ring rounded"
+            >
+              Mozo Marketing
+            </a>
           </p>
         </div>
       </div>
