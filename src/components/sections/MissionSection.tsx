@@ -62,8 +62,7 @@ export function MissionSection() {
             className="text-center lg:text-left"
           >
             <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl uppercase leading-tight">
-              <span className="text-gold">Monroeville</span>
-              <br />
+              <span className="text-gold">Monroeville</span>{' '}
               <span className="text-navy">Plays Ball</span>
             </h2>
             {loading ? (
