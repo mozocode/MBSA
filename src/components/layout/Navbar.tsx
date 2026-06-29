@@ -49,15 +49,21 @@ function NavSocialLinks({ compact = false }: { compact?: boolean }) {
 function NavChildLink({
   child,
   onNavigate,
+  mobile = false,
 }: {
   child: NavLink
   onNavigate?: () => void
+  mobile?: boolean
 }) {
   const location = useLocation()
   const isActive = child.to ? location.pathname === child.to : false
-  const classes = `block px-5 py-3 font-display font-bold uppercase text-xs tracking-wide transition-colors focus-ring ${
-    isActive ? 'bg-gold text-navy' : 'text-navy hover:bg-gold hover:text-navy'
-  }`
+  const classes = mobile
+    ? `block px-5 py-3 font-display font-bold uppercase text-xs tracking-wide transition-colors focus-ring rounded ${
+        isActive ? 'bg-gold text-navy' : 'text-white/90 hover:bg-white/10 hover:text-gold'
+      }`
+    : `block px-5 py-3 font-display font-bold uppercase text-xs tracking-wide transition-colors focus-ring ${
+        isActive ? 'bg-gold text-navy' : 'text-navy hover:bg-gold hover:text-navy'
+      }`
 
   if (child.to) {
     return (
@@ -242,7 +248,11 @@ export function Navbar({ overlay = false }: NavbarProps) {
                     <ul className="pb-2">
                       {item.children.map((child) => (
                         <li key={child.label}>
-                          <NavChildLink child={child} onNavigate={() => setMobileOpen(false)} />
+                          <NavChildLink
+                            child={child}
+                            onNavigate={() => setMobileOpen(false)}
+                            mobile
+                          />
                         </li>
                       ))}
                     </ul>
