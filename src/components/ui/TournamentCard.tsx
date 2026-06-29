@@ -19,13 +19,13 @@ export function TournamentCard({ tournament, index = 0 }: TournamentCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
-      className="flex flex-col w-full bg-white shadow-md overflow-hidden border-l-4 border-gold"
+      className="flex flex-col w-full min-w-0 max-w-full bg-white shadow-md overflow-hidden border-l-4 border-gold"
     >
-      <div className="relative aspect-square bg-navy p-4">
+      <div className="relative aspect-square bg-navy p-4 min-w-0 overflow-hidden">
         <img
           src={tournament.artworkUrl}
           alt={`${tournament.name} tournament artwork`}
-          className="w-full h-full object-contain"
+          className="w-full h-full max-w-full object-contain"
           loading="lazy"
           decoding="async"
         />
@@ -63,7 +63,7 @@ export function TournamentCard({ tournament, index = 0 }: TournamentCardProps) {
 
 export function TournamentCardSkeleton() {
   return (
-    <div className="flex flex-col bg-white shadow-md overflow-hidden border-l-4 border-gold animate-pulse">
+    <div className="flex flex-col w-full min-w-0 max-w-full bg-white shadow-md overflow-hidden border-l-4 border-gold animate-pulse">
       <div className="aspect-square bg-navy-light/30" />
       <div className="p-4 space-y-3">
         <div className="h-5 bg-gray-200 rounded w-3/4" />

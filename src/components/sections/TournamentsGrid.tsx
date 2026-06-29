@@ -18,8 +18,8 @@ export function TournamentsGrid() {
   )
 
   return (
-    <section className="py-12 md:py-16 bg-cream content-auto" aria-label="Upcoming tournaments carousel">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-12 md:py-16 bg-cream content-auto overflow-x-clip" aria-label="Upcoming tournaments carousel">
+      <div className="max-w-7xl mx-auto px-4 w-full min-w-0">
         <motion.h2
           className="font-display font-bold text-3xl md:text-4xl text-navy uppercase mb-8 text-center md:text-left"
           initial={{ opacity: 0, y: 24 }}
@@ -37,9 +37,9 @@ export function TournamentsGrid() {
         )}
 
         {loading ? (
-          <div className="flex flex-col items-center gap-6 md:grid md:grid-cols-3 md:items-stretch">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {Array.from({ length: UPCOMING_LIMIT }).map((_, i) => (
-              <div key={i} className="w-full max-w-md md:max-w-none">
+              <div key={i} className="min-w-0 max-w-full w-full">
                 <TournamentCardSkeleton />
               </div>
             ))}
@@ -49,12 +49,12 @@ export function TournamentsGrid() {
         ) : (
           <>
             <div
-              className="flex flex-col items-center gap-6 md:grid md:grid-cols-3 md:items-stretch md:gap-6"
+              className="grid grid-cols-1 gap-6 md:grid-cols-3"
               role="list"
               aria-label="Next three upcoming tournaments"
             >
               {upcomingTournaments.map((tournament, index) => (
-                <div key={tournament.id} role="listitem" className="w-full max-w-md md:max-w-none">
+                <div key={tournament.id} role="listitem" className="min-w-0 max-w-full w-full">
                   <TournamentCard tournament={tournament} index={index} />
                 </div>
               ))}

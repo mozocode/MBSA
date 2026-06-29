@@ -39,6 +39,7 @@ body {
   color: var(--text-dark);
   background-color: var(--cream);
   -webkit-tap-highlight-color: transparent;
+  overflow-x: clip;
 }
 
 .font-display {
