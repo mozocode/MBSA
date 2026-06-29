@@ -18,22 +18,20 @@
     <path d="M120 630 L600 260 L1080 630"/>
   </g>
 
-  <rect x="0" y="0" width="12" height="630" fill="url(#goldBar)"/>
-  <rect x="0" y="618" width="1200" height="12" fill="url(#goldBar)"/>
+  <rect x="0" y="0" width="1200" height="8" fill="url(#goldBar)"/>
+  <rect x="0" y="622" width="1200" height="8" fill="url(#goldBar)"/>
 
-  <image href="MBSA-logo-vector.svg" x="80" y="115" width="400" height="400" preserveAspectRatio="xMidYMid meet"/>
-
-  <g font-family="Arial Black, Arial, sans-serif" fill="#FFFFFF">
-    <text x="520" y="250" font-size="92" font-weight="700" letter-spacing="4">MBSA GATORS</text>
-    <text x="520" y="330" font-size="42" font-weight="700" fill="#F4C430" letter-spacing="2">MONROEVILLE BASEBALL</text>
-    <text x="520" y="385" font-size="42" font-weight="700" fill="#F4C430" letter-spacing="2">&amp; SOFTBALL ASSOCIATION</text>
+  <g font-family="Arial Black, Arial, sans-serif" text-anchor="middle">
+    <text x="600" y="220" font-size="82" font-weight="700" fill="#FFFFFF" letter-spacing="4">MBSA GATORS</text>
+    <text x="600" y="290" font-size="36" font-weight="700" fill="#F4C430" letter-spacing="2">MONROEVILLE BASEBALL</text>
+    <text x="600" y="335" font-size="36" font-weight="700" fill="#F4C430" letter-spacing="2">&amp; SOFTBALL ASSOCIATION</text>
   </g>
 
-  <g font-family="Arial, sans-serif" fill="#F5F0E8" opacity="0.9">
-    <text x="520" y="455" font-size="28" font-weight="600">Youth Baseball &amp; Softball in Monroeville, PA</text>
-    <text x="520" y="500" font-size="24" font-weight="400" opacity="0.85">Tournaments | Leagues | Community</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle" fill="#F5F0E8" opacity="0.9">
+    <text x="600" y="405" font-size="28" font-weight="600">Youth Baseball &amp; Softball in Monroeville, PA</text>
+    <text x="600" y="450" font-size="24" font-weight="400" opacity="0.85">Tournaments | Leagues | Community</text>
   </g>
 
-  <rect x="520" y="530" width="420" height="48" fill="#F4C430"/>
-  <text x="540" y="562" font-family="Arial Black, Arial, sans-serif" font-size="22" font-weight="700" fill="#000000" letter-spacing="2">MBSAGATORS.COM</text>
+  <rect x="390" y="490" width="420" height="48" rx="2" fill="#F4C430"/>
+  <text x="600" y="522" font-family="Arial Black, Arial, sans-serif" font-size="22" font-weight="700" fill="#000000" letter-spacing="2" text-anchor="middle">MBSAGATORS.COM</text>
 </svg>

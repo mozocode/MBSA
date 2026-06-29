@@ -4,6 +4,47 @@ import { Link, useLocation } from 'react-router-dom'
 import { navItems, type NavItem, type NavLink } from '../../lib/navigation'
 import { STACK_SPORTS_SIGN_IN_URL } from '../../lib/portalUrls'
 import { GoldButton } from '../ui/GoldButton'
+import { FacebookIcon, InstagramIcon, TwitterIcon } from '../ui/SocialIcons'
+
+const socialLinks = [
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/mbsagators',
+    Icon: FacebookIcon,
+  },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/mbsagators',
+    Icon: InstagramIcon,
+  },
+  {
+    label: 'X (Twitter)',
+    href: 'https://twitter.com/mbsagators',
+    Icon: TwitterIcon,
+  },
+] as const
+
+function NavSocialLinks({ compact = false }: { compact?: boolean }) {
+  const size = compact ? 'w-9 h-9' : 'w-10 h-10'
+  const iconSize = compact ? 'w-4 h-4' : 'w-5 h-5'
+
+  return (
+    <div className="flex items-center gap-2">
+      {socialLinks.map(({ label, href, Icon }) => (
+        <a
+          key={label}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${size} flex items-center justify-center border border-gold/40 text-gold hover:bg-gold hover:text-navy transition-colors focus-ring rounded-full`}
+          aria-label={label}
+        >
+          <Icon className={iconSize} />
+        </a>
+      ))}
+    </div>
+  )
+}
 
 function NavChildLink({
   child,
@@ -173,6 +214,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
           >
             Sign In
           </GoldButton>
+          <NavSocialLinks />
         </div>
 
         <button
@@ -217,6 +259,9 @@ export function Navbar({ overlay = false }: NavbarProps) {
             <GoldButton href={STACK_SPORTS_SIGN_IN_URL} variant="outline" className="w-full">
               Sign In
             </GoldButton>
+            <div className="flex justify-center pt-1">
+              <NavSocialLinks />
+            </div>
           </div>
         </div>
       )}
