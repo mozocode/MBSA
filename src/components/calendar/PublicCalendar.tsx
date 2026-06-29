@@ -3,13 +3,17 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import { useEffect, useMemo, useState } from 'react'
+import { mergeTournamentsIntoEvents, toFullCalendarEvent } from '../../lib/calendarEvents'
 import { ALL_EVENT_TYPES, EVENT_TYPE_LABELS } from '../../lib/eventColors'
 import { useEvents } from '../../lib/hooks/useEvents'
+import { useTournaments } from '../../lib/hooks/useTournaments'
 import type { EventType, SiteEvent } from '../../lib/types'
 import { EventPopover } from './EventPopover'
 
 export function PublicCalendar() {
-  const { data: events, loading, error } = useEvents(true)
+  const { data: events, loading: eventsLoading, error } = useEvents(true)
+  const { data: tournaments, loading: tournamentsLoading } = useTournaments()
+  const loading = eventsLoading || tournamentsLoading
   const [typeFilter, setTypeFilter] = useState<EventType | 'all'>('all')
   const [selectedEvent, setSelectedEvent] = useState<SiteEvent | null>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -22,23 +26,18 @@ export function PublicCalendar() {
     return () => mq.removeEventListener('change', update)
   }, [])
 
+  const merged = useMemo(
+    () => mergeTournamentsIntoEvents(events, tournaments),
+    [events, tournaments],
+  )
+
   const filtered = useMemo(
-    () => (typeFilter === 'all' ? events : events.filter((e) => e.type === typeFilter)),
-    [events, typeFilter],
+    () => (typeFilter === 'all' ? merged : merged.filter((e) => e.type === typeFilter)),
+    [merged, typeFilter],
   )
 
   const calendarEvents = useMemo(
-    () =>
-      filtered.map((e) => ({
-        id: e.id,
-        title: e.title,
-        start: e.startDate.toDate(),
-        end: e.endDate.toDate(),
-        allDay: e.allDay,
-        backgroundColor: e.color,
-        borderColor: e.color,
-        extendedProps: e,
-      })),
+    () => filtered.map((e) => toFullCalendarEvent(e)),
     [filtered],
   )
 

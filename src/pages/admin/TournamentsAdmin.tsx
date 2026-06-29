@@ -5,6 +5,7 @@ import { RegistrationFieldsEditor } from '../../components/admin/RegistrationFie
 import { SlideOver } from '../../components/admin/SlideOver'
 import { TournamentStatusBadge } from '../../components/admin/TournamentStatusBadge'
 import { slugify, sanitizeRegistrationFields, combinedSportAgeFields, splitSportAgeFields } from '../../lib/registrationFields'
+import { resolveTournamentArtwork, resolveTournamentSlug } from '../../lib/productUtils'
 import {
   createTournament,
   deleteTournament,
@@ -147,11 +148,19 @@ export function TournamentsAdmin() {
                   </td>
                 </tr>
               ) : (
-                items.map((t) => (
+                items.map((t) => {
+                  const slug = resolveTournamentSlug(t)
+                  const artworkSrc = resolveTournamentArtwork(slug, t.artworkUrl)
+
+                  return (
                   <tr key={t.id}>
                     <td className="px-4 py-3">
-                      {t.artworkUrl ? (
-                        <img src={t.artworkUrl} alt="" className="w-12 h-12 object-cover rounded-sm" />
+                      {artworkSrc ? (
+                        <img
+                          src={artworkSrc}
+                          alt=""
+                          className="w-12 h-12 object-cover rounded-sm bg-cream"
+                        />
                       ) : (
                         '—'
                       )}
@@ -207,7 +216,8 @@ export function TournamentsAdmin() {
                       </button>
                     </td>
                   </tr>
-                ))
+                  )
+                })
               )}
             </tbody>
           </table>

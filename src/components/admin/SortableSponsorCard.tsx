@@ -1,6 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { GripVertical, Trash2 } from 'lucide-react'
+import { resolveSponsorLogo } from '../../lib/sponsorLogos'
 import type { Sponsor } from '../../lib/types'
 
 interface SortableSponsorCardProps {
@@ -26,6 +27,8 @@ export function SortableSponsorCard({ sponsor, onDelete }: SortableSponsorCardPr
     opacity: isDragging ? 0.5 : 1,
   }
 
+  const logoSrc = resolveSponsorLogo(sponsor.name, sponsor.logoUrl)
+
   return (
     <div
       ref={setNodeRef}
@@ -42,7 +45,7 @@ export function SortableSponsorCard({ sponsor, onDelete }: SortableSponsorCardPr
         <GripVertical className="w-5 h-5" />
       </button>
       <img
-        src={sponsor.logoUrl}
+        src={logoSrc}
         alt={sponsor.name}
         className="w-14 h-14 object-contain bg-gray-50 rounded-sm shrink-0"
       />

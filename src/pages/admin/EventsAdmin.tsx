@@ -4,6 +4,7 @@ import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import { Timestamp } from 'firebase/firestore'
 import { useMemo, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { AdminErrorBoundary } from '../../components/admin/AdminErrorBoundary'
 import { AdminToggle } from '../../components/admin/AdminToggle'
 import {
@@ -12,6 +13,11 @@ import {
   type EventFormValues,
 } from '../../components/admin/EventForm'
 import { SlideOver } from '../../components/admin/SlideOver'
+import {
+  isTournamentDerivedEvent,
+  mergeTournamentsIntoEvents,
+  toFullCalendarEvent,
+} from '../../lib/calendarEvents'
 import { ALL_EVENT_TYPES, EVENT_TYPE_LABELS } from '../../lib/eventColors'
 import {
   createEvent,
@@ -20,36 +26,35 @@ import {
   updateEvent,
 } from '../../lib/firestore/events'
 import { useEvents } from '../../lib/hooks/useEvents'
+import { useTournaments } from '../../lib/hooks/useTournaments'
 import type { EventType, SiteEvent } from '../../lib/types'
 
 type ViewMode = 'list' | 'calendar'
 
 export function EventsAdmin() {
-  const { data: events, loading } = useEvents(false)
+  const navigate = useNavigate()
+  const { data: events, loading: eventsLoading } = useEvents(false)
+  const { data: tournaments, loading: tournamentsLoading } = useTournaments()
+  const loading = eventsLoading || tournamentsLoading
   const [viewMode, setViewMode] = useState<ViewMode>('list')
   const [typeFilter, setTypeFilter] = useState<EventType | 'all'>('all')
   const [panelOpen, setPanelOpen] = useState(false)
   const [editing, setEditing] = useState<SiteEvent | null>(null)
   const [defaultStart, setDefaultStart] = useState<Date | undefined>()
 
+  const merged = useMemo(
+    () => mergeTournamentsIntoEvents(events, tournaments),
+    [events, tournaments],
+  )
+
   const filtered = useMemo(
-    () => (typeFilter === 'all' ? events : events.filter((e) => e.type === typeFilter)),
-    [events, typeFilter],
+    () => (typeFilter === 'all' ? merged : merged.filter((e) => e.type === typeFilter)),
+    [merged, typeFilter],
   )
 
   const calendarEvents = useMemo(
-    () =>
-      events.map((e) => ({
-        id: e.id,
-        title: e.title,
-        start: e.startDate.toDate(),
-        end: e.endDate.toDate(),
-        allDay: e.allDay,
-        backgroundColor: e.active ? e.color : `${e.color}66`,
-        borderColor: e.color,
-        extendedProps: e,
-      })),
-    [events],
+    () => filtered.map((e) => toFullCalendarEvent(e, { dimInactive: true })),
+    [filtered],
   )
 
   const openCreate = (start?: Date) => {
@@ -128,32 +133,32 @@ export function EventsAdmin() {
           </button>
         </div>
 
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setTypeFilter('all')}
+            className={`px-3 py-1 text-xs font-bold uppercase rounded-full border ${
+              typeFilter === 'all' ? 'bg-gold border-gold text-navy' : 'border-gray-200'
+            }`}
+          >
+            All
+          </button>
+          {ALL_EVENT_TYPES.map((type) => (
+            <button
+              key={type}
+              type="button"
+              onClick={() => setTypeFilter(type)}
+              className={`px-3 py-1 text-xs font-bold uppercase rounded-full border ${
+                typeFilter === type ? 'bg-gold border-gold text-navy' : 'border-gray-200'
+              }`}
+            >
+              {EVENT_TYPE_LABELS[type]}
+            </button>
+          ))}
+        </div>
+
         {viewMode === 'list' && (
           <>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => setTypeFilter('all')}
-                className={`px-3 py-1 text-xs font-bold uppercase rounded-full border ${
-                  typeFilter === 'all' ? 'bg-gold border-gold text-navy' : 'border-gray-200'
-                }`}
-              >
-                All
-              </button>
-              {ALL_EVENT_TYPES.map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => setTypeFilter(type)}
-                  className={`px-3 py-1 text-xs font-bold uppercase rounded-full border ${
-                    typeFilter === type ? 'bg-gold border-gold text-navy' : 'border-gray-200'
-                  }`}
-                >
-                  {EVENT_TYPE_LABELS[type]}
-                </button>
-              ))}
-            </div>
-
             <div className="bg-white rounded-sm border border-gray-200 overflow-x-auto shadow-sm">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500">
@@ -174,9 +179,19 @@ export function EventsAdmin() {
                       </td>
                     </tr>
                   ) : (
-                    filtered.map((event) => (
+                    filtered.map((event) => {
+                      const fromTournament = isTournamentDerivedEvent(event)
+
+                      return (
                       <tr key={event.id} className={!event.active ? 'opacity-60' : ''}>
-                        <td className="px-4 py-3 font-medium text-navy">{event.title}</td>
+                        <td className="px-4 py-3 font-medium text-navy">
+                          {event.title}
+                          {fromTournament && (
+                            <span className="block text-[10px] font-normal text-gray-400 uppercase tracking-wide">
+                              From tournaments
+                            </span>
+                          )}
+                        </td>
                         <td className="px-4 py-3">
                           <span
                             className="inline-block px-2 py-0.5 rounded-full text-xs font-bold text-navy"
@@ -190,30 +205,48 @@ export function EventsAdmin() {
                         </td>
                         <td className="px-4 py-3 text-gray-500">{event.location ?? '—'}</td>
                         <td className="px-4 py-3">
-                          <AdminToggle
-                            checked={event.active}
-                            onChange={(v) => handleToggle(event, v)}
-                            label={`Toggle ${event.title}`}
-                          />
+                          {fromTournament ? (
+                            <span className="text-xs text-gray-500">
+                              {event.active ? 'Active' : 'Closed'}
+                            </span>
+                          ) : (
+                            <AdminToggle
+                              checked={event.active}
+                              onChange={(v) => handleToggle(event, v)}
+                              label={`Toggle ${event.title}`}
+                            />
+                          )}
                         </td>
                         <td className="px-4 py-3 space-x-2 whitespace-nowrap">
-                          <button
-                            type="button"
-                            onClick={() => openEdit(event)}
-                            className="text-navy font-semibold text-xs hover:underline"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDelete(event.id)}
-                            className="text-red-600 font-semibold text-xs hover:underline"
-                          >
-                            Delete
-                          </button>
+                          {fromTournament ? (
+                            <Link
+                              to="/admin/tournaments"
+                              className="text-navy font-semibold text-xs hover:underline"
+                            >
+                              Manage
+                            </Link>
+                          ) : (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => openEdit(event)}
+                                className="text-navy font-semibold text-xs hover:underline"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleDelete(event.id)}
+                                className="text-red-600 font-semibold text-xs hover:underline"
+                              >
+                                Delete
+                              </button>
+                            </>
+                          )}
                         </td>
                       </tr>
-                    ))
+                      )
+                    })
                   )}
                 </tbody>
               </table>
@@ -227,7 +260,14 @@ export function EventsAdmin() {
               plugins={[dayGridPlugin, listPlugin, interactionPlugin]}
               initialView="dayGridMonth"
               events={calendarEvents}
-              eventClick={({ event }) => openEdit(event.extendedProps as SiteEvent)}
+              eventClick={({ event }) => {
+                const siteEvent = event.extendedProps as SiteEvent
+                if (isTournamentDerivedEvent(siteEvent)) {
+                  navigate('/admin/tournaments')
+                  return
+                }
+                openEdit(siteEvent)
+              }}
               dateClick={({ date }) => openCreate(date)}
               headerToolbar={{
                 left: 'prev,next today',

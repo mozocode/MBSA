@@ -118,3 +118,30 @@ export type SponsorLogoDisplay = { name: string; logo: string }
 export function toSponsorLogoDisplay(logos: Omit<Sponsor, 'id'>[]): SponsorLogoDisplay[] {
   return logos.map(({ name, logoUrl }) => ({ name, logo: logoUrl }))
 }
+
+function normalizeSponsorName(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '')
+}
+
+const logoByName = Object.fromEntries(
+  SPONSOR_LOGOS.map((s) => [normalizeSponsorName(s.name), s.logoUrl]),
+)
+
+const legacyLogoByFilename: Record<string, string> = {
+  'Pressing-On-Logo.png': `${SPONSOR_LOGO_BASE}/pressing-on.png`,
+  'Union-Home-Mortgage-Logo.png': `${SPONSOR_LOGO_BASE}/union-home-mortgage.png`,
+  'All-American-Baseball-Center-Logo.png': `${SPONSOR_LOGO_BASE}/all-american-baseball-center.png`,
+  'Dunhams-Sports-Logo.png': `${SPONSOR_LOGO_BASE}/dunham-sports.png`,
+}
+
+/** Prefer local mirrored logos over legacy Firestore/external WordPress URLs. */
+export function resolveSponsorLogo(name: string, logoUrl?: string): string | undefined {
+  const byName = logoByName[normalizeSponsorName(name)]
+  if (!logoUrl) return byName
+  if (logoUrl.startsWith('/media/')) return logoUrl
+
+  const filename = logoUrl.split('/').pop()
+  if (filename && legacyLogoByFilename[filename]) return legacyLogoByFilename[filename]
+
+  return byName ?? logoUrl
+}

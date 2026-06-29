@@ -196,28 +196,27 @@ async function seed() {
   const sponsors = [
     {
       name: 'Pressing On',
-      logoUrl: '/media/2024/01/Pressing-On-Logo.png',
+      logoUrl: '/media/sponsors/pressing-on.png',
       websiteUrl: 'https://pressingon.org',
       tier: 'gold',
       order: 1,
     },
     {
       name: 'Union Home Mortgage',
-      logoUrl: '/media/2024/01/Union-Home-Mortgage-Logo.png',
+      logoUrl: '/media/sponsors/union-home-mortgage.png',
       websiteUrl: 'https://www.uhm.com',
       tier: 'gold',
       order: 2,
     },
     {
       name: 'All-American Baseball Center',
-      logoUrl:
-        '/media/2024/01/All-American-Baseball-Center-Logo.png',
+      logoUrl: '/media/sponsors/all-american-baseball-center.png',
       tier: 'silver',
       order: 3,
     },
     {
       name: "Dunham's Sports",
-      logoUrl: '/media/2024/01/Dunhams-Sports-Logo.png',
+      logoUrl: '/media/sponsors/dunham-sports.png',
       websiteUrl: 'https://www.dunhamssports.com',
       tier: 'bronze',
       order: 4,
