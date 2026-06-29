@@ -13,12 +13,24 @@
   --white: #ffffff;
   --text-dark: #1a1a2e;
   --text-muted: #6b7280;
-  --nav-height: 5.75rem;
+  --nav-height: 6.25rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --nav-height: 6.5rem;
+  }
 }
 
 @media (min-width: 768px) {
   :root {
     --nav-height: 8rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --nav-height: 9rem;
   }
 }
 
@@ -45,6 +57,11 @@ body {
 
   .safe-top {
     padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .nav-offset-top {
+    margin-top: calc(-1 * (var(--nav-height) + env(safe-area-inset-top, 0px)));
+    padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px));
   }
 
   .safe-bottom {

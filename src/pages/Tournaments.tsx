@@ -316,7 +316,7 @@ export function Tournaments() {
           aria-label="Tournaments hero"
         >
           <div
-            className="absolute inset-x-0 bottom-0 -top-[var(--nav-height)] md:-top-32"
+            className="absolute inset-x-0 bottom-0 top-[calc(-1*(var(--nav-height)+env(safe-area-inset-top,0px)))]"
             style={{ clipPath: 'polygon(0 0, 100% 0, 100% 92%, 0 100%)' }}
           >
             <div
@@ -443,7 +443,7 @@ export function Tournaments() {
 
         {/* Sticky filter bar — sits directly above the event grid */}
         <div
-          className="sticky top-[var(--nav-height)] md:top-32 z-30 bg-navy border-b border-white/10"
+          className="sticky top-[calc(var(--nav-height)+env(safe-area-inset-top,0px))] z-30 bg-navy border-b border-white/10"
           role="toolbar"
           aria-label="Filter tournaments"
         >

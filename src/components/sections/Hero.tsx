@@ -9,7 +9,7 @@ export function Hero() {
 
   return (
     <section
-      className="relative min-h-[70vh] md:min-h-[85vh] flex items-center -mt-[var(--nav-height)] md:-mt-32"
+      className="relative min-h-[70vh] md:min-h-[85vh] flex items-center nav-offset-top"
       style={{ clipPath: 'polygon(0 0, 100% 0, 100% 92%, 0 100%)' }}
       aria-label="Hero"
     >
