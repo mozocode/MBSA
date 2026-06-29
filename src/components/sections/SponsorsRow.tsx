@@ -40,7 +40,7 @@ export function SponsorsRow() {
   return (
     <section className="py-10 md:py-12 bg-white border-t border-gray-100 content-auto" aria-label="Sponsors">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row md:items-center gap-6">
+        <div className="flex flex-col items-center md:flex-row md:items-center gap-6 text-center md:text-left">
           <motion.h2
             className="font-display font-bold text-2xl text-navy uppercase shrink-0"
             initial={{ opacity: 0, y: 24 }}
@@ -57,8 +57,8 @@ export function SponsorsRow() {
             </p>
           )}
 
-          <div className="flex-1 overflow-x-auto md:overflow-visible">
-            <div className="flex md:flex-wrap items-center gap-4 md:gap-8 min-w-max md:min-w-0">
+          <div className="w-full md:flex-1 overflow-x-auto md:overflow-visible [-webkit-overflow-scrolling:touch]">
+            <div className="flex md:flex-wrap items-center justify-center md:justify-start gap-4 md:gap-8 min-w-max md:min-w-0 px-2 md:px-0">
               {loading
                 ? Array.from({ length: 4 }).map((_, i) => <SponsorLogoSkeleton key={i} />)
                 : displaySponsors.map((sponsor, index) => (

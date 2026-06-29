@@ -59,8 +59,9 @@ export function MissionSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-center lg:text-left"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl uppercase leading-tight">
+            <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl uppercase leading-tight">
               <span className="text-gold">Monroeville</span>
               <br />
               <span className="text-navy">Plays Ball</span>
@@ -82,9 +83,9 @@ export function MissionSection() {
                 </a>
               </>
             )}
-            <div className="mt-8 space-y-3">
+            <div className="mt-8 space-y-3 flex flex-col items-center lg:items-start">
               {PDF_LINKS.map((link) => (
-                <NavyButton key={link.label} href={link.href}>
+                <NavyButton key={link.label} href={link.href} className="w-full sm:w-auto justify-center">
                   {link.label}
                 </NavyButton>
               ))}

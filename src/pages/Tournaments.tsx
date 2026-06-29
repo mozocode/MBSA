@@ -316,7 +316,7 @@ export function Tournaments() {
           aria-label="Tournaments hero"
         >
           <div
-            className="absolute inset-x-0 bottom-0 -top-[4.5rem] md:-top-32"
+            className="absolute inset-x-0 bottom-0 -top-[var(--nav-height)] md:-top-32"
             style={{ clipPath: 'polygon(0 0, 100% 0, 100% 92%, 0 100%)' }}
           >
             <div
@@ -443,17 +443,17 @@ export function Tournaments() {
 
         {/* Sticky filter bar — sits directly above the event grid */}
         <div
-          className="sticky top-[4.5rem] md:top-32 z-30 bg-navy border-b border-white/10"
+          className="sticky top-[var(--nav-height)] md:top-32 z-30 bg-navy border-b border-white/10"
           role="toolbar"
           aria-label="Filter tournaments"
         >
-          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 text-white/70 font-display font-bold text-xs uppercase tracking-wide">
+          <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3 md:gap-4">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 min-w-0">
+              <span className="inline-flex items-center gap-2 text-white/70 font-display font-bold text-xs uppercase tracking-wide shrink-0">
                 <Filter className="w-4 h-4 text-gold" aria-hidden="true" />
                 Filter
               </span>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0 sm:flex-wrap [-webkit-overflow-scrolling:touch]">
                 {FILTERS.map((filter) => {
                   const isActive = activeFilter === filter.id
                   return (
@@ -461,7 +461,7 @@ export function Tournaments() {
                       key={filter.id}
                       type="button"
                       onClick={() => setActiveFilter(filter.id)}
-                      className={`font-display font-bold text-xs uppercase tracking-wide px-4 py-2 transition-colors focus-ring ${
+                      className={`font-display font-bold text-xs uppercase tracking-wide px-4 py-2.5 transition-colors focus-ring shrink-0 ${
                         isActive
                           ? 'bg-gold text-navy'
                           : 'border border-white/20 text-white/70 hover:border-gold hover:text-gold'
@@ -474,7 +474,7 @@ export function Tournaments() {
                 })}
               </div>
             </div>
-            <p className="font-display font-bold text-sm text-gold uppercase tracking-wide">
+            <p className="font-display font-bold text-sm text-gold uppercase tracking-wide shrink-0 sm:text-right">
               {filteredTournaments.length} event{filteredTournaments.length !== 1 ? 's' : ''}
             </p>
           </div>

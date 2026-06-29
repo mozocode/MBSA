@@ -19,7 +19,7 @@ export function TournamentCard({ tournament, index = 0 }: TournamentCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
-      className="flex flex-col bg-white shadow-md overflow-hidden border-l-4 border-gold"
+      className="flex flex-col w-full bg-white shadow-md overflow-hidden border-l-4 border-gold"
     >
       <div className="relative aspect-square bg-navy p-4">
         <img

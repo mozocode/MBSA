@@ -9,7 +9,7 @@ export function Hero() {
 
   return (
     <section
-      className="relative min-h-[70vh] md:min-h-[85vh] flex items-center -mt-20 md:-mt-32"
+      className="relative min-h-[70vh] md:min-h-[85vh] flex items-center -mt-[var(--nav-height)] md:-mt-32"
       style={{ clipPath: 'polygon(0 0, 100% 0, 100% 92%, 0 100%)' }}
       aria-label="Hero"
     >
@@ -67,13 +67,19 @@ export function Hero() {
               {content.heroSubtext}
             </motion.p>
             <motion.div
-              className="flex flex-wrap gap-3 sm:gap-4 mt-8"
+              className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mt-8"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <GoldButton to="/get-started">Get Started</GoldButton>
-              <GoldButton href="https://mbsagators.com/register/" variant="outline">
+              <GoldButton to="/get-started" className="w-full sm:w-auto justify-center">
+                Get Started
+              </GoldButton>
+              <GoldButton
+                href="https://mbsagators.com/register/"
+                variant="outline"
+                className="w-full sm:w-auto justify-center"
+              >
                 Register Now
               </GoldButton>
             </motion.div>

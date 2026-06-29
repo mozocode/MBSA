@@ -83,7 +83,7 @@ export function GalleryGrid() {
   return (
     <section className="py-12 md:py-16 bg-navy content-auto" aria-label="Instagram gallery">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 text-center sm:text-left">
           <motion.h2
             className="font-display font-bold text-3xl md:text-4xl text-white uppercase"
             initial={{ opacity: 0, y: 24 }}

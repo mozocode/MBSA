@@ -137,18 +137,18 @@ export function Navbar({ overlay = false }: NavbarProps) {
       : 'sticky top-0 z-40 bg-navy'
 
   return (
-    <header className={`transition-all duration-300 ${headerClass}`}>
+    <header className={`transition-all duration-300 safe-top ${headerClass}`}>
       <nav
-        className="max-w-7xl mx-auto px-4 py-2 md:py-4 flex items-center justify-between gap-4"
+        className="max-w-7xl mx-auto px-4 py-2.5 md:py-4 flex items-center justify-between gap-3 md:gap-4"
         aria-label="Main navigation"
       >
         <Link to="/" className="shrink-0 focus-ring rounded" aria-label="MBSA Gators home">
           <img
             src="/MBSA-logo-vector.svg"
             alt="MBSA Gators logo"
-            className="h-14 sm:h-16 md:h-20 xl:h-24 w-auto"
-            width={160}
-            height={96}
+            className="h-20 sm:h-[5.25rem] md:h-24 xl:h-28 w-auto"
+            width={200}
+            height={112}
             decoding="async"
           />
         </Link>
@@ -187,17 +187,17 @@ export function Navbar({ overlay = false }: NavbarProps) {
 
         <button
           type="button"
-          className="xl:hidden text-white p-2 focus-ring rounded"
+          className="xl:hidden text-white touch-target flex items-center justify-center focus-ring rounded -mr-1"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
         >
-          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
         </button>
       </nav>
 
       {mobileOpen && (
-        <div className="xl:hidden bg-navy-dark border-t border-gold/20 max-h-[calc(100vh-5rem)] overflow-y-auto">
+        <div className="xl:hidden bg-navy-dark border-t border-gold/20 max-h-[calc(100dvh-var(--nav-height))] overflow-y-auto overscroll-contain">
           <ul className="px-4 py-4 space-y-1">
             {navItems.map((item) => (
               <li key={item.label}>

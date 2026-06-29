@@ -13,12 +13,20 @@
   --white: #ffffff;
   --text-dark: #1a1a2e;
   --text-muted: #6b7280;
+  --nav-height: 5.75rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-height: 8rem;
+  }
 }
 
 body {
   font-family: 'Nunito Sans', sans-serif;
   color: var(--text-dark);
   background-color: var(--cream);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .font-display {
@@ -33,6 +41,19 @@ body {
   .content-auto {
     content-visibility: auto;
     contain-intrinsic-size: auto 480px;
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 

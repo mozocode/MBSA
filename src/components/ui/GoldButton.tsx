@@ -21,7 +21,7 @@ export function GoldButton({
   ...props
 }: GoldButtonProps) {
   const base =
-    'inline-flex items-center justify-center px-6 py-3 font-display font-bold uppercase tracking-wide text-sm transition-all duration-200 focus-ring'
+    'inline-flex items-center justify-center min-h-[44px] px-6 py-3 font-display font-bold uppercase tracking-wide text-sm transition-all duration-200 focus-ring'
   const styles =
     variant === 'filled'
       ? 'bg-gold text-navy hover:bg-gold-light'

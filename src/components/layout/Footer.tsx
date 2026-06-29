@@ -29,14 +29,14 @@ const resources = [
 
 export function Footer() {
   return (
-    <footer className="bg-navy text-white" aria-label="Site footer">
-      <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div>
-          <img src="/MBSA-logo-vector.svg" alt="MBSA Gators logo" className="h-16 w-auto mb-4" />
+    <footer className="bg-navy text-white safe-bottom" aria-label="Site footer">
+      <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center sm:text-left">
+        <div className="flex flex-col items-center sm:items-start">
+          <img src="/MBSA-logo-vector.svg" alt="MBSA Gators logo" className="h-20 sm:h-16 w-auto mb-4" />
           <p className="text-white/70 text-sm mb-4">
             Monroeville Baseball & Softball Association — building champions on and off the field.
           </p>
-          <div className="flex gap-3">
+          <div className="flex gap-3 justify-center sm:justify-start">
             <a
               href="https://www.facebook.com/mbsagators"
               target="_blank"
