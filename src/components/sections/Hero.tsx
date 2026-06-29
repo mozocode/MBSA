@@ -75,13 +75,12 @@ export function Hero() {
               <GoldButton to="/get-started" className="w-full sm:w-auto justify-center">
                 Get Started
               </GoldButton>
-              <GoldButton
-                href="https://mbsagators.com/register/"
-                variant="outline"
-                className="w-full sm:w-auto justify-center"
+              <span
+                className="inline-flex items-center justify-center min-h-[44px] w-full sm:w-auto px-6 py-3 border-2 border-gold/60 text-gold font-display font-bold uppercase tracking-wide text-sm text-center bg-black/20"
+                role="status"
               >
-                Register Now
-              </GoldButton>
+                2026 Spring Registration is Closed
+              </span>
             </motion.div>
           </div>
         )}

@@ -1,7 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Filter } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { PageLayout } from '../components/layout/PageLayout'
+import { tournamentRegisterPath } from '../lib/productUtils'
 import { tournamentArtwork, tournamentsHeroImage } from '../lib/tournamentArtwork'
 
 type Status = 'open' | 'closed' | 'upcoming'
@@ -19,7 +21,7 @@ interface TournamentListing {
   level: string
   status: Status
   image: string
-  link: string
+  slug: string
   description: string
 }
 
@@ -37,7 +39,7 @@ const tournaments: TournamentListing[] = [
     level: 'OPEN',
     status: 'closed',
     image: tournamentArtwork.springDing,
-    link: 'https://mbsagators.com/product/monroeville-spring-ding-april-10-april-12th/',
+    slug: 'monroeville-spring-ding',
     description:
       'Kick off the spring season with the Gators. A community-level tournament welcoming baseball and softball teams from across Western PA.',
   },
@@ -52,7 +54,7 @@ const tournaments: TournamentListing[] = [
     level: 'C, Single Community',
     status: 'closed',
     image: tournamentArtwork.swingIntoSpring,
-    link: 'https://mbsagators.com/product/monroeville-gators-swing-into-spring-april-24th-26th/',
+    slug: 'swing-into-spring',
     description:
       'The second spring showcase from the Gators — competitive play in a fun, family-friendly environment at some of the best fields in Western PA.',
   },
@@ -67,7 +69,7 @@ const tournaments: TournamentListing[] = [
     level: 'OPEN',
     status: 'open',
     image: tournamentArtwork.summerInTheSwamp,
-    link: 'https://mbsagators.com/product/monroeville-summer-in-the-swamp-may-29st-31st/',
+    slug: 'summer-in-the-swamp',
     description:
       'An open Memorial Day weekend tournament drawing teams from across the region. All skill levels welcome — come compete in the swamp.',
   },
@@ -82,7 +84,7 @@ const tournaments: TournamentListing[] = [
     level: 'B, Community',
     status: 'open',
     image: tournamentArtwork.summerSlam,
-    link: 'https://mbsagators.com/product/monroeville-summer-slam-1-0-july-9-12th/',
+    slug: 'summer-slam-1-0',
     description:
       'The first of two Summer Slam events — a high-energy mid-summer tournament for baseball and softball teams looking for competitive B-level play.',
   },
@@ -97,7 +99,7 @@ const tournaments: TournamentListing[] = [
     level: 'B, Community',
     status: 'open',
     image: tournamentArtwork.summerSlam,
-    link: 'https://mbsagators.com/product/monroeville-summer-slam-2-0-july-23rd-26th/',
+    slug: 'summer-slam-2-0',
     description:
       "Round two of the Summer Slam series. More teams, more games, more Gator hospitality. Don't miss the biggest summer weekend in Monroeville.",
   },
@@ -112,7 +114,7 @@ const tournaments: TournamentListing[] = [
     level: 'B, Community',
     status: 'open',
     image: tournamentArtwork.beachBash,
-    link: 'https://mbsagators.com/product/monroeville-beach-bash-july-30th-august-2nd/',
+    slug: 'monroeville-beach-bash',
     description:
       "Summer's biggest bash. A beach-themed tournament with great competition and an unforgettable atmosphere for players and families alike.",
   },
@@ -127,7 +129,7 @@ const tournaments: TournamentListing[] = [
     level: 'B, Community',
     status: 'upcoming',
     image: tournamentArtwork.pumpkinSmash,
-    link: 'https://mbsagators.com/product/monroeville-baseball-pumpkin-smash-october-1st-4th/',
+    slug: 'monroeville-baseball-pumpkin-smash',
     description:
       'Close out the season with a fall classic. The Pumpkin Smash is a beloved Gators tradition — baseball at its best as the leaves start to turn.',
   },
@@ -201,6 +203,7 @@ function TournamentCard({
   index: number
 }) {
   const statusStyle = STATUS_CONFIG[tournament.status]
+  const registerPath = tournamentRegisterPath({ slug: tournament.slug })
 
   return (
     <motion.article
@@ -246,24 +249,20 @@ function TournamentCard({
 
         <div className="mt-5">
           {tournament.status === 'open' && (
-            <a
-              href={tournament.link}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to={registerPath}
               className="block w-full text-center bg-gold text-navy font-display font-bold uppercase text-sm tracking-wide py-3 hover:bg-gold-dark transition-colors focus-ring"
             >
               Register Now →
-            </a>
+            </Link>
           )}
           {tournament.status === 'upcoming' && (
-            <a
-              href={tournament.link}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to={registerPath}
               className="block w-full text-center border-2 border-gold text-gold font-display font-bold uppercase text-sm tracking-wide py-3 hover:bg-gold hover:text-navy transition-colors focus-ring"
             >
               View Details →
-            </a>
+            </Link>
           )}
           {tournament.status === 'closed' && (
             <span
