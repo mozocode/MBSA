@@ -58,14 +58,13 @@ export function Hero() {
             >
               {content.heroSubline}
             </motion.p>
-            <motion.p
-              className="text-white/85 text-base sm:text-lg mt-6 max-w-lg leading-relaxed"
+            <motion.div
+              className="mt-6 max-w-lg min-h-[4.5rem] sm:min-h-[5.25rem]"
+              aria-hidden="true"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.45 }}
-            >
-              {content.heroSubtext}
-            </motion.p>
+            />
             <motion.div
               className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mt-8"
               initial={{ opacity: 0, y: 40 }}
