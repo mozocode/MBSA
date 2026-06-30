@@ -136,7 +136,7 @@ const tournaments: TournamentListing[] = [
 ]
 
 const FILTERS: { id: FilterId; label: string }[] = [
-  { id: 'all', label: 'All Tournaments' },
+  { id: 'all', label: 'All Tournament' },
   { id: 'baseball', label: 'Baseball' },
   { id: 'softball', label: 'Softball' },
   { id: 'open', label: 'Open' },
@@ -154,7 +154,6 @@ const VENUE_BADGES = [
   { icon: '📺', label: 'Digital Scoreboards & LED Screens' },
   { icon: '🍔', label: 'Full-Service Concessions' },
   { icon: '💳', label: 'Credit Cards Accepted On-Site' },
-  { icon: '🧑‍⚖️', label: 'Patch Umpires All Games' },
   { icon: '📱', label: 'Online Ordering Available' },
 ] as const
 
@@ -525,7 +524,7 @@ export function Tournaments() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              Contact our tournaments director for information on team registration, scheduling,
+              Contact our tournament director for information on team registration, scheduling,
               age groups, or field locations.
             </motion.p>
             <motion.div
@@ -539,7 +538,7 @@ export function Tournaments() {
                 href="mailto:tournaments@mbsagators.com"
                 className="w-full sm:w-auto inline-block bg-gold text-navy font-display font-bold uppercase text-sm tracking-wide px-8 py-3 hover:bg-gold-dark transition-colors focus-ring"
               >
-                Email Tournaments Director
+                Email Tournament Director
               </a>
             </motion.div>
           </div>
