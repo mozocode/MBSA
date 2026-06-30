@@ -10,7 +10,7 @@ export const defaultHomePageContent: HomePageContent = {
   missionBody:
     'MBSA Gators is a community-driven youth sports organization dedicated to providing a positive, competitive environment for players of all skill levels. Our coaches, volunteers, and families work together to help every athlete grow on and off the field.',
   missionEmail: 'info@mbsagators.com',
-  videoUrl: undefined,
+  videoUrl: '/media/2024/01/MOV_3197.mov',
   statsBar: [
     { label: 'Years of Service', value: '25+' },
     { label: 'Active Players', value: '500+' },

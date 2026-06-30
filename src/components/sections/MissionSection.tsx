@@ -5,6 +5,12 @@ import { NavyButton } from '../ui/NavyButton'
 const MISSION_IMAGE =
   '/media/2024/01/Monroeville-Plays-Ball.jpg'
 
+export const MISSION_VIDEO = '/media/2024/01/MOV_3197.mov'
+
+function isEmbedVideoUrl(url: string): boolean {
+  return /youtube\.com|youtu\.be|vimeo\.com/i.test(url)
+}
+
 const PDF_LINKS = [
   {
     label: 'MBSA Code of Conduct',
@@ -36,7 +42,7 @@ export function MissionSection() {
           >
             {loading ? (
               <div className="w-full h-full animate-pulse bg-navy-light/30" />
-            ) : content.videoUrl ? (
+            ) : content.videoUrl && isEmbedVideoUrl(content.videoUrl) ? (
               <iframe
                 src={content.videoUrl}
                 title="MBSA Gators video"
@@ -45,12 +51,16 @@ export function MissionSection() {
                 allowFullScreen
               />
             ) : (
-              <img
-                src={MISSION_IMAGE}
-                alt="Monroeville Plays Ball"
+              <video
+                src={content.videoUrl ?? MISSION_VIDEO}
+                poster={MISSION_IMAGE}
+                controls
+                playsInline
+                preload="metadata"
                 className="w-full h-full object-cover"
-                loading="lazy"
-              />
+              >
+                <track kind="captions" />
+              </video>
             )}
           </motion.div>
 
