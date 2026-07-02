@@ -70,6 +70,9 @@ export const playerDevelopmentResources: CoachResource[] = [
     href: '/media/2025/03/Instructional-Coaching-Program-2.pdf',
     previewImage: '/media/2025/03/Screenshot-2025-03-05-at-7.05.52\u202fAM-785x1024.png',
   },
+]
+
+export const videoTrainingResources: CoachResource[] = [
   {
     id: '10u-pitching-program',
     title: 'MBSA 10U Team Pitching Program',

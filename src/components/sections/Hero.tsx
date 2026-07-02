@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useHomePage } from '../../lib/hooks/useHomePage'
+import { MBSA_REGISTER_URL } from '../../lib/faqContent'
 import { GoldButton } from '../ui/GoldButton'
 
 const HERO_IMAGE = '/media/2024/02/DSC_0830.jpeg'
@@ -74,12 +75,18 @@ export function Hero() {
               <GoldButton to="/get-started" className="w-full sm:w-auto justify-center">
                 Get Started
               </GoldButton>
-              <span
-                className="inline-flex items-center justify-center min-h-[44px] w-full sm:w-auto px-6 py-3 border-2 border-gold/60 text-gold font-display font-bold uppercase tracking-wide text-sm text-center bg-black/20"
-                role="status"
+              <GoldButton
+                href={MBSA_REGISTER_URL}
+                className="w-full sm:w-auto justify-center !bg-white !text-navy hover:!bg-cream"
               >
-                2026 Spring Registration is Closed
-              </span>
+                2026 Fall Registration
+              </GoldButton>
+              <GoldButton
+                href={MBSA_REGISTER_URL}
+                className="w-full sm:w-auto justify-center !bg-white !text-navy hover:!bg-cream"
+              >
+                2027 Spring Registration
+              </GoldButton>
             </motion.div>
           </div>
         )}

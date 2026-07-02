@@ -7,8 +7,9 @@ import { tournamentRegisterPath } from '../lib/productUtils'
 import { tournamentArtwork, tournamentsHeroImage } from '../lib/tournamentArtwork'
 
 type Status = 'open' | 'closed' | 'upcoming'
-type Sport = 'baseball' | 'softball' | 'both' | 'open'
-type FilterId = 'all' | 'baseball' | 'softball' | 'open'
+type Sport = 'baseball' | 'softball' | 'both'
+type TournamentCategory = 'open' | 'community'
+type FilterId = 'all' | 'baseball' | 'softball' | 'open' | 'community'
 
 interface TournamentListing {
   id: string
@@ -17,6 +18,7 @@ interface TournamentListing {
   month: string
   price: string
   sport: Sport
+  category: TournamentCategory
   ages: string
   level: string
   status: Status
@@ -35,6 +37,7 @@ const tournaments: TournamentListing[] = [
     month: 'APR',
     price: '$450',
     sport: 'both',
+    category: 'open',
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'OPEN',
     status: 'closed',
@@ -50,6 +53,7 @@ const tournaments: TournamentListing[] = [
     month: 'APR',
     price: '$450',
     sport: 'both',
+    category: 'community',
     ages: 'Baseball: 7u, 8u, 9u, 10u · Softball: 8u',
     level: 'C, Single Community',
     status: 'closed',
@@ -64,10 +68,11 @@ const tournaments: TournamentListing[] = [
     dates: 'May 29 – 31',
     month: 'MAY',
     price: '$450',
-    sport: 'open',
+    sport: 'both',
+    category: 'open',
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'OPEN',
-    status: 'open',
+    status: 'closed',
     image: tournamentArtwork.summerInTheSwamp,
     slug: 'summer-in-the-swamp',
     description:
@@ -80,6 +85,7 @@ const tournaments: TournamentListing[] = [
     month: 'JUL',
     price: '$450',
     sport: 'both',
+    category: 'community',
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'B, Community',
     status: 'open',
@@ -95,6 +101,7 @@ const tournaments: TournamentListing[] = [
     month: 'JUL',
     price: '$450',
     sport: 'both',
+    category: 'community',
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'B, Community',
     status: 'open',
@@ -110,6 +117,7 @@ const tournaments: TournamentListing[] = [
     month: 'JUL',
     price: '$450',
     sport: 'both',
+    category: 'community',
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u, *14u (softball only)',
     level: 'B, Community',
     status: 'open',
@@ -125,9 +133,10 @@ const tournaments: TournamentListing[] = [
     month: 'OCT',
     price: '$450',
     sport: 'baseball',
+    category: 'open',
     ages: '*7u (baseball only), 8u, 9u, 10u, 11u, 12u',
-    level: 'B, Community',
-    status: 'upcoming',
+    level: 'OPEN',
+    status: 'open',
     image: tournamentArtwork.pumpkinSmash,
     slug: 'monroeville-baseball-pumpkin-smash',
     description:
@@ -140,6 +149,7 @@ const FILTERS: { id: FilterId; label: string }[] = [
   { id: 'baseball', label: 'Baseball' },
   { id: 'softball', label: 'Softball' },
   { id: 'open', label: 'Open' },
+  { id: 'community', label: 'Community' },
 ]
 
 const STAT_PILLS = [
@@ -181,17 +191,15 @@ function hideBrokenImage(e: React.SyntheticEvent<HTMLImageElement>) {
 
 function matchesFilter(tournament: TournamentListing, filter: FilterId): boolean {
   if (filter === 'all') return true
+  if (filter === 'open') return tournament.category === 'open'
+  if (filter === 'community') return tournament.category === 'community'
   if (filter === 'baseball') {
-    return (
-      tournament.sport === 'baseball' ||
-      tournament.sport === 'both' ||
-      tournament.sport === 'open'
-    )
+    return tournament.sport === 'baseball' || tournament.sport === 'both'
   }
   if (filter === 'softball') {
     return tournament.sport === 'softball' || tournament.sport === 'both'
   }
-  return tournament.sport === 'open'
+  return true
 }
 
 function TournamentCard({
@@ -395,21 +403,35 @@ export function Tournaments() {
                 </h2>
                 <div className="space-y-4 text-navy/80 leading-relaxed">
                   <p>
-                    Monroeville Baseball & Softball Tournaments are held at our Monroeville
-                    Community Park West/East in Monroeville, PA — 2399 Tilbrook Rd, Monroeville,
-                    PA 15146.
+                    In partnership with the Municipality of Monroeville all Monroeville Baseball
+                    &amp; Softball Tournaments are held at our Monroeville Community Park West/East
+                    in Monroeville, PA — 2399 Tilbrook Rd, Monroeville, PA 15146.
                   </p>
                   <p>
                     Our tournaments are played at a state-of-the-art facility with turf fields,
                     lights, digital scoreboards and LED screens, with a full-service concessions
                     operation that offers a variety of food, drinks and snacks. We accept credit
-                    cards at our point of sale with online ordering for those that don&apos;t want to
-                    wait in line!
+                    cards at our point of sale with online ordering coming soon for those that
+                    don&apos;t want to wait in line!
                   </p>
                   <p>
-                    Each of our tournaments are officiated by patch umpires for all games other
-                    than 7U/8U Pool Play Baseball (MBSA board members umpire those games). All
-                    semi-final and championship games will have at least 1 official umpire.
+                    We also stress the commitment to tournaments being played. Our turf fields allow
+                    us to hold games in many weather conditions safely. We know how difficult it can
+                    be scheduling tournaments during a season of unpredictable weather. We offer a
+                    reprieve from that stress and let you know we will do our best to always fulfill
+                    our commitments.
+                  </p>
+                  <p>
+                    Each of our tournaments are officiated by patch umpires (when available) for all
+                    games other than 7U/8U Pool Play Baseball (MBSA board members umpire those
+                    games). All semi-final and championship games will have at least 1 official
+                    umpire.
+                  </p>
+                  <p>
+                    We also offer a variety of skill levels as we believe it is important to provide
+                    opportunities to compete at different levels. We normally offer a combination of
+                    Open and Community based tournaments with a valued and strong vetting system to
+                    ensure a fair and competitive environment for those that register.
                   </p>
                 </div>
               </motion.div>

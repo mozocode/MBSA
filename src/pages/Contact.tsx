@@ -28,7 +28,7 @@ const DEPARTMENTS = [
   {
     icon: '📝',
     department: 'Player Registration',
-    email: 'registration@mbsagators.com',
+    email: 'info@mbsagators.com',
     description: 'Sign up your player for a league season',
   },
   {
@@ -46,13 +46,13 @@ const DEPARTMENTS = [
   {
     icon: '🤝',
     department: 'Sponsorship',
-    email: 'sponsor@mbsagators.com',
+    email: 'sponsorship@mbsagators.com',
     description: 'Become a sponsor or partner with MBSA',
   },
   {
     icon: '🧑‍🏫',
     department: 'Coaches & Volunteers',
-    email: 'coaches@mbsagators.com',
+    email: 'info@mbsagators.com',
     description: 'Coaching applications and volunteer info',
   },
   {
@@ -64,13 +64,13 @@ const DEPARTMENTS = [
   {
     icon: '💳',
     department: 'Payments & Refunds',
-    email: 'payments@mbsagators.com',
+    email: 'info@mbsagators.com',
     description: 'Billing, payment plans, refund requests',
   },
   {
     icon: '⚾',
     department: 'Baseball Division',
-    email: 'baseball@mbsagators.com',
+    email: 'commissioner@mbsagators.com',
     description: 'All baseball-specific questions',
   },
 ] as const

@@ -56,7 +56,7 @@ export const fallbackTournaments: Tournament[] = [
     artworkUrl: '/media/2025/11/Summer-in-the-Swamp.jpg',
     registrationFields: splitSportAgeFields(),
     paymentRequired: true,
-    status: 'upcoming',
+    status: 'closed',
     order: 3,
   },
   {
@@ -124,7 +124,7 @@ export const fallbackTournaments: Tournament[] = [
     artworkUrl: '/media/2025/11/Pumpkin-Smash.jpg',
     registrationFields: splitSportAgeFields(),
     paymentRequired: true,
-    status: 'upcoming',
+    status: 'open',
     order: 7,
   },
 ]

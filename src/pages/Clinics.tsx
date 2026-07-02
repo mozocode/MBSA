@@ -1,10 +1,5 @@
 import { motion } from 'framer-motion'
-import {
-  CLINICS_HERO,
-  CLINICS_INTRO_HEADING,
-  CLINICS_INTRO_TEXT,
-} from '../lib/clinicEvents'
-import { ClinicsCalendar } from '../components/ui/ClinicsCalendar'
+import { CLINICS_HERO, CLINICS_INTRO_HEADING, CLINICS_INTRO_TEXT, CLINICS_SOFTBALL_FLYER } from '../lib/clinicEvents'
 import { GoldButton } from '../components/ui/GoldButton'
 import { PageHero } from '../components/ui/PageHero'
 import { PageLayout } from '../components/layout/PageLayout'
@@ -46,12 +41,18 @@ export function Clinics() {
             </motion.p>
 
             <motion.div
+              className="max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <ClinicsCalendar />
+              <img
+                src={CLINICS_SOFTBALL_FLYER}
+                alt="MBSA sponsored softball clinic flyer"
+                className="w-full rounded-sm shadow-md border border-navy/10"
+                loading="lazy"
+              />
             </motion.div>
 
             <motion.div

@@ -8,6 +8,7 @@ import {
   coachesTabs,
   leagueRulesResources,
   playerDevelopmentResources,
+  videoTrainingResources,
   type CoachesTabId,
   weeklyAwardsFormUrl,
   weeklyAwardsImage,
@@ -180,6 +181,12 @@ export function CoachesTabs() {
           <h2 className="font-display font-bold text-2xl md:text-3xl text-navy uppercase mb-6">
             Video Training
           </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            {videoTrainingResources.map((resource, index) => (
+              <CoachResourceCard key={resource.id} resource={resource} index={index} />
+            ))}
+          </div>
 
           <h3 className="font-display font-bold text-xl text-navy uppercase mb-4">Coaching</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">

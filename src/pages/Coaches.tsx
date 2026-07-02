@@ -25,13 +25,13 @@ export function Coaches() {
         <section className="relative -mt-24 md:-mt-32 pt-16 md:pt-20 pb-16 md:pb-24 bg-gradient-to-b from-transparent via-cream/95 to-cream">
           <div className="max-w-6xl mx-auto px-4">
             <motion.div
-              className="max-w-3xl mx-auto text-center mb-10 md:mb-12"
+              className="max-w-3xl mx-auto text-center mb-10 md:mb-12 bg-white rounded-sm border border-navy/10 shadow-sm px-6 py-8"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
             >
-              <p className="text-navy/85 leading-relaxed">
+              <p className="text-navy leading-relaxed">
                 Interested in coaching? Please review MBSA&apos;s{' '}
                 <a
                   href={CONSTITUTION_PDF}
